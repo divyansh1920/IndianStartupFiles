@@ -548,7 +548,6 @@ function renderGrid(){
 
 // LOAD EPISODE INTO PLAYER
 function loadEp(id){
-  if(isPlaying)stopPlay();
   curId=id;
   const d=DEBATES.find(x=>x.id===id);
   audioPlayer.pause();
@@ -568,7 +567,6 @@ document.getElementById('progFill').style.width='0%';
   document.getElementById('pcDate').textContent=d.date;
   document.getElementById('pcVotes').textContent=d.totalVotes.toLocaleString();
   document.getElementById('pcNow').textContent=d.ep+' — '+d.title.substring(0,40)+'...';
-  document.getElementById('totTime').textContent=d.duration;
   document.getElementById('curTime').textContent='0:00';
   document.getElementById('progFill').style.width='0%';
   document.getElementById('debQ').textContent='"'+d.question+'"';
@@ -582,33 +580,15 @@ document.getElementById('progFill').style.width='0%';
   document.getElementById('dlBtn').href=d.audio;
   setTimeout(()=>{document.getElementById('barFill').style.width=d.pctA+'%'},200);
   renderGrid();
-  startPlay();
-}
+  audioPlayer.play();
 
-function startPlay(){
-  isPlaying=true;
-  document.getElementById('playBtn').textContent='⏸';
-  document.getElementById('miniEq').classList.remove('paused');
-  document.getElementById('heroEq').classList.remove('paused');
-  const d=DEBATES.find(x=>x.id===curId);
-  const dur=d?d.durSecs:2852;
-  fakeTimer=setInterval(()=>{
-    fakeTime++;
-    if(fakeTime>=dur){fakeTime=0;stopPlay();return}
-    document.getElementById('curTime').textContent=fmtT(fakeTime);
-    const pct=(fakeTime/dur)*100;
-    document.getElementById('progFill').style.width=pct+'%';
-  },1000/speed);
-  renderGrid();
-}
+isPlaying = true;
 
-function stopPlay(){
-  isPlaying=false;
-  clearInterval(fakeTimer);
-  document.getElementById('playBtn').textContent='▶';
-  document.getElementById('miniEq').classList.add('paused');
-  document.getElementById('heroEq').classList.add('paused');
-  renderGrid();
+document.getElementById('playBtn').textContent='⏸';
+
+document.getElementById('miniEq').classList.remove('paused');
+
+document.getElementById('heroEq').classList.remove('paused');
 }
 
 function togglePlay(){
