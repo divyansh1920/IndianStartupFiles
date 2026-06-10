@@ -309,7 +309,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
           </div>
         </div>
       </div>
-
+      
+      <audio id="audioPlayer" preload="metadata"></audio>
       <div class="ctrl-area">
         <div class="time-row">
           <span id="curTime">0:00</span>
@@ -426,7 +427,7 @@ const DEBATES = [
     pctA:62, pctB:38, totalVotes:2341,
     duration:"47:32", durSecs:2852,
     date:"Jan 20, 2025",
-    audio:"audio/ep01-byjus-debate.mp3",
+    audio:"https://drive.google.com/uc?export=download&id=1jvDfNViRIWo2kN6DdM7Kj2aP14onKq0_",
     art:"linear-gradient(135deg,#4B2DB5,#7B5BD4)",
     emoji:"📉",
     tags:[{t:"EdTech",c:"tag-or"},{t:"Collapse",c:"tag-re"}]
@@ -509,7 +510,9 @@ const DEBATES = [
 ];
 
 // STATE
-let curId=1, isPlaying=false, fakeTimer=null, fakeTime=0, muted=false, speed=1;
+// STATE
+let curId=1, isPlaying=false, muted=false, speed=1;
+const audioPlayer=document.getElementById("audioPlayer");
 
 // FORMAT TIME
 function fmtT(s){s=Math.floor(s);const m=Math.floor(s/60),sec=s%60;return m+':'+(sec<10?'0':'')+sec}
@@ -546,9 +549,14 @@ function renderGrid(){
 // LOAD EPISODE INTO PLAYER
 function loadEp(id){
   if(isPlaying)stopPlay();
-  fakeTime=0;
   curId=id;
   const d=DEBATES.find(x=>x.id===id);
+  audioPlayer.pause();
+audioPlayer.src=d.audio;
+audioPlayer.load();
+
+document.getElementById('curTime').textContent='0:00';
+document.getElementById('progFill').style.width='0%';
   if(!d)return;
   document.getElementById('pcArt').style.background=d.art;
   document.getElementById('pcEmoji').textContent=d.emoji;
@@ -603,38 +611,65 @@ function stopPlay(){
   renderGrid();
 }
 
-function togglePlay(){isPlaying?stopPlay():startPlay()}
+function togglePlay(){
 
-function skip(s){
-  const d=DEBATES.find(x=>x.id===curId);
-  const dur=d?d.durSecs:2852;
-  fakeTime=Math.max(0,Math.min(fakeTime+s,dur));
-  document.getElementById('curTime').textContent=fmtT(fakeTime);
-  document.getElementById('progFill').style.width=((fakeTime/dur)*100)+'%';
+  if(audioPlayer.paused){
+
+    audioPlayer.play();
+    isPlaying=true;
+
+    document.getElementById('playBtn').textContent='⏸';
+    document.getElementById('miniEq').classList.remove('paused');
+    document.getElementById('heroEq').classList.remove('paused');
+
+  }else{
+
+    audioPlayer.pause();
+    isPlaying=false;
+
+    document.getElementById('playBtn').textContent='▶';
+    document.getElementById('miniEq').classList.add('paused');
+    document.getElementById('heroEq').classList.add('paused');
+
+  }
+
+  renderGrid();
 }
+function setVol(v){
 
-function setVol(v){document.getElementById('volSl').value=v}
-function toggleMute(){muted=!muted;document.querySelector('.vol-icon').textContent=muted?'🔇':'🔊'}
+  audioPlayer.volume=v/100;
+
+}
+function toggleMute(){
+
+  audioPlayer.muted=!audioPlayer.muted;
+
+  document.querySelector('.vol-icon').textContent=
+      audioPlayer.muted?'🔇':'🔊';
+
+}
 
 function prevEp(){const i=DEBATES.findIndex(x=>x.id===curId);if(i>0)loadEp(DEBATES[i-1].id)}
 function nextEp(){const i=DEBATES.findIndex(x=>x.id===curId);if(i<DEBATES.length-1)loadEp(DEBATES[i+1].id)}
 
-document.getElementById('progTrack').addEventListener('click',function(e){
-  const rect=this.getBoundingClientRect();
-  const ratio=(e.clientX-rect.left)/rect.width;
-  const d=DEBATES.find(x=>x.id===curId);
-  const dur=d?d.durSecs:2852;
-  fakeTime=Math.floor(ratio*dur);
-  document.getElementById('curTime').textContent=fmtT(fakeTime);
-  document.getElementById('progFill').style.width=(ratio*100)+'%';
-});
+document.getElementById('progTrack')
+.addEventListener('click',function(e){
 
+  const rect=this.getBoundingClientRect();
+
+  const ratio=
+      (e.clientX-rect.left)/rect.width;
+
+  audioPlayer.currentTime=
+      ratio*audioPlayer.duration;
+
+});
 document.querySelectorAll('.spd').forEach(btn=>{
   btn.addEventListener('click',function(){
     speed=parseFloat(this.dataset.s);
     document.querySelectorAll('.spd').forEach(b=>b.classList.remove('on'));
     this.classList.add('on');
-    if(isPlaying){stopPlay();startPlay()}
+    audioPlayer.playbackRate=speed;
   });
 });
 
@@ -661,6 +696,37 @@ document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(()=>document.getElementById('barFill').style.width='62%',400);
   // Idle eq in hero
   document.getElementById('heroEq').classList.add('paused');
+});
+  audioPlayer.addEventListener("loadedmetadata",()=>{
+
+  document.getElementById("totTime").textContent=
+      fmtT(audioPlayer.duration);
+
+});
+
+audioPlayer.addEventListener("timeupdate",()=>{
+
+  document.getElementById("curTime").textContent=
+      fmtT(audioPlayer.currentTime);
+
+  const pct=
+      (audioPlayer.currentTime/audioPlayer.duration)*100;
+
+  document.getElementById("progFill").style.width=
+      pct+"%";
+
+});
+
+audioPlayer.addEventListener("ended",()=>{
+
+  isPlaying=false;
+
+  document.getElementById('playBtn').textContent='▶';
+
+  document.getElementById('miniEq').classList.add('paused');
+
+  document.getElementById('heroEq').classList.add('paused');
+
 });
 </script>
 </body>
