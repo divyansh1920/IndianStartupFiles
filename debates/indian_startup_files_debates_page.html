@@ -548,71 +548,99 @@ function renderGrid(){
 
 // LOAD EPISODE INTO PLAYER
 function loadEp(id){
-  curId=id;
-  const d=DEBATES.find(x=>x.id===id);
-  audioPlayer.pause();
-audioPlayer.src=d.audio;
-audioPlayer.load();
 
-document.getElementById('curTime').textContent='0:00';
-document.getElementById('progFill').style.width='0%';
-  if(!d)return;
-  document.getElementById('pcArt').style.background=d.art;
-  document.getElementById('pcEmoji').textContent=d.emoji;
-  document.getElementById('pcBadge').textContent=d.ep;
-  document.getElementById('pcTags').innerHTML=d.tags.map(t=>`<span class="pct ${t.c}">${t.t}</span>`).join('');
-  document.getElementById('pcTitle').textContent=d.title;
-  document.getElementById('pcDesc').textContent=d.desc;
-  document.getElementById('pcDur').textContent=d.duration;
-  document.getElementById('pcDate').textContent=d.date;
-  document.getElementById('pcVotes').textContent=d.totalVotes.toLocaleString();
-  document.getElementById('pcNow').textContent=d.ep+' — '+d.title.substring(0,40)+'...';
-  document.getElementById('curTime').textContent='0:00';
-  document.getElementById('progFill').style.width='0%';
-  document.getElementById('debQ').textContent='"'+d.question+'"';
-  document.getElementById('sideATxt').textContent=d.sideA;
-  document.getElementById('sideBTxt').textContent=d.sideB;
-  document.getElementById('barA').textContent='Side A — '+d.pctA+'%';
-  document.getElementById('barB').textContent=d.pctB+'% — Side B';
-  document.getElementById('barFill').style.width='0%';
-  document.getElementById('debVct').textContent=d.totalVotes.toLocaleString()+' votes cast';
-  document.getElementById('barNote').textContent=d.totalVotes.toLocaleString()+' listeners have voted · Listen & decide for yourself';
-  document.getElementById('dlBtn').href=d.audio;
-  setTimeout(()=>{document.getElementById('barFill').style.width=d.pctA+'%'},200);
-  renderGrid();
-  audioPlayer.play();
+    curId = id;
 
-isPlaying = true;
+    const d = DEBATES.find(x => x.id === id);
 
-document.getElementById('playBtn').textContent='⏸';
+    if(!d) return;
 
-document.getElementById('miniEq').classList.remove('paused');
-
-document.getElementById('heroEq').classList.remove('paused');
-}
-
-function togglePlay(){
-
-  if(audioPlayer.paused){
-
-    audioPlayer.play();
-    isPlaying=true;
-
-    document.getElementById('playBtn').textContent='⏸';
-    document.getElementById('miniEq').classList.remove('paused');
-    document.getElementById('heroEq').classList.remove('paused');
-
-  }else{
-
+    // Stop current audio and load new episode
     audioPlayer.pause();
-    isPlaying=false;
+    audioPlayer.src = d.audio;
+    audioPlayer.load();
 
-    document.getElementById('playBtn').textContent='▶';
+    // Reset player UI
+    isPlaying = false;
+
+    document.getElementById('playBtn').textContent = '▶';
+    document.getElementById('curTime').textContent = '0:00';
+    document.getElementById('progFill').style.width = '0%';
+
     document.getElementById('miniEq').classList.add('paused');
     document.getElementById('heroEq').classList.add('paused');
 
-  }
+    // Episode card
+    document.getElementById('pcArt').style.background = d.art;
+    document.getElementById('pcEmoji').textContent = d.emoji;
+    document.getElementById('pcBadge').textContent = d.ep;
+    document.getElementById('pcTags').innerHTML =
+        d.tags.map(t => `<span class="pct ${t.c}">${t.t}</span>`).join('');
 
+    document.getElementById('pcTitle').textContent = d.title;
+    document.getElementById('pcDesc').textContent = d.desc;
+    document.getElementById('pcDur').textContent = d.duration;
+    document.getElementById('pcDate').textContent = d.date;
+    document.getElementById('pcVotes').textContent =
+        d.totalVotes.toLocaleString();
+
+    document.getElementById('pcNow').textContent =
+        d.ep + ' — ' + d.title.substring(0,40) + '...';
+
+    // Debate section
+    document.getElementById('debQ').textContent =
+        '"' + d.question + '"';
+
+    document.getElementById('sideATxt').textContent = d.sideA;
+    document.getElementById('sideBTxt').textContent = d.sideB;
+
+    document.getElementById('barA').textContent =
+        'Side A — ' + d.pctA + '%';
+
+    document.getElementById('barB').textContent =
+        d.pctB + '% — Side B';
+
+    document.getElementById('barFill').style.width = '0%';
+
+    document.getElementById('debVct').textContent =
+        d.totalVotes.toLocaleString() + ' votes cast';
+
+    document.getElementById('barNote').textContent =
+        d.totalVotes.toLocaleString() +
+        ' listeners have voted · Listen & decide for yourself';
+
+    document.getElementById('dlBtn').href = d.audio;
+
+    setTimeout(() => {
+        document.getElementById('barFill').style.width = d.pctA + '%';
+    }, 200);
+
+    renderGrid();
+}
+function togglePlay(){
+
+    if(audioPlayer.paused){
+
+        audioPlayer.play();
+        isPlaying=true;
+
+        document.getElementById('playBtn').textContent='⏸';
+        document.getElementById('miniEq').classList.remove('paused');
+        document.getElementById('heroEq').classList.remove('paused');
+
+    }else{
+
+        audioPlayer.pause();
+        isPlaying=false;
+
+        document.getElementById('playBtn').textContent='▶';
+        document.getElementById('miniEq').classList.add('paused');
+        document.getElementById('heroEq').classList.add('paused');
+
+    }
+
+    renderGrid();
+}
   renderGrid();
 }
 function setVol(v){
