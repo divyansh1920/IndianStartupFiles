@@ -426,7 +426,9 @@ function renderFeatured(){
   el.setAttribute('onclick',`go('${f.slug}')`);
   el.innerHTML=`
     <div class="feat-img" style="background:${f.bg}">
-      <span>${f.emoji}</span><div class="feat-wm">${f.wm}</div>
+  <img src="${f.image}" alt="${f.title}" style="max-width:80%;max-height:80%;object-fit:contain;">
+  <div class="feat-wm">${f.wm}</div>
+</div>
     </div>
     <div class="feat-body">
       <div class="feat-tags">
@@ -465,8 +467,8 @@ function render(){
   grid.innerHTML=vis.map((b,i)=>`
     <div class="bcard fi" style="transition-delay:${i*0.05}s" onclick="go('${b.slug}')">
       <div class="bcard-img" style="background:${b.bg}">
-        <span>${b.emoji}</span>
-        <div class="bcard-wm">${b.wm}</div>
+  <img src="${b.image}" alt="${b.title}" style="max-width:70%;max-height:70%;object-fit:contain;">
+  <div class="bcard-wm">${b.wm}</div>
         ${(b.isNew||isNewF(b.date))?'<div class="nbadge">NEW</div>':''}
       </div>
       <div class="bcard-body">
