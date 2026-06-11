@@ -18,13 +18,14 @@
   --re:#DC2626;--re-lt:#FEF2F2;
   --t1:#0F0F0F;--t2:#374151;--t3:#6B7280;--t4:#9CA3AF;
   --bd:#E5E7EB;--bd2:#F3F4F6;
-  --sh:0 2px 8px rgba(0,0,0,0.07);--sh2:0 8px 32px rgba(0,0,0,0.10);
+  --sh:0 2px 8px rgba(0,0,0,0.07);
+  --sh2:0 8px 32px rgba(0,0,0,0.10);
   --r:12px;--rl:20px;
 }
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased}
 
-.nav{position:sticky;top:0;z-index:100;background:rgba(255,253,247,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:0 5%}
+.nav{position:sticky;top:0;z-index:200;background:rgba(255,253,247,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:0 5%}
 .nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none}
 .logo-ic{width:34px;height:34px;background:var(--or);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
@@ -32,13 +33,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .logo-tx span{color:var(--or)}
 .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
 .nav-links a{text-decoration:none;color:var(--t2);font-size:14px;font-weight:500;transition:color .18s}
-.nav-links a:hover,.nav-links a.active{color:var(--or)}
-.nav-links a.active{font-weight:700;border-bottom:2px solid var(--or);padding-bottom:2px}
+.nav-links a:hover{color:var(--or)}
+.nav-links a.active{color:var(--or);font-weight:700;border-bottom:2px solid var(--or);padding-bottom:2px}
 .nav-cta{background:var(--or)!important;color:#fff!important;padding:8px 20px;border-radius:8px;font-weight:600!important;border-bottom:none!important}
 
-/* HERO */
 .hero{background:var(--bg3);border-bottom:1px solid var(--or-md);padding:56px 5% 48px;overflow:hidden;position:relative}
-.hero-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:center}
+.hero::before{content:'';position:absolute;top:-100px;right:0;width:500px;height:500px;border-radius:50%;background:rgba(255,69,0,.03);pointer-events:none}
+.hero-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:center}
 .h-ey{display:inline-flex;align-items:center;gap:8px;background:var(--or-lt);color:var(--or);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:50px;margin-bottom:18px;border:1px solid var(--or-md)}
 .h-title{font-family:'Space Grotesk',sans-serif;font-size:46px;font-weight:700;letter-spacing:-1.2px;color:var(--t1);margin-bottom:14px;line-height:1.05}
 .h-title span{color:var(--or)}
@@ -47,157 +48,166 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .hstat strong{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--t1);display:block}
 .hstat span{font-size:12px;color:var(--t3)}
 
-/* EQUALIZER VISUAL */
-.eq-panel{display:flex;flex-direction:column;align-items:center;gap:18px}
-.eq-wrap{background:var(--w);border:1px solid var(--bd);border-radius:var(--rl);padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;box-shadow:var(--sh)}
+.eq-panel{display:flex;flex-direction:column;align-items:center}
+.eq-wrap{background:var(--w);border:1px solid var(--bd);border-radius:var(--rl);padding:28px 22px;display:flex;flex-direction:column;align-items:center;gap:16px;box-shadow:var(--sh)}
 .eq-lbl{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
 .eq{display:flex;align-items:flex-end;gap:4px;height:72px}
-.eq-b{width:7px;border-radius:4px;background:var(--or);transform-origin:bottom;animation:eqv 1.2s ease-in-out infinite}
-.eq-b.blue{background:var(--bl)}
-.eq-b.gr{background:var(--gr)}
-.eq-b:nth-child(1){animation-duration:1.1s;animation-delay:0s}
-.eq-b:nth-child(2){animation-duration:1.4s;animation-delay:.1s}
-.eq-b:nth-child(3){animation-duration:.9s;animation-delay:.2s}
-.eq-b:nth-child(4){animation-duration:1.6s;animation-delay:.05s}
-.eq-b:nth-child(5){animation-duration:1.0s;animation-delay:.3s}
-.eq-b:nth-child(6){animation-duration:1.3s;animation-delay:.15s}
-.eq-b:nth-child(7){animation-duration:.95s;animation-delay:.25s}
-.eq-b:nth-child(8){animation-duration:1.5s;animation-delay:.1s}
-.eq-b:nth-child(9){animation-duration:1.2s;animation-delay:.2s}
-.eq-b:nth-child(10){animation-duration:1.0s;animation-delay:.35s}
-.eq-b:nth-child(11){animation-duration:1.4s;animation-delay:0s}
-.eq-b:nth-child(12){animation-duration:.85s;animation-delay:.15s}
-.eq.paused .eq-b{animation-play-state:paused;height:4px!important}
-@keyframes eqv{0%,100%{height:6px}50%{height:58px}}
-.eq-note{font-size:12px;color:var(--t3);text-align:center}
+.eq-b{width:7px;border-radius:4px;transform-origin:bottom}
+.eq-b.c1{background:var(--or)}
+.eq-b.c2{background:var(--bl)}
+.eq-b.c3{background:var(--gr)}
+.eq:not(.idle) .eq-b{animation:eqv 1.2s ease-in-out infinite}
+.eq:not(.idle) .eq-b:nth-child(1){animation-duration:1.1s;animation-delay:0s}
+.eq:not(.idle) .eq-b:nth-child(2){animation-duration:1.4s;animation-delay:.1s}
+.eq:not(.idle) .eq-b:nth-child(3){animation-duration:.9s;animation-delay:.2s}
+.eq:not(.idle) .eq-b:nth-child(4){animation-duration:1.6s;animation-delay:.05s}
+.eq:not(.idle) .eq-b:nth-child(5){animation-duration:1.0s;animation-delay:.3s}
+.eq:not(.idle) .eq-b:nth-child(6){animation-duration:1.3s;animation-delay:.15s}
+.eq:not(.idle) .eq-b:nth-child(7){animation-duration:.95s;animation-delay:.25s}
+.eq:not(.idle) .eq-b:nth-child(8){animation-duration:1.5s;animation-delay:.1s}
+.eq:not(.idle) .eq-b:nth-child(9){animation-duration:1.2s;animation-delay:.2s}
+.eq:not(.idle) .eq-b:nth-child(10){animation-duration:1.0s;animation-delay:.35s}
+.eq:not(.idle) .eq-b:nth-child(11){animation-duration:1.4s;animation-delay:0s}
+.eq:not(.idle) .eq-b:nth-child(12){animation-duration:.85s;animation-delay:.15s}
+.eq.idle .eq-b{height:4px!important;transition:height .3s}
+@keyframes eqv{0%,100%{height:5px}50%{height:62px}}
+.eq-note{font-size:12px;color:var(--t3);text-align:center;line-height:1.5}
 
-/* PLAYER SECTION */
-.player-sec{padding:40px 5% 0}
+.player-sec{padding:36px 5% 0}
 .ps-in{max-width:1200px;margin:0 auto}
 .player-card{background:var(--w);border-radius:var(--rl);border:1px solid var(--bd);overflow:hidden;box-shadow:var(--sh2)}
+
 .pc-top{background:var(--bg3);padding:12px 24px;border-bottom:1px solid var(--or-md);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.pc-top-left{display:flex;align-items:center;gap:10px}
-.live-dot{width:8px;height:8px;background:var(--or);border-radius:50%;animation:pdot 1.5s ease-in-out infinite;flex-shrink:0}
-@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
-.pc-lbl{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--or)}
-.pc-now{font-size:13px;font-weight:600;color:var(--t1)}
-.ep-nav{display:flex;gap:7px}
-.ep-nav-btn{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1.5px solid var(--bd);background:var(--w);color:var(--t3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s}
+.pc-top-l{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.live-dot{width:8px;height:8px;background:var(--or);border-radius:50%;animation:ldot 1.8s ease-in-out infinite;flex-shrink:0}
+@keyframes ldot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.5)}}
+.pc-label{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--or);white-space:nowrap}
+.pc-now-txt{font-size:13px;font-weight:500;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:380px}
+.mini-eq{display:flex;align-items:center;gap:2.5px;height:20px;flex-shrink:0}
+.meq-b{width:3px;border-radius:2px;background:var(--or)}
+.mini-eq:not(.idle) .meq-b{animation:meqv 1.0s ease-in-out infinite}
+.mini-eq:not(.idle) .meq-b:nth-child(2){animation-delay:.1s}
+.mini-eq:not(.idle) .meq-b:nth-child(3){animation-delay:.2s}
+.mini-eq:not(.idle) .meq-b:nth-child(4){animation-delay:.15s}
+.mini-eq:not(.idle) .meq-b:nth-child(5){animation-delay:.05s}
+.mini-eq.idle .meq-b{height:3px;transition:height .2s}
+@keyframes meqv{0%,100%{height:3px}50%{height:17px}}
+.ep-nav-btns{display:flex;gap:7px;flex-shrink:0}
+.ep-nav-btn{padding:5px 13px;border-radius:6px;font-size:12px;font-weight:600;border:1.5px solid var(--bd);background:var(--w);color:var(--t3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s}
 .ep-nav-btn:hover{border-color:var(--or);color:var(--or)}
+
 .pc-body{display:grid;grid-template-columns:200px 1fr}
-.pc-art{width:200px;height:200px;display:flex;align-items:center;justify-content:center;font-size:64px;flex-shrink:0;position:relative;overflow:hidden}
-.pc-art-badge{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px}
-.pc-info{padding:22px 24px;border-left:1px solid var(--bd2);display:flex;flex-direction:column}
+.pc-art{width:200px;height:200px;display:flex;align-items:center;justify-content:center;font-size:64px;flex-shrink:0;position:relative;overflow:hidden;transition:background .4s}
+.pc-art-badge{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;font-weight:700;padding:4px 9px;border-radius:5px;backdrop-filter:blur(6px);font-family:'Space Grotesk',sans-serif;letter-spacing:.5px}
+.pc-info{padding:22px 26px;border-left:1px solid var(--bd2);display:flex;flex-direction:column}
 .pc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}
 .pct{display:inline-flex;align-items:center;padding:3px 10px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
 .pc-title{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--t1);margin-bottom:8px;line-height:1.3}
 .pc-desc{font-size:13px;color:var(--t3);line-height:1.65;flex:1;margin-bottom:14px}
-.pc-meta{display:flex;gap:16px;flex-wrap:wrap}
-.pcm{font-size:12px;color:var(--t3);display:flex;align-items:center;gap:5px}
+.pc-meta-row{display:flex;gap:16px;flex-wrap:wrap}
+.pcm{font-size:12px;color:var(--t3);display:flex;align-items:center;gap:4px}
 .pcm strong{color:var(--t1);font-weight:600}
 
-/* MINI EQ for player */
-.mini-eq{display:flex;align-items:center;gap:2.5px;height:20px;margin-left:8px}
-.meq-b{width:3px;border-radius:2px;background:var(--or);animation:meqv 1s ease-in-out infinite}
-.meq-b:nth-child(2){animation-delay:.1s}
-.meq-b:nth-child(3){animation-delay:.2s}
-.meq-b:nth-child(4){animation-delay:.15s}
-.meq-b:nth-child(5){animation-delay:.05s}
-.mini-eq.paused .meq-b{animation-play-state:paused;height:3px}
-@keyframes meqv{0%,100%{height:3px}50%{height:16px}}
-
-/* CONTROLS */
-.ctrl-area{border-top:1px solid var(--bd2);padding:18px 24px}
-.time-row{display:flex;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-size:12px;color:var(--t3);margin-bottom:7px;font-weight:500}
-.prog-track{height:6px;background:var(--bd2);border-radius:3px;cursor:pointer;position:relative;overflow:visible;margin-bottom:16px}
-.prog-fill{height:100%;background:var(--or);border-radius:3px;width:0%;pointer-events:none;transition:none}
-.prog-thumb{position:absolute;top:50%;right:calc(100% - var(--pct, 0%));transform:translate(50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--or);box-shadow:0 0 0 3px rgba(255,69,0,.2);pointer-events:none;opacity:0;transition:opacity .18s}
+.ctrl-area{border-top:1px solid var(--bd2);padding:20px 26px}
+.prog-outer{margin-bottom:16px}
+.prog-time-row{display:flex;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-size:12px;color:var(--t3);font-weight:500;margin-bottom:8px}
+.prog-track{height:7px;background:var(--bd2);border-radius:50px;cursor:pointer;position:relative;transition:height .15s}
+.prog-track:hover{height:9px}
+.prog-buf{position:absolute;top:0;left:0;height:100%;background:rgba(255,69,0,.18);border-radius:50px;pointer-events:none;width:0%;transition:width .5s}
+.prog-fill{position:absolute;top:0;left:0;height:100%;background:var(--or);border-radius:50px;pointer-events:none;width:0%}
+.prog-thumb{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--or);box-shadow:0 0 0 3px rgba(255,69,0,.25);transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:opacity .15s;left:0%}
 .prog-track:hover .prog-thumb{opacity:1}
-.btn-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.ctrl-l{display:flex;align-items:center;gap:8px}
-.ctrl-c{display:flex;align-items:center;gap:6px}
-.ctrl-r{display:flex;align-items:center;gap:10px}
-.skip-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--t3);font-weight:700;font-family:'Space Grotesk',sans-serif;padding:6px 8px;border-radius:6px;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:1px}
-.skip-btn:hover{color:var(--or);background:var(--or-lt)}
-.skip-label{font-size:9px;opacity:.7}
-.play-btn{width:52px;height:52px;border-radius:50%;background:var(--or);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 3px 14px rgba(255,69,0,.4);transition:transform .18s,box-shadow .18s;flex-shrink:0}
-.play-btn:hover{transform:scale(1.07);box-shadow:0 5px 20px rgba(255,69,0,.5)}
+
+.ctrl-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ctrl-left{display:flex;align-items:center;gap:6px}
+.ctrl-center{display:flex;align-items:center;gap:8px}
+.ctrl-right{display:flex;align-items:center;gap:12px}
 .spd-grp{display:flex;gap:3px}
-.spd{padding:5px 8px;border-radius:5px;font-size:11px;font-weight:700;border:1.5px solid var(--bd);background:var(--w);color:var(--t3);cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .18s}
+.spd{padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;border:1.5px solid var(--bd);background:var(--w);color:var(--t3);cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .18s}
 .spd:hover{border-color:var(--or);color:var(--or)}
 .spd.on{background:var(--or);border-color:var(--or);color:#fff}
-.vol-wrap{display:flex;align-items:center;gap:7px}
-.vol-icon{font-size:15px;cursor:pointer;color:var(--t3)}
-.vol-sl{width:64px;height:4px;-webkit-appearance:none;appearance:none;border-radius:2px;background:var(--bd2);cursor:pointer;outline:none}
-.vol-sl::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--or);cursor:pointer}
-.dl-btn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;border:1.5px solid var(--bd);background:none;color:var(--t3);cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;transition:all .18s}
+.skip-btn{background:none;border:none;cursor:pointer;color:var(--t3);padding:6px 8px;border-radius:7px;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Space Grotesk',sans-serif}
+.skip-btn:hover{color:var(--or);background:var(--or-lt)}
+.skip-icon{font-size:18px;line-height:1}
+.skip-lbl{font-size:9px;font-weight:700;letter-spacing:.3px;opacity:.7}
+.play-btn{width:54px;height:54px;border-radius:50%;background:var(--or);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 3px 14px rgba(255,69,0,.4);transition:transform .18s,box-shadow .18s;flex-shrink:0}
+.play-btn:hover{transform:scale(1.07);box-shadow:0 5px 22px rgba(255,69,0,.52)}
+.play-btn.loading{opacity:.75}
+.vol-group{display:flex;align-items:center;gap:7px}
+.vol-ic{font-size:16px;cursor:pointer;color:var(--t3);transition:color .18s;user-select:none}
+.vol-ic:hover{color:var(--or)}
+.vol-sl{width:70px;height:4px;-webkit-appearance:none;appearance:none;border-radius:2px;background:var(--bd);cursor:pointer;outline:none}
+.vol-sl::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--or);cursor:pointer}
+.dl-btn{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;font-size:12.5px;font-weight:600;border:1.5px solid var(--bd);background:none;color:var(--t3);cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;transition:all .18s}
 .dl-btn:hover{border-color:var(--or);color:var(--or)}
 
-/* DEBATE AREA */
-.deb-area{border-top:1px solid var(--bd2);padding:20px 24px;background:var(--bg)}
-.deb-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
-.deb-hl{display:flex;align-items:center;gap:8px}
-.deb-h{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1)}
-.deb-q{font-size:14px;color:var(--t2);line-height:1.55;margin-bottom:14px;font-style:italic}
-.deb-vct{font-size:12px;color:var(--t3)}
-.d-sides{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.d-side{padding:13px;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:all .18s}
-.d-side:hover{transform:translateY(-1px)}
-.d-a{background:var(--bl-lt);border-color:var(--bl-md)}
-.d-a:hover{border-color:var(--bl)}
-.d-b{background:var(--or-lt);border-color:var(--or-md)}
-.d-b:hover{border-color:var(--or)}
-.d-sl{font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
-.d-a .d-sl{color:var(--bl)}
-.d-b .d-sl{color:var(--or)}
-.d-st{font-size:12px;font-weight:600;color:var(--t1);line-height:1.42}
-.bar-row{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;margin-bottom:5px}
-.bar-track{height:7px;background:var(--bd2);border-radius:50px;overflow:hidden}
-.bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--bl),var(--or));transition:width 1.2s ease;width:0%}
-.bar-note{font-size:11px;color:var(--t3);text-align:center;margin-top:6px}
+.deb-area{border-top:1px solid var(--bd2);padding:20px 26px;background:var(--bg)}
+.deb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.deb-heading{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:8px}
+.deb-votes-ct{font-size:12.5px;color:var(--t3)}
+.deb-question{font-size:13.5px;color:var(--t2);line-height:1.6;font-style:italic;margin-bottom:16px;padding:10px 14px;border-left:3px solid var(--or);background:var(--or-lt);border-radius:0 8px 8px 0}
+.deb-sides{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.deb-side{padding:14px;border-radius:11px;border:2px solid transparent;cursor:default;transition:all .2s}
+.ds-a{background:var(--bl-lt);border-color:var(--bl-md)}
+.ds-b{background:var(--or-lt);border-color:var(--or-md)}
+.ds-label{font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.ds-a .ds-label{color:var(--bl)}
+.ds-b .ds-label{color:var(--or)}
+.ds-text{font-size:12.5px;font-weight:600;color:var(--t1);line-height:1.45}
+.vote-row{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px}
+.vote-row span:first-child{color:var(--bl)}
+.vote-row span:last-child{color:var(--or)}
+.vote-track{height:7px;background:var(--bd2);border-radius:50px;overflow:hidden}
+.vote-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--bl),var(--or));width:0%;transition:width 1.2s ease}
+.vote-note{font-size:11.5px;color:var(--t3);text-align:center;margin-top:7px}
 
-/* EPISODE GRID */
-.eps-sec{padding:40px 5% 48px}
+.eps-sec{padding:40px 5% 52px}
 .eps-in{max-width:1200px;margin:0 auto}
-.eps-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px}
+.eps-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px}
 .eps-h{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--t1);letter-spacing:-.4px}
-.eps-sub{font-size:13px;color:var(--t3)}
+.eps-hint{font-size:13px;color:var(--t3)}
 .eps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
 .ep-card{background:var(--w);border-radius:var(--r);border:2px solid var(--bd);overflow:hidden;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s}
 .ep-card:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
-.ep-card.now{border-color:var(--or);box-shadow:0 0 0 3px rgba(255,69,0,.12)}
-.ep-art{height:130px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative;overflow:hidden}
-.ep-art-num{position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.45);color:#fff;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:4px}
-.ep-art-btn{position:absolute;bottom:8px;right:10px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;transition:background .18s;backdrop-filter:blur(4px)}
-.ep-card:hover .ep-art-btn,.ep-card.now .ep-art-btn{background:var(--or)}
+.ep-card.now-playing{border-color:var(--or);box-shadow:0 0 0 3px rgba(255,69,0,.12)}
+.ep-card.no-audio{opacity:.7;cursor:not-allowed}
+.ep-art{height:130px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative;overflow:hidden;transition:background .4s}
+.ep-art-num{position:absolute;bottom:8px;left:9px;background:rgba(0,0,0,.45);color:#fff;font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:4px;backdrop-filter:blur(4px);font-family:'Space Grotesk',sans-serif;letter-spacing:.5px}
+.ep-art-btn{position:absolute;bottom:8px;right:9px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;transition:background .18s;backdrop-filter:blur(4px)}
+.ep-card:hover .ep-art-btn,.ep-card.now-playing .ep-art-btn{background:var(--or)}
+.ep-card.no-audio .ep-art-btn{background:rgba(0,0,0,.2)}
 .ep-body{padding:14px}
 .ep-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
 .et{display:inline-flex;align-items:center;padding:2px 8px;border-radius:50px;font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
-.ep-title{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:5px;line-height:1.35}
-.ep-meta{font-size:11.5px;color:var(--t3);display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.ep-bar-row{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;margin-bottom:3px}
+.ep-title{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:5px;line-height:1.36}
+.ep-meta-row{font-size:11.5px;color:var(--t3);margin-bottom:10px;display:flex;gap:10px;flex-wrap:wrap}
+.ep-vote-row{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;margin-bottom:3px}
+.ep-vote-row span:first-child{color:var(--bl)}
+.ep-vote-row span:last-child{color:var(--or)}
 .ep-track{height:4px;background:var(--bd2);border-radius:50px;overflow:hidden}
-.ep-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--bl),var(--or));transition:width 1s ease;width:0%}
+.ep-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--bl),var(--or));width:0%;transition:width 1s ease}
+.ep-coming{font-size:11px;font-weight:600;color:var(--t4);text-align:center;padding:6px 0 2px;font-style:italic}
 
-/* SUBSCRIBE */
-.sub-sec{background:var(--bg2);border-top:1px solid var(--pu-md);padding:56px 5%}
-.sub-in{max-width:1200px;margin:0 auto;text-align:center}
-.sub-ey{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:10px}
-.sub-h{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;color:var(--t1);margin-bottom:12px;letter-spacing:-.4px}
-.sub-p{font-size:15px;color:var(--t2);margin-bottom:24px}
-.sub-pills{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.sub-pill{display:flex;align-items:center;gap:8px;padding:11px 20px;border-radius:50px;font-size:14px;font-weight:600;border:2px solid var(--bd);background:var(--w);color:var(--t2);text-decoration:none;transition:all .2s}
-.sub-pill:hover{border-color:var(--or);color:var(--or);transform:translateY(-2px)}
-.sub-pill.soon{opacity:.45;pointer-events:none}
-.sub-note{font-size:12px;color:var(--t3);margin-top:14px}
-
-/* TAG COLORS */
 .tag-or{background:var(--or-lt);color:var(--or)}
 .tag-bl{background:var(--bl-lt);color:var(--bl)}
 .tag-gr{background:var(--gr-lt);color:var(--gr)}
 .tag-pu{background:var(--pu-lt);color:var(--pu)}
 .tag-am{background:var(--am-lt);color:var(--am)}
 .tag-re{background:var(--re-lt);color:var(--re)}
+
+.sub-sec{background:var(--bg2);border-top:1px solid var(--pu-md);padding:56px 5%}
+.sub-in{max-width:1200px;margin:0 auto;text-align:center}
+.sub-ey{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:10px}
+.sub-h{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--t1);margin-bottom:12px;letter-spacing:-.4px}
+.sub-p{font-size:15px;color:var(--t2);margin-bottom:24px}
+.sub-pills{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.sub-pill{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:50px;font-size:14px;font-weight:600;border:2px solid var(--bd);background:var(--w);color:var(--t2);text-decoration:none}
+.sub-pill.soon{opacity:.45;pointer-events:none}
+.sub-note{font-size:12px;color:var(--t3);margin-top:14px}
+
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:#111;color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:500;opacity:0;transition:opacity .28s,transform .28s;z-index:9999;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 .footer{background:#0F0F0F;padding:56px 5% 28px;color:#fff}
 .footer-in{max-width:1200px;margin:0 auto}
@@ -210,89 +220,103 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .ft-links a{text-decoration:none;color:#D1D5DB;font-size:14px;transition:color .18s}
 .ft-links a:hover{color:var(--or)}
 .ft-div{height:1px;background:#1F2937;margin-bottom:22px}
-.ft-bot{display:flex;justify-content:space-between;align-items:center}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .ft-bot p{font-size:12.5px;color:#6B7280}
 
-@media(max-width:920px){.hero-in{grid-template-columns:1fr}.eq-panel{display:none}.pc-body{grid-template-columns:1fr}.pc-art{width:100%;height:160px}.pc-info{border-left:none;border-top:1px solid var(--bd2)}.eps-grid{grid-template-columns:1fr 1fr}.ft-top{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.nav-links li:not(:last-child){display:none}.h-title{font-size:30px}.btn-row{justify-content:center}.ctrl-r{display:none}.eps-grid{grid-template-columns:1fr}.d-sides{grid-template-columns:1fr}.ft-top{grid-template-columns:1fr}.ft-bot{flex-direction:column;gap:10px;text-align:center}}
+@media(max-width:960px){.hero-in,.pc-body{grid-template-columns:1fr}.eq-panel{display:none}.pc-art{width:100%;height:160px}.pc-info{border-left:none;border-top:1px solid var(--bd2)}.eps-grid{grid-template-columns:1fr 1fr}.ft-top{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.nav-links li:not(:last-child){display:none}.h-title{font-size:30px}.ctrl-row{flex-direction:column;align-items:center}.ctrl-right{order:-1}.eps-grid{grid-template-columns:1fr}.deb-sides{grid-template-columns:1fr}.pc-now-txt{display:none}.ft-top{grid-template-columns:1fr}.ft-bot{flex-direction:column;text-align:center}}
 </style>
 </head>
 <body>
 
+<!-- REAL HTML5 AUDIO ELEMENT — hidden, all controls built in JS below -->
+<audio id="mainAudio" preload="none"></audio>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
 <nav class="nav">
   <div class="nav-in">
-    <a href="/IndianStartupFiles/index.html" class="logo">
+    <a href="index.html" class="logo">
       <div class="logo-ic">📁</div>
       <span class="logo-tx">Indian Startup <span>Files</span></span>
     </a>
     <ul class="nav-links">
-      <li><a href="/IndianStartupFiles/index.html">Home</a></li>
-      <li><a href="/IndianStartupFiles/blogs.html">Case Studies</a></li>
-      <li><a href="indian_startup_files_debates_page.html" class="active">Debates</a></li>
-      <li><a href="/IndianStartupFiles/index.html#about">About</a></li>
-      <li><a href="/IndianStartupFiles/blogs.html" class="nav-cta">All Files →</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blogs.html">Case Studies</a></li>
+      <li><a href="debates.html" class="active">Debates</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="blogs.html" class="nav-cta">All Files →</a></li>
     </ul>
   </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-in">
     <div>
       <div class="h-ey">🎙️ Audio Debate Series</div>
       <h1 class="h-title">The Debate <span>Room</span></h1>
-      <p class="h-sub">India's biggest startup decisions argued from two sides. Listen to both. Vote for what you believe. Every two weeks, a new file gets put on trial.</p>
+      <p class="h-sub">India's biggest startup decisions argued from two sides. Listen to both. Vote for what you believe. A new file goes on trial every two weeks.</p>
       <div class="h-stats">
-        <div class="hstat"><strong>6</strong><span>Episodes Live</span></div>
-        <div class="hstat"><strong id="totalVotesH">0</strong><span>Votes Cast</span></div>
-        <div class="hstat"><strong>~42 min</strong><span>Avg. Runtime</span></div>
+        <div class="hstat"><strong>6</strong><span>Episodes</span></div>
+        <div class="hstat"><strong id="totalVotesEl">10,586</strong><span>Votes Cast</span></div>
+        <div class="hstat"><strong>~42 min</strong><span>Avg Runtime</span></div>
       </div>
     </div>
     <div class="eq-panel">
       <div class="eq-wrap">
-        <div class="eq-lbl">Now Broadcasting</div>
-        <div class="eq" id="heroEq">
-          <div class="eq-b" style="height:20px"></div>
-          <div class="eq-b blue" style="height:40px"></div>
-          <div class="eq-b" style="height:14px"></div>
-          <div class="eq-b gr" style="height:52px"></div>
-          <div class="eq-b" style="height:30px"></div>
-          <div class="eq-b blue" style="height:48px"></div>
-          <div class="eq-b" style="height:22px"></div>
-          <div class="eq-b gr" style="height:38px"></div>
-          <div class="eq-b" style="height:16px"></div>
-          <div class="eq-b blue" style="height:44px"></div>
-          <div class="eq-b" style="height:28px"></div>
-          <div class="eq-b gr" style="height:36px"></div>
+        <div class="eq-lbl">Live Broadcast</div>
+        <div class="eq idle" id="heroEq">
+          <div class="eq-b c1" style="height:20px"></div>
+          <div class="eq-b c2" style="height:40px"></div>
+          <div class="eq-b c3" style="height:14px"></div>
+          <div class="eq-b c1" style="height:52px"></div>
+          <div class="eq-b c2" style="height:30px"></div>
+          <div class="eq-b c3" style="height:48px"></div>
+          <div class="eq-b c1" style="height:22px"></div>
+          <div class="eq-b c2" style="height:38px"></div>
+          <div class="eq-b c3" style="height:16px"></div>
+          <div class="eq-b c1" style="height:44px"></div>
+          <div class="eq-b c2" style="height:28px"></div>
+          <div class="eq-b c3" style="height:36px"></div>
         </div>
-        <div class="eq-note">🎧 Pick an episode below &amp; press play</div>
+        <div class="eq-note">🎧 Select an episode below<br>then press ▶ to listen</div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- MAIN PLAYER CARD -->
 <div class="player-sec">
   <div class="ps-in">
     <div class="player-card">
 
+      <!-- TOP BAR -->
       <div class="pc-top">
-        <div class="pc-top-left">
+        <div class="pc-top-l">
           <div class="live-dot"></div>
-          <span class="pc-lbl">Now Playing</span>
-          <span class="pc-now" id="pcNow">— Select an episode</span>
-          <div class="mini-eq paused" id="miniEq">
-            <div class="meq-b"></div><div class="meq-b"></div>
-            <div class="meq-b"></div><div class="meq-b"></div><div class="meq-b"></div>
+          <span class="pc-label">Now Playing</span>
+          <span class="pc-now-txt" id="pcNowTxt">— Select an episode below</span>
+          <div class="mini-eq idle" id="miniEq">
+            <div class="meq-b" style="height:3px"></div>
+            <div class="meq-b" style="height:3px"></div>
+            <div class="meq-b" style="height:3px"></div>
+            <div class="meq-b" style="height:3px"></div>
+            <div class="meq-b" style="height:3px"></div>
           </div>
         </div>
-        <div class="ep-nav">
+        <div class="ep-nav-btns">
           <button class="ep-nav-btn" onclick="prevEp()">← Prev</button>
           <button class="ep-nav-btn" onclick="nextEp()">Next →</button>
         </div>
       </div>
 
+      <!-- ARTWORK + INFO -->
       <div class="pc-body">
         <div class="pc-art" id="pcArt" style="background:linear-gradient(135deg,#4B2DB5,#7B5BD4)">
-          <span id="pcEmoji">🎙️</span>
+          <span id="pcEmoji" style="font-size:64px">🎙️</span>
           <div class="pc-art-badge" id="pcBadge">EP 01</div>
         </div>
         <div class="pc-info">
@@ -301,101 +325,119 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
             <span class="pct tag-re">Collapse</span>
           </div>
           <div class="pc-title" id="pcTitle">Was Byju's Collapse the Founder's Fault or VC Greed?</div>
-          <div class="pc-desc" id="pcDesc">India's most-funded edtech went from $22B to insolvency. Two sides argue whether leadership failures or unchecked VC funding was the primary cause.</div>
-          <div class="pc-meta">
-            <div class="pcm">🕒 <strong id="pcDur">47:32</strong></div>
+          <div class="pc-desc" id="pcDesc">India's most-funded edtech went from $22B to insolvency. Two sides argue whether leadership failures or unchecked VC funding was the primary cause of the disaster.</div>
+          <div class="pc-meta-row">
+            <div class="pcm">🕒 <strong id="pcDuration">–:––</strong></div>
             <div class="pcm">📅 <strong id="pcDate">Jan 20, 2025</strong></div>
             <div class="pcm">🗳️ <strong id="pcVotes">2,341</strong> votes</div>
           </div>
         </div>
       </div>
-      
-      <audio id="audioPlayer" preload="metadata"></audio>
+
+      <!-- AUDIO CONTROLS -->
       <div class="ctrl-area">
-        <div class="time-row">
-          <span id="curTime">0:00</span>
-          <span id="totTime">47:32</span>
+
+        <!-- PROGRESS BAR -->
+        <div class="prog-outer">
+          <div class="prog-time-row">
+            <span id="curTime">0:00</span>
+            <span id="totTime">–:––</span>
+          </div>
+          <div class="prog-track" id="progTrack">
+            <div class="prog-buf"  id="progBuf"></div>
+            <div class="prog-fill" id="progFill"></div>
+            <div class="prog-thumb" id="progThumb"></div>
+          </div>
         </div>
-        <div class="prog-track" id="progTrack">
-          <div class="prog-fill" id="progFill"></div>
-        </div>
-        <div class="btn-row">
-          <div class="ctrl-l">
+
+        <!-- CONTROL BUTTONS -->
+        <div class="ctrl-row">
+          <div class="ctrl-left">
             <div class="spd-grp">
-              <button class="spd" data-s="0.75">0.75×</button>
-              <button class="spd on" data-s="1">1×</button>
-              <button class="spd" data-s="1.5">1.5×</button>
-              <button class="spd" data-s="2">2×</button>
+              <button class="spd" data-s="0.75" onclick="setSpeed(0.75)">0.75×</button>
+              <button class="spd on" data-s="1"    onclick="setSpeed(1)">1×</button>
+              <button class="spd" data-s="1.5" onclick="setSpeed(1.5)">1.5×</button>
+              <button class="spd" data-s="2"    onclick="setSpeed(2)">2×</button>
             </div>
           </div>
-          <div class="ctrl-c">
-            <button class="skip-btn" onclick="skip(-15)">
-              ⏮ <span class="skip-label">−15s</span>
+          <div class="ctrl-center">
+            <button class="skip-btn" onclick="skip(-15)" title="Back 15 seconds">
+              <span class="skip-icon">⏮</span><span class="skip-lbl">−15s</span>
             </button>
             <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
-            <button class="skip-btn" onclick="skip(15)">
-              ⏭ <span class="skip-label">+15s</span>
+            <button class="skip-btn" onclick="skip(15)" title="Forward 15 seconds">
+              <span class="skip-icon">⏭</span><span class="skip-lbl">+15s</span>
             </button>
           </div>
-          <div class="ctrl-r">
-            <div class="vol-wrap">
-              <span class="vol-icon" onclick="toggleMute()">🔊</span>
-              <input type="range" class="vol-sl" id="volSl" min="0" max="100" value="85" oninput="setVol(this.value)">
+          <div class="ctrl-right">
+            <div class="vol-group">
+              <span class="vol-ic" id="volIcon" onclick="toggleMute()">🔊</span>
+              <input type="range" class="vol-sl" id="volSlider" min="0" max="100" value="85"
+                     oninput="setVolume(this.value)">
             </div>
-            <a class="dl-btn" id="dlBtn" href="#" download>⬇ Download</a>
+            <a class="dl-btn" id="dlBtn" href="#" target="_blank">⬇ Download</a>
           </div>
         </div>
       </div>
 
-      <div class="deb-area" id="debArea">
-        <div class="deb-hd">
-          <div class="deb-hl"><span style="font-size:18px">⚖️</span><span class="deb-h">The Debate Question</span></div>
-          <div class="deb-vct" id="debVct">2,341 votes cast</div>
+      <!-- DEBATE VOTE SECTION -->
+      <div class="deb-area">
+        <div class="deb-top">
+          <div class="deb-heading">⚖️ The Debate Question</div>
+          <div class="deb-votes-ct" id="debVotesCount">2,341 votes cast</div>
         </div>
-        <div class="deb-q" id="debQ">"Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?"</div>
-        <div class="d-sides">
-          <div class="d-side d-a"><div class="d-sl">Side A</div><div class="d-st" id="sideATxt">Founder's ego and refusal to accept accountability led to the disaster.</div></div>
-          <div class="d-side d-b"><div class="d-sl">Side B</div><div class="d-st" id="sideBTxt">VCs threw billions without governance — they're equal architects of the disaster.</div></div>
+        <div class="deb-question" id="debQuestion">"Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?"</div>
+        <div class="deb-sides">
+          <div class="deb-side ds-a">
+            <div class="ds-label">Side A</div>
+            <div class="ds-text" id="sideATxt">Founder's ego and refusal to accept accountability led to the disaster.</div>
+          </div>
+          <div class="deb-side ds-b">
+            <div class="ds-label">Side B</div>
+            <div class="ds-text" id="sideBTxt">VCs threw billions without governance — they're equal architects of the disaster.</div>
+          </div>
         </div>
-        <div class="bar-row">
-          <span id="barA" style="color:var(--bl);font-weight:700">Side A — 62%</span>
-          <span id="barB" style="color:var(--or);font-weight:700">38% — Side B</span>
+        <div class="vote-row">
+          <span id="voteA">Side A — 62%</span>
+          <span id="voteB">38% — Side B</span>
         </div>
-        <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
-        <div class="bar-note" id="barNote">2,341 listeners have voted · Listen &amp; decide for yourself</div>
+        <div class="vote-track"><div class="vote-fill" id="voteFill"></div></div>
+        <div class="vote-note" id="voteNote">2,341 listeners have voted · Listen and decide for yourself</div>
       </div>
 
-    </div>
+    </div><!-- /player-card -->
   </div>
 </div>
 
+<!-- EPISODE GRID -->
 <section class="eps-sec">
   <div class="eps-in">
-    <div class="eps-hd">
+    <div class="eps-top">
       <div>
         <div class="eps-h">All Episodes</div>
-        <div class="eps-sub">Click any episode to load it into the player above</div>
+        <div class="eps-hint">Click any episode card to load it into the player ↑</div>
       </div>
     </div>
     <div class="eps-grid" id="epsGrid"></div>
   </div>
 </section>
 
+<!-- SUBSCRIBE -->
 <section class="sub-sec">
   <div class="sub-in">
     <div class="sub-ey">🎙️ Never Miss a Debate</div>
-    <h2 class="sub-h" style="font-family:'Space Grotesk',sans-serif">Coming Soon to Your Favourite Podcast App</h2>
-    <p class="sub-p">Subscribe wherever you listen — new episodes drop every 2 weeks, right after the case study goes live.</p>
+    <h2 class="sub-h">Coming to Your Podcast App</h2>
+    <p class="sub-p">Subscribe wherever you listen — new episodes drop every two weeks, right after the case study goes live.</p>
     <div class="sub-pills">
-      <a href="#" class="sub-pill soon">🎵 Spotify <span style="font-size:11px;opacity:.6">Soon</span></a>
-      <a href="#" class="sub-pill soon">🎙 Apple Podcasts <span style="font-size:11px;opacity:.6">Soon</span></a>
-      <a href="#" class="sub-pill soon">▶ YouTube <span style="font-size:11px;opacity:.6">Soon</span></a>
-      <a href="#" class="sub-pill soon">☁ Google Podcasts <span style="font-size:11px;opacity:.6">Soon</span></a>
+      <a href="#" class="sub-pill soon">🎵 Spotify — Soon</a>
+      <a href="#" class="sub-pill soon">🎙 Apple Podcasts — Soon</a>
+      <a href="#" class="sub-pill soon">▶ YouTube — Soon</a>
     </div>
-    <div class="sub-note">For now — download any episode directly from the player above. Free forever.</div>
+    <div class="sub-note">For now — download any episode directly from the player above. Always free.</div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-in">
     <div class="ft-top">
@@ -403,336 +445,587 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
         <div class="ft-logo">Indian Startup <span>Files</span></div>
         <p class="ft-desc">Deep-dive case studies, structured debates, and honest analysis of India's startup ecosystem. Zero paywall.</p>
       </div>
-      <div><div class="ft-ch">Content</div><ul class="ft-links"><li><a href="/IndianStartupFiles/blogs.html">Case Studies</a></li><li><a href="debates.html">Debates</a></li><li><a href="/IndianStartupFiles/blogs.html">Failure Graveyard</a></li></ul></div>
-      <div><div class="ft-ch">Sectors</div><ul class="ft-links"><li><a href="/IndianStartupFiles/blogs.html">Fintech</a></li><li><a href="/IndianStartupFiles/blogs.html">EdTech</a></li><li><a href="/IndianStartupFiles/blogs.html">Quick Commerce</a></li></ul></div>
-      <div><div class="ft-ch">About</div><ul class="ft-links"><li><a href="/IndianStartupFiles/index.html#about">Our Mission</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div>
+        <div class="ft-ch">Content</div>
+        <ul class="ft-links">
+          <li><a href="blogs.html">Case Studies</a></li>
+          <li><a href="debates.html">Debates</a></li>
+          <li><a href="blogs.html">Failure Graveyard</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-ch">Sectors</div>
+        <ul class="ft-links">
+          <li><a href="blogs.html">Fintech</a></li>
+          <li><a href="blogs.html">EdTech</a></li>
+          <li><a href="blogs.html">Quick Commerce</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-ch">About</div>
+        <ul class="ft-links">
+          <li><a href="index.html#about">Our Mission</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
     </div>
     <div class="ft-div"></div>
-    <div class="ft-bot"><p>© 2025 Indian Startup Files.</p><p>Hosted on GitHub Pages · Zero Cost · Maximum Depth</p></div>
+    <div class="ft-bot">
+      <p>© 2025 Indian Startup Files.</p>
+      <p>Hosted on GitHub Pages · Zero Cost · Maximum Depth</p>
+    </div>
   </div>
 </footer>
 
 <script>
-// ═══════════════════════════════════════
-// ★ DEBATE EPISODES — ADD YOUR DATA HERE ★
-// ═══════════════════════════════════════
+// ════════════════════════════════════════════════════════════
+//
+//  ★ DEBATE EPISODES DATA
+//
+//  HOW TO ADD YOUR AUDIO FILES:
+//  1. Upload your MP3 to Google Drive
+//  2. Right-click → Share → "Anyone with the link" → Copy link
+//  3. Paste that sharing link into the "driveUrl" field below
+//
+//  EXAMPLE sharing link format:
+//  https://drive.google.com/file/d/1ABC123xyz/view?usp=sharing
+//
+//  Leave driveUrl as "" for episodes without audio yet.
+//
+// ════════════════════════════════════════════════════════════
+
 const DEBATES = [
+
+  // ── EPISODE 1 ── (BYJU'S — AUDIO ADDED)
   {
-    id:1, ep:"EP 01",
-    title:"Was Byju's Collapse the Founder's Fault or VC Greed?",
-    desc:"India's most-funded edtech went from $22B to insolvency. Two sides argue whether leadership failures or unchecked VC funding was the primary cause.",
-    question:"Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?",
-    sideA:"Founder's ego and refusal to accept accountability led to the disaster.",
-    sideB:"VCs threw billions without governance — they're equal architects of the disaster.",
-    pctA:62, pctB:38, totalVotes:2341,
-    duration:"47:32", durSecs:2852,
-    date:"Jan 20, 2025",
-    audio:"https://drive.google.com/uc?export=download&id=1jvDfNViRIWo2kN6DdM7Kj2aP14onKq0_",
-    art:"linear-gradient(135deg,#4B2DB5,#7B5BD4)",
-    emoji:"📉",
-    tags:[{t:"EdTech",c:"tag-or"},{t:"Collapse",c:"tag-re"}]
+    id: 1,
+    ep: "EP 01",
+    title: "Was Byju's Collapse the Founder's Fault or VC Greed?",
+    desc: "India's most-funded edtech went from $22B to insolvency. Two sides argue whether leadership failures or unchecked VC funding was the primary cause.",
+    question: "Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?",
+    sideA: "Founder's ego and refusal to accept accountability created an unrecoverable spiral.",
+    sideB: "VCs threw billions without governance — they're equal architects of the disaster.",
+    pctA: 62,
+    pctB: 38,
+    totalVotes: 2341,
+    duration: "47:32",
+    date: "Jan 20, 2025",
+    // ★ BYJU'S AUDIO — Google Drive link
+    driveUrl: "https://drive.google.com/file/d/1jvDfNViRIWo2kN6DdM7Kj2aP14onKq0_/view?usp=sharing",
+    art:   "linear-gradient(135deg,#4B2DB5,#7B5BD4)",
+    emoji: "📉",
+    tags:  [{t:"EdTech",c:"tag-or"},{t:"Collapse",c:"tag-re"}]
   },
+
+  // ── EPISODE 2 ── (ZEPTO — ADD AUDIO LINK BELOW)
   {
-    id:2, ep:"EP 02",
-    title:"Is Zepto's Quick Commerce Model Sustainable or a VC-Funded Illusion?",
-    desc:"10-minute delivery sounds exciting, but thin margins beg the question: is this a lasting business or burning cash to win a war nobody can afford?",
-    question:"Is quick commerce a genuine retail revolution, or a VC-funded illusion with no viable unit economics?",
-    sideA:"Density, habit, and scale will make quick commerce the future of Indian retail.",
-    sideB:"Dark stores, 10-min delivery, and thin margins make this a money-burning fantasy.",
-    pctA:44, pctB:56, totalVotes:1892,
-    duration:"38:15", durSecs:2295,
-    date:"Feb 5, 2025",
-    audio:"audio/ep02-zepto-debate.mp3",
-    art:"linear-gradient(135deg,#1D4ED8,#60A5FA)",
-    emoji:"⚡",
-    tags:[{t:"Quick Commerce",c:"tag-bl"},{t:"Sustainability",c:"tag-gr"}]
+    id: 2,
+    ep: "EP 02",
+    title: "Is Zepto's Quick Commerce Model Sustainable or a VC-Funded Illusion?",
+    desc: "10-minute delivery sounds exciting — but thin margins and dark stores beg the question: lasting business or cash-burning war nobody can win?",
+    question: "Is quick commerce a genuine retail revolution, or a VC-funded illusion with no viable unit economics?",
+    sideA: "Density, habit, and scale will make quick commerce the future of Indian retail.",
+    sideB: "Dark stores and 10-min delivery with thin margins make this a money-burning fantasy.",
+    pctA: 44,
+    pctB: 56,
+    totalVotes: 1892,
+    duration: "38:15",
+    date: "Feb 5, 2025",
+    // ★ ADD EP 02 AUDIO — paste your Google Drive sharing link here:
+    driveUrl: "",
+    art:   "linear-gradient(135deg,#1D4ED8,#60A5FA)",
+    emoji: "⚡",
+    tags:  [{t:"Quick Commerce",c:"tag-bl"},{t:"Sustainability",c:"tag-gr"}]
   },
+
+  // ── EPISODE 3 ── (ZOMATO — ADD AUDIO LINK BELOW)
   {
-    id:3, ep:"EP 03",
-    title:"Did Zomato Kill India's Small Restaurants or Save Them?",
-    desc:"Zomato takes up to 35% commission per order. But it also delivers millions of orders restaurants couldn't reach alone. Hero or villain?",
-    question:"Did Zomato democratise food delivery for small restaurants, or is its commission model slowly strangling them?",
-    sideA:"Zomato gave small restaurants national reach and new customers they never had.",
-    sideB:"35% commissions are predatory — Zomato is slowly killing the industry it claims to help.",
-    pctA:51, pctB:49, totalVotes:1654,
-    duration:"42:50", durSecs:2570,
-    date:"Feb 18, 2025",
-    audio:"audio/ep03-zomato-debate.mp3",
-    art:"linear-gradient(135deg,#FF4500,#FF7043)",
-    emoji:"🍕",
-    tags:[{t:"FoodTech",c:"tag-or"},{t:"Ethics",c:"tag-am"}]
+    id: 3,
+    ep: "EP 03",
+    title: "Did Zomato Kill India's Small Restaurants or Save Them?",
+    desc: "Zomato takes up to 35% commission per order. But it also brings millions of orders restaurants couldn't reach alone. Hero or villain?",
+    question: "Did Zomato democratise food delivery for small restaurants, or is its commission model slowly strangling them?",
+    sideA: "Zomato gave small restaurants national reach and entirely new customer bases.",
+    sideB: "35% commissions are predatory — Zomato is slowly killing the industry it claims to serve.",
+    pctA: 51,
+    pctB: 49,
+    totalVotes: 1654,
+    duration: "42:50",
+    date: "Feb 18, 2025",
+    // ★ ADD EP 03 AUDIO — paste your Google Drive sharing link here:
+    driveUrl: "",
+    art:   "linear-gradient(135deg,#FF4500,#FF7043)",
+    emoji: "🍕",
+    tags:  [{t:"FoodTech",c:"tag-or"},{t:"Ethics",c:"tag-am"}]
   },
+
+  // ── EPISODE 4 ── (OYO — ADD AUDIO LINK BELOW)
   {
-    id:4, ep:"EP 04",
-    title:"Was OYO's Global Expansion Bold Strategy or Pure Recklessness?",
-    desc:"OYO expanded to 80 countries in under 3 years. It collapsed in most of them. Visionary or the most expensive vanity project in Indian startup history?",
-    question:"Was Ritesh Agarwal's global expansion bold strategic vision, or textbook recklessness that almost killed OYO?",
-    sideA:"The global vision was correct — execution failed, not the strategy itself.",
-    sideB:"Expanding to 80 countries without a stable home base was textbook recklessness.",
-    pctA:32, pctB:68, totalVotes:1423,
-    duration:"51:10", durSecs:3070,
-    date:"Mar 1, 2025",
-    audio:"audio/ep04-oyo-debate.mp3",
-    art:"linear-gradient(135deg,#DC2626,#EF4444)",
-    emoji:"🏨",
-    tags:[{t:"PropTech",c:"tag-re"},{t:"Global",c:"tag-am"}]
+    id: 4,
+    ep: "EP 04",
+    title: "Was OYO's Global Expansion Bold Strategy or Pure Recklessness?",
+    desc: "OYO expanded to 80 countries in under 3 years. It collapsed in most of them. Visionary or India's most expensive vanity project?",
+    question: "Was Ritesh Agarwal's global expansion bold strategic vision, or textbook recklessness that nearly destroyed OYO?",
+    sideA: "The global vision was correct — execution failed, not the underlying strategy.",
+    sideB: "Expanding to 80 countries without a stable home base was textbook recklessness.",
+    pctA: 32,
+    pctB: 68,
+    totalVotes: 1423,
+    duration: "51:10",
+    date: "Mar 1, 2025",
+    // ★ ADD EP 04 AUDIO — paste your Google Drive sharing link here:
+    driveUrl: "",
+    art:   "linear-gradient(135deg,#DC2626,#EF4444)",
+    emoji: "🏨",
+    tags:  [{t:"PropTech",c:"tag-re"},{t:"Global",c:"tag-am"}]
   },
+
+  // ── EPISODE 5 ── (CRED — ADD AUDIO LINK BELOW)
   {
-    id:5, ep:"EP 05",
-    title:"Is CRED a Genius Business Model or a Slow-Moving Train Wreck?",
-    desc:"CRED spends more acquiring a customer than it earns from them — and it's still valued at $6.4B. Is Kunal Shah building the smartest loyalty play in India?",
-    question:"Is CRED building the most valuable trust-based financial brand in India, or is it just burning VC money stylishly?",
-    sideA:"CRED is building India's highest-trust financial brand. Patience is all it needs.",
-    sideB:"The unit economics are broken. It's the world's most expensive rewards programme.",
-    pctA:58, pctB:42, totalVotes:1187,
-    duration:"35:22", durSecs:2122,
-    date:"Mar 12, 2025",
-    audio:"audio/ep05-cred-debate.mp3",
-    art:"linear-gradient(135deg,#7C3AED,#A78BFA)",
-    emoji:"💳",
-    tags:[{t:"Fintech",c:"tag-pu"},{t:"Business Model",c:"tag-bl"}]
+    id: 5,
+    ep: "EP 05",
+    title: "Is CRED a Genius Business Model or a Slow-Moving Train Wreck?",
+    desc: "CRED spends more acquiring a customer than it earns. And it's still worth $6.4B. Is Kunal Shah building the smartest loyalty play in India?",
+    question: "Is CRED building India's highest-trust financial brand, or just burning VC money stylishly?",
+    sideA: "CRED is building India's most valuable trust-based financial brand. Patience required.",
+    sideB: "The unit economics are fundamentally broken. World's most expensive rewards programme.",
+    pctA: 58,
+    pctB: 42,
+    totalVotes: 1187,
+    duration: "35:22",
+    date: "Mar 12, 2025",
+    // ★ ADD EP 05 AUDIO — paste your Google Drive sharing link here:
+    driveUrl: "",
+    art:   "linear-gradient(135deg,#7C3AED,#A78BFA)",
+    emoji: "💳",
+    tags:  [{t:"Fintech",c:"tag-pu"},{t:"Business Model",c:"tag-bl"}]
   },
+
+  // ── EPISODE 6 ── (PAYTM — ADD AUDIO LINK BELOW)
   {
-    id:6, ep:"EP 06",
-    title:"Should Paytm Have Gone Public When It Did?",
-    desc:"India's largest IPO crashed 27% on day one. Was the timing disastrously wrong, or would Paytm have faced the same fate regardless of when it listed?",
-    question:"Was Paytm's IPO timing catastrophically wrong, or are its problems structural regardless of when it listed?",
-    sideA:"The timing was wrong — management knew the business model wasn't proven at IPO scale.",
-    sideB:"Paytm's problems are structural. Any IPO would have revealed the same issues eventually.",
-    pctA:71, pctB:29, totalVotes:2089,
-    duration:"44:05", durSecs:2645,
-    date:"Mar 25, 2025",
-    audio:"audio/ep06-paytm-debate.mp3",
-    art:"linear-gradient(135deg,#0369A1,#38BDF8)",
-    emoji:"📱",
-    tags:[{t:"Fintech",c:"tag-pu"},{t:"IPO",c:"tag-am"}]
+    id: 6,
+    ep: "EP 06",
+    title: "Should Paytm Have Gone Public When It Did?",
+    desc: "India's largest IPO ever crashed 27% on day one. Was timing catastrophically wrong, or is Paytm's problem structural regardless?",
+    question: "Was Paytm's IPO timing catastrophically wrong, or are its problems structural regardless of when it listed?",
+    sideA: "The timing was wrong — the business model was unproven at public-company scale.",
+    sideB: "Paytm's problems are structural. Any IPO would have revealed the same issues eventually.",
+    pctA: 71,
+    pctB: 29,
+    totalVotes: 2089,
+    duration: "44:05",
+    date: "Mar 25, 2025",
+    // ★ ADD EP 06 AUDIO — paste your Google Drive sharing link here:
+    driveUrl: "",
+    art:   "linear-gradient(135deg,#0369A1,#38BDF8)",
+    emoji: "📱",
+    tags:  [{t:"Fintech",c:"tag-pu"},{t:"IPO",c:"tag-am"}]
   }
+
 ];
 
-// STATE
-// STATE
-let curId=1, isPlaying=false, muted=false, speed=1;
-const audioPlayer=document.getElementById("audioPlayer");
-
-// FORMAT TIME
-function fmtT(s){s=Math.floor(s);const m=Math.floor(s/60),sec=s%60;return m+':'+(sec<10?'0':'')+sec}
-
-// RENDER EPISODE GRID
-function renderGrid(){
-  const g=document.getElementById('epsGrid');
-  g.innerHTML=DEBATES.map(d=>`
-    <div class="ep-card${d.id===curId?' now':''}" onclick="loadEp(${d.id})" id="epcard-${d.id}">
-      <div class="ep-art" style="background:${d.art}">
-        <span>${d.emoji}</span>
-        <div class="ep-art-num">${d.ep}</div>
-        <div class="ep-art-btn">${d.id===curId&&isPlaying?'⏸':'▶'}</div>
-      </div>
-      <div class="ep-body">
-        <div class="ep-tags">${d.tags.map(t=>`<span class="et ${t.c}">${t.t}</span>`).join('')}</div>
-        <div class="ep-title">${d.title}</div>
-        <div class="ep-meta"><span>🕒 ${d.duration}</span><span>📅 ${d.date}</span></div>
-        <div class="ep-bar-row">
-          <span style="color:var(--bl);font-weight:700">A: ${d.pctA}%</span>
-          <span style="color:var(--or);font-weight:700">${d.pctB}% :B</span>
-        </div>
-        <div class="ep-track"><div class="ep-fill" id="efill-${d.id}" style="width:0%"></div></div>
-      </div>
-    </div>`).join('');
-  setTimeout(()=>{
-    DEBATES.forEach(d=>{
-      const el=document.getElementById('efill-'+d.id);
-      if(el)el.style.width=d.pctA+'%';
-    });
-  },300);
-}
-
-// LOAD EPISODE INTO PLAYER
-function loadEp(id){
-
-    curId = id;
-
-    const d = DEBATES.find(x => x.id === id);
-
-    if(!d) return;
-
-    // Stop current audio and load new episode
-    audioPlayer.pause();
-    audioPlayer.src = d.audio;
-    audioPlayer.load();
-
-    // Reset player UI
-    isPlaying = false;
-
-    document.getElementById('playBtn').textContent = '▶';
-    document.getElementById('curTime').textContent = '0:00';
-    document.getElementById('progFill').style.width = '0%';
-
-    document.getElementById('miniEq').classList.add('paused');
-    document.getElementById('heroEq').classList.add('paused');
-
-    // Episode card
-    document.getElementById('pcArt').style.background = d.art;
-    document.getElementById('pcEmoji').textContent = d.emoji;
-    document.getElementById('pcBadge').textContent = d.ep;
-    document.getElementById('pcTags').innerHTML =
-        d.tags.map(t => `<span class="pct ${t.c}">${t.t}</span>`).join('');
-
-    document.getElementById('pcTitle').textContent = d.title;
-    document.getElementById('pcDesc').textContent = d.desc;
-    document.getElementById('pcDur').textContent = d.duration;
-    document.getElementById('pcDate').textContent = d.date;
-    document.getElementById('pcVotes').textContent =
-        d.totalVotes.toLocaleString();
-
-    document.getElementById('pcNow').textContent =
-        d.ep + ' — ' + d.title.substring(0,40) + '...';
-
-    // Debate section
-    document.getElementById('debQ').textContent =
-        '"' + d.question + '"';
-
-    document.getElementById('sideATxt').textContent = d.sideA;
-    document.getElementById('sideBTxt').textContent = d.sideB;
-
-    document.getElementById('barA').textContent =
-        'Side A — ' + d.pctA + '%';
-
-    document.getElementById('barB').textContent =
-        d.pctB + '% — Side B';
-
-    document.getElementById('barFill').style.width = '0%';
-
-    document.getElementById('debVct').textContent =
-        d.totalVotes.toLocaleString() + ' votes cast';
-
-    document.getElementById('barNote').textContent =
-        d.totalVotes.toLocaleString() +
-        ' listeners have voted · Listen & decide for yourself';
-
-    document.getElementById('dlBtn').href = d.audio;
-
-    setTimeout(() => {
-        document.getElementById('barFill').style.width = d.pctA + '%';
-    }, 200);
-
-    renderGrid();
-}
-function togglePlay(){
-
-    if(audioPlayer.paused){
-
-        audioPlayer.play();
-        isPlaying=true;
-
-        document.getElementById('playBtn').textContent='⏸';
-        document.getElementById('miniEq').classList.remove('paused');
-        document.getElementById('heroEq').classList.remove('paused');
-
-    }else{
-
-        audioPlayer.pause();
-        isPlaying=false;
-
-        document.getElementById('playBtn').textContent='▶';
-        document.getElementById('miniEq').classList.add('paused');
-        document.getElementById('heroEq').classList.add('paused');
-
-    }
-
-    renderGrid();
-}
-function setVol(v){
-
-  audioPlayer.volume=v/100;
-
-}
-function toggleMute(){
-
-  audioPlayer.muted=!audioPlayer.muted;
-
-  document.querySelector('.vol-icon').textContent=
-      audioPlayer.muted?'🔇':'🔊';
-
-}
-
-function prevEp(){const i=DEBATES.findIndex(x=>x.id===curId);if(i>0)loadEp(DEBATES[i-1].id)}
-function nextEp(){const i=DEBATES.findIndex(x=>x.id===curId);if(i<DEBATES.length-1)loadEp(DEBATES[i+1].id)}
-
-document.getElementById('progTrack')
-.addEventListener('click',function(e){
-
-  const rect=this.getBoundingClientRect();
-
-  const ratio=
-      (e.clientX-rect.left)/rect.width;
-
-  audioPlayer.currentTime=
-      ratio*audioPlayer.duration;
-
-});
-document.querySelectorAll('.spd').forEach(btn=>{
-  btn.addEventListener('click',function(){
-    speed=parseFloat(this.dataset.s);
-    document.querySelectorAll('.spd').forEach(b=>b.classList.remove('on'));
-    this.classList.add('on');
-    audioPlayer.playbackRate=speed;
-  });
-});
-
-// TOTAL VOTES COUNTER
-function animCount(id,target){
-  const el=document.getElementById(id);
-  const t0=performance.now();
-  const dur=1400;
-  function tick(now){
-    const p=Math.min((now-t0)/dur,1);
-    const e=1-Math.pow(1-p,3);
-    el.textContent=Math.round(target*e).toLocaleString();
-    if(p<1)requestAnimationFrame(tick);
-    else el.textContent=target.toLocaleString();
+// ════════════════════════════════════════════════════════════
+//  UTILITY: Convert Google Drive sharing URL → direct stream URL
+//  Input:  https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+//  Output: https://drive.google.com/uc?export=download&id=FILE_ID
+// ════════════════════════════════════════════════════════════
+function driveToStream(sharingUrl) {
+  if (!sharingUrl) return "";
+  const match = sharingUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (match && match[1]) {
+    return "https://drive.google.com/uc?export=download&id=" + match[1];
   }
-  requestAnimationFrame(tick);
+  return sharingUrl; // already a direct URL or unknown format
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  const tv=DEBATES.reduce((s,d)=>s+d.totalVotes,0);
-  animCount('totalVotesH',tv);
+// Fallback URL format (used if primary fails)
+function driveFallback(sharingUrl) {
+  if (!sharingUrl) return "";
+  const match = sharingUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (match && match[1]) {
+    return "https://docs.google.com/uc?export=open&id=" + match[1];
+  }
+  return "";
+}
+
+// ════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════
+const audio   = document.getElementById('mainAudio');
+const playBtn = document.getElementById('playBtn');
+const progFill  = document.getElementById('progFill');
+const progBuf   = document.getElementById('progBuf');
+const progThumb = document.getElementById('progThumb');
+const curTimeEl = document.getElementById('curTime');
+const totTimeEl = document.getElementById('totTime');
+const miniEq    = document.getElementById('miniEq');
+const heroEq    = document.getElementById('heroEq');
+
+let curId   = 1;
+let isMuted = false;
+let retried = false; // whether we've tried fallback URL
+
+// ════════════════════════════════════════════════════════════
+//  FORMAT SECONDS → "m:ss"
+// ════════════════════════════════════════════════════════════
+function fmtT(s) {
+  if (!isFinite(s) || s < 0) return "–:––";
+  s = Math.floor(s);
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + ":" + (sec < 10 ? "0" : "") + sec;
+}
+
+// ════════════════════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3400);
+}
+
+// ════════════════════════════════════════════════════════════
+//  REAL HTML5 AUDIO EVENTS
+// ════════════════════════════════════════════════════════════
+
+// Fires ~4× per second while playing — updates progress bar and timer
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  progFill.style.width  = pct + '%';
+  progThumb.style.left  = pct + '%';
+  curTimeEl.textContent = fmtT(audio.currentTime);
+});
+
+// Fires once real duration is known — update total time display
+audio.addEventListener('loadedmetadata', () => {
+  totTimeEl.textContent = fmtT(audio.duration);
+  document.getElementById('pcDuration').textContent = fmtT(audio.duration);
+});
+
+// Fires as browser downloads more of the file — update buffer bar
+audio.addEventListener('progress', () => {
+  if (audio.duration && audio.buffered.length > 0) {
+    const bufEnd = audio.buffered.end(audio.buffered.length - 1);
+    progBuf.style.width = ((bufEnd / audio.duration) * 100) + '%';
+  }
+});
+
+// Audio is stalled waiting for data — show loading spinner
+audio.addEventListener('waiting', () => {
+  playBtn.textContent = '⌛';
+  playBtn.classList.add('loading');
+});
+
+// Audio resumes playing after buffer/stall
+audio.addEventListener('playing', () => {
+  playBtn.textContent = '⏸';
+  playBtn.classList.remove('loading');
+  miniEq.classList.remove('idle');
+  heroEq.classList.remove('idle');
   renderGrid();
-  // Animate first bar on load
-  setTimeout(()=>document.getElementById('barFill').style.width='62%',400);
-  // Idle eq in hero
-  document.getElementById('heroEq').classList.add('paused');
-});
-  audioPlayer.addEventListener("loadedmetadata",()=>{
-
-  document.getElementById("totTime").textContent=
-      fmtT(audioPlayer.duration);
-
 });
 
-audioPlayer.addEventListener("timeupdate",()=>{
-
-  document.getElementById("curTime").textContent=
-      fmtT(audioPlayer.currentTime);
-
-  const pct=
-      (audioPlayer.currentTime/audioPlayer.duration)*100;
-
-  document.getElementById("progFill").style.width=
-      pct+"%";
-
+// Audio was paused
+audio.addEventListener('pause', () => {
+  playBtn.textContent = '▶';
+  playBtn.classList.remove('loading');
+  miniEq.classList.add('idle');
+  heroEq.classList.add('idle');
+  renderGrid();
 });
 
-audioPlayer.addEventListener("ended",()=>{
+// Audio finished playing — reset to start
+audio.addEventListener('ended', () => {
+  playBtn.textContent = '▶';
+  playBtn.classList.remove('loading');
+  miniEq.classList.add('idle');
+  heroEq.classList.add('idle');
+  audio.currentTime = 0;
+  progFill.style.width  = '0%';
+  progThumb.style.left  = '0%';
+  progBuf.style.width   = '0%';
+  curTimeEl.textContent = '0:00';
+  renderGrid();
+});
 
-  isPlaying=false;
+// Audio failed to load — try fallback URL, then show error
+audio.addEventListener('error', () => {
+  const d = DEBATES.find(x => x.id === curId);
+  if (!retried && d && d.driveUrl) {
+    retried = true;
+    const fallback = driveFallback(d.driveUrl);
+    if (fallback) {
+      audio.src = fallback;
+      audio.load();
+      audio.play().catch(() => {});
+      return;
+    }
+  }
+  playBtn.textContent = '▶';
+  playBtn.classList.remove('loading');
+  showToast("⚠️ Could not load audio. Make sure your Drive file is shared as 'Anyone with the link'.");
+});
 
-  document.getElementById('playBtn').textContent='▶';
+// ════════════════════════════════════════════════════════════
+//  PLAY / PAUSE TOGGLE
+// ════════════════════════════════════════════════════════════
+function togglePlay() {
+  const d = DEBATES.find(x => x.id === curId);
 
-  document.getElementById('miniEq').classList.add('paused');
+  // Episode has no audio file yet
+  if (!d || !d.driveUrl) {
+    showToast("🎙️ Audio coming soon for this episode!");
+    return;
+  }
 
-  document.getElementById('heroEq').classList.add('paused');
+  // Audio src not yet set — load it
+  if (!audio.src || audio.src === window.location.href || audio.src === '') {
+    retried = false;
+    audio.src = driveToStream(d.driveUrl);
+    audio.load();
+  }
 
+  if (audio.paused) {
+    playBtn.textContent = '⌛';
+    playBtn.classList.add('loading');
+    audio.play().catch(err => {
+      playBtn.textContent = '▶';
+      playBtn.classList.remove('loading');
+      showToast("⚠️ Playback blocked. Tap the play button once more.");
+      console.warn("play() error:", err);
+    });
+  } else {
+    audio.pause();
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  SKIP ± SECONDS
+// ════════════════════════════════════════════════════════════
+function skip(seconds) {
+  if (!audio.duration) { showToast("▶ Press play first."); return; }
+  audio.currentTime = Math.max(0, Math.min(audio.currentTime + seconds, audio.duration));
+}
+
+// ════════════════════════════════════════════════════════════
+//  SEEK — click anywhere on progress bar
+// ════════════════════════════════════════════════════════════
+document.getElementById('progTrack').addEventListener('click', function(e) {
+  if (!audio.duration) { showToast("▶ Press play first to load the audio."); return; }
+  const rect  = this.getBoundingClientRect();
+  const ratio = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
+  audio.currentTime = ratio * audio.duration;
+});
+
+// Show time tooltip on hover
+document.getElementById('progTrack').addEventListener('mousemove', function(e) {
+  if (!audio.duration) return;
+  const rect  = this.getBoundingClientRect();
+  const ratio = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
+  this.title  = fmtT(ratio * audio.duration);
+});
+
+// ════════════════════════════════════════════════════════════
+//  VOLUME
+// ════════════════════════════════════════════════════════════
+function setVolume(v) {
+  audio.volume = v / 100;
+  isMuted = (v == 0);
+  audio.muted = isMuted;
+  document.getElementById('volIcon').textContent = isMuted ? '🔇' : (v < 50 ? '🔉' : '🔊');
+}
+
+function toggleMute() {
+  isMuted = !isMuted;
+  audio.muted = isMuted;
+  const sl = document.getElementById('volSlider');
+  document.getElementById('volIcon').textContent = isMuted ? '🔇' : '🔊';
+  sl.value = isMuted ? 0 : 85;
+}
+
+// ════════════════════════════════════════════════════════════
+//  PLAYBACK SPEED
+// ════════════════════════════════════════════════════════════
+function setSpeed(s) {
+  audio.playbackRate = s;
+  document.querySelectorAll('.spd').forEach(b => {
+    b.classList.toggle('on', parseFloat(b.dataset.s) === s);
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+//  LOAD EPISODE INTO PLAYER
+// ════════════════════════════════════════════════════════════
+function loadEp(id) {
+  const d = DEBATES.find(x => x.id === id);
+  if (!d) return;
+
+  // Pause + reset current audio completely
+  audio.pause();
+  audio.src = "";
+  retried = false;
+
+  // Reset all progress visuals
+  progFill.style.width  = '0%';
+  progThumb.style.left  = '0%';
+  progBuf.style.width   = '0%';
+  curTimeEl.textContent = '0:00';
+  totTimeEl.textContent = d.duration; // show estimated until metadata loads
+  playBtn.textContent   = '▶';
+  playBtn.classList.remove('loading');
+  miniEq.classList.add('idle');
+  heroEq.classList.add('idle');
+
+  // Set current episode
+  curId = id;
+
+  // Update artwork
+  document.getElementById('pcArt').style.background = d.art;
+  document.getElementById('pcEmoji').textContent     = d.emoji;
+  document.getElementById('pcBadge').textContent     = d.ep;
+
+  // Update info panel
+  document.getElementById('pcTags').innerHTML =
+    d.tags.map(t => `<span class="pct ${t.c}">${t.t}</span>`).join('');
+  document.getElementById('pcTitle').textContent    = d.title;
+  document.getElementById('pcDesc').textContent     = d.desc;
+  document.getElementById('pcDuration').textContent = d.duration;
+  document.getElementById('pcDate').textContent     = d.date;
+  document.getElementById('pcVotes').textContent    = d.totalVotes.toLocaleString();
+  document.getElementById('pcNowTxt').textContent   = d.ep + " — " + d.title;
+
+  // Update debate section
+  document.getElementById('debQuestion').textContent  = '"' + d.question + '"';
+  document.getElementById('sideATxt').textContent     = d.sideA;
+  document.getElementById('sideBTxt').textContent     = d.sideB;
+  document.getElementById('voteA').textContent        = 'Side A — ' + d.pctA + '%';
+  document.getElementById('voteB').textContent        = d.pctB + '% — Side B';
+  document.getElementById('debVotesCount').textContent = d.totalVotes.toLocaleString() + ' votes cast';
+  document.getElementById('voteNote').textContent     =
+    d.totalVotes.toLocaleString() + ' listeners voted · Listen and decide for yourself';
+
+  // Animate vote bar
+  document.getElementById('voteFill').style.width = '0%';
+  setTimeout(() => {
+    document.getElementById('voteFill').style.width = d.pctA + '%';
+  }, 200);
+
+  // Update download link
+  document.getElementById('dlBtn').href = d.driveUrl || '#';
+
+  // Load audio and attempt to play
+  if (d.driveUrl) {
+    audio.src = driveToStream(d.driveUrl);
+    audio.load();
+    // Attempt autoplay (may be blocked on first interaction — that's fine)
+    audio.play().catch(() => {
+      showToast("🎙️ Episode loaded! Press ▶ to start listening.");
+    });
+  } else {
+    showToast("🎙️ Audio coming soon for this episode!");
+  }
+
+  // Re-render grid + scroll player into view
+  renderGrid();
+  document.querySelector('.player-sec').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ════════════════════════════════════════════════════════════
+//  PREV / NEXT EPISODE
+// ════════════════════════════════════════════════════════════
+function prevEp() {
+  const idx = DEBATES.findIndex(x => x.id === curId);
+  if (idx > 0) loadEp(DEBATES[idx - 1].id);
+  else showToast("⏮ You're already on the first episode.");
+}
+
+function nextEp() {
+  const idx = DEBATES.findIndex(x => x.id === curId);
+  if (idx < DEBATES.length - 1) loadEp(DEBATES[idx + 1].id);
+  else showToast("⏭ You're on the last episode.");
+}
+
+// ════════════════════════════════════════════════════════════
+//  RENDER EPISODE GRID CARDS
+// ════════════════════════════════════════════════════════════
+function renderGrid() {
+  const grid         = document.getElementById('epsGrid');
+  const isAudioLive  = !audio.paused && !!audio.src;
+
+  grid.innerHTML = DEBATES.map(d => {
+    const isActive  = (d.id === curId);
+    const hasAudio  = !!d.driveUrl;
+    const playIcon  = (isActive && isAudioLive) ? '⏸' : (hasAudio ? '▶' : '🔒');
+    const cardClass = [
+      'ep-card',
+      isActive  ? 'now-playing' : '',
+      !hasAudio ? 'no-audio'    : ''
+    ].filter(Boolean).join(' ');
+    const clickAttr = hasAudio ? `onclick="loadEp(${d.id})"` : '';
+
+    return `
+      <div class="${cardClass}" ${clickAttr} id="epcard-${d.id}">
+        <div class="ep-art" style="background:${d.art}">
+          <span>${d.emoji}</span>
+          <div class="ep-art-num">${d.ep}</div>
+          <div class="ep-art-btn">${playIcon}</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-tags">${d.tags.map(t => `<span class="et ${t.c}">${t.t}</span>`).join('')}</div>
+          <div class="ep-title">${d.title}</div>
+          <div class="ep-meta-row">
+            <span>🕒 ${d.duration}</span>
+            <span>📅 ${d.date}</span>
+            <span>🗳️ ${d.totalVotes.toLocaleString()} votes</span>
+          </div>
+          <div class="ep-vote-row">
+            <span>A: ${d.pctA}%</span>
+            <span>${d.pctB}% :B</span>
+          </div>
+          <div class="ep-track">
+            <div class="ep-fill" id="ef-${d.id}" style="width:0%"></div>
+          </div>
+          ${!hasAudio ? '<div class="ep-coming">Audio coming soon</div>' : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  // Animate vote bars after a short delay
+  setTimeout(() => {
+    DEBATES.forEach(d => {
+      const el = document.getElementById('ef-' + d.id);
+      if (el) el.style.width = d.pctA + '%';
+    });
+  }, 280);
+}
+
+// ════════════════════════════════════════════════════════════
+//  INITIALISE PAGE
+// ════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Set initial volume on audio element
+  audio.volume = 0.85;
+
+  // Render the episode grid
+  renderGrid();
+
+  // Animate the main player debate vote bar on load
+  setTimeout(() => {
+    document.getElementById('voteFill').style.width = '62%';
+  }, 400);
+
+  // Equalisers start in idle (non-animated) state
+  heroEq.classList.add('idle');
+  miniEq.classList.add('idle');
+
+  // Compute and display total votes
+  const total = DEBATES.reduce((sum, d) => sum + d.totalVotes, 0);
+  document.getElementById('totalVotesEl').textContent = total.toLocaleString();
 });
 </script>
 </body>
