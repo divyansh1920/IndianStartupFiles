@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Zepto Files — Indian Startup Files</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFDF7;--w:#fff;
+  --z:#FFD600;--z-lt:#FFFDE7;--z-md:#FFE57F;--z-dk:#8A6D00;
+  --navy:#0A0E2E;--navy2:#141833;--navy-lt:rgba(255,255,255,0.06);
+  --green:#059669;--gr-lt:#ECFDF5;--gr-md:#A7F3D0;
+  --blue:#1D4ED8;--bl-lt:#EFF6FF;
+  --or:#FF4500;--or-lt:#FFF0EB;--or-md:#FFD4C2;
+  --re:#DC2626;--re-lt:#FEF2F2;
+  --t1:#0F0F0F;--t2:#374151;--t3:#6B7280;--t4:#9CA3AF;
+  --bd:#E5E7EB;--bd2:#F3F4F6;
+  --sh:0 2px 8px rgba(0,0,0,0.07);
+  --sh2:0 8px 32px rgba(0,0,0,0.10);
+  --r:12px;--rl:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.8}
+
+/* ── PROGRESS BAR ── */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--z);width:0%;z-index:9999;transition:width .1s linear;box-shadow:0 0 8px rgba(255,214,0,0.6)}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;background:rgba(255,253,247,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:0 5%}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-ic{width:34px;height:34px;background:var(--or);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-tx{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--t1)}
+.logo-tx span{color:var(--or)}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--t2);font-size:14px;font-weight:500;transition:color .18s}
+.nav-links a:hover{color:var(--or)}
+.nav-cta{background:var(--or)!important;color:#fff!important;padding:8px 20px;border-radius:8px;font-weight:600!important}
+
+/* ── HERO — DARK NAVY ── */
+.hero{background:var(--navy);padding:0;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;top:-200px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,0,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-50px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,0,.05) 0%,transparent 70%);pointer-events:none}
+.hero-in{max-width:1200px;margin:0 auto;padding:64px 5%;display:grid;grid-template-columns:1fr 340px;gap:60px;align-items:center;position:relative;z-index:1}
+.h-bc{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:18px;display:flex;align-items:center;gap:6px}
+.h-bc a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .18s}
+.h-bc a:hover{color:var(--z)}
+.h-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.ht{display:inline-flex;align-items:center;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.ht-yellow{background:var(--z);color:var(--navy)}
+.ht-green{background:rgba(5,150,105,.25);color:#34D399;border:1px solid rgba(52,211,153,.3)}
+.ht-white{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.h-title{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;line-height:1.1;letter-spacing:-1.5px;color:#fff;margin-bottom:16px}
+.h-title .accent{color:var(--z)}
+.h-deck{font-size:16px;color:rgba(255,255,255,.65);line-height:1.72;max-width:480px;margin-bottom:28px}
+.h-meta{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:22px}
+.hm{display:flex;align-items:center;gap:5px;font-size:13px;color:rgba(255,255,255,.5)}
+.hm strong{color:rgba(255,255,255,.85)}
+.h-share{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.h-share-lbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.sbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:transform .18s,opacity .18s}
+.sbtn:hover{transform:translateY(-1px);opacity:.9}
+.sbtn-wa{background:#25D366;color:#fff}
+.sbtn-tw{background:#1DA1F2;color:#fff}
+.sbtn-cp{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+
+/* HERO CLOCK */
+.hero-clock-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.clock-ring{position:relative;width:220px;height:220px}
+.clock-circle{width:220px;height:220px;border-radius:50%;border:3px solid rgba(255,214,0,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;animation:cPulse 2.8s ease-in-out infinite}
+.clock-circle::before{content:'';position:absolute;inset:10px;border-radius:50%;border:1px dashed rgba(255,214,0,.15)}
+@keyframes cPulse{0%,100%{box-shadow:0 0 28px rgba(255,214,0,.2),0 0 0 0 rgba(255,214,0,.1)}50%{box-shadow:0 0 52px rgba(255,214,0,.4),0 0 0 12px rgba(255,214,0,0)}}
+.clock-num{font-family:'Space Grotesk',sans-serif;font-size:86px;font-weight:700;color:var(--z);line-height:1;transition:all .4s ease}
+.clock-unit{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px}
+.clock-ring-svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.clock-ring-bg{fill:none;stroke:rgba(255,214,0,.1);stroke-width:4}
+.clock-ring-fill{fill:none;stroke:var(--z);stroke-width:4;stroke-linecap:round;stroke-dasharray:628;stroke-dashoffset:628;transition:stroke-dashoffset 1s linear}
+.clock-label{font-size:13px;color:rgba(255,255,255,.45);text-align:center;letter-spacing:.5px}
+.clock-label strong{color:var(--z)}
+
+/* ── ARTICLE LAYOUT ── */
+.art-wrap{max-width:1200px;margin:0 auto;padding:48px 5% 64px;display:grid;grid-template-columns:1fr 268px;gap:48px;align-items:start}
+.art-body{min-width:0}
+.art-sidebar{position:sticky;top:84px}
+
+/* ── STARTUP BRIEF ── */
+.brief-card{background:var(--navy);border-radius:var(--rl);overflow:hidden;margin-bottom:36px;color:#fff}
+.brief-top{background:rgba(255,214,0,.12);border-bottom:1px solid rgba(255,214,0,.15);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brief-top-l{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--z)}
+.brief-badge{display:flex;align-items:center;gap:6px;background:rgba(5,150,105,.2);color:#34D399;font-size:11px;font-weight:700;padding:4px 12px;border-radius:50px;border:1px solid rgba(52,211,153,.3)}
+.brief-dot{width:7px;height:7px;background:#34D399;border-radius:50%;animation:bdot 1.5s ease-in-out infinite}
+@keyframes bdot{0%,100%{opacity:1}50%{opacity:.3}}
+.brief-grid{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(255,255,255,.06)}
+.brief-cell{padding:16px 20px;border-right:1px solid rgba(255,255,255,.06)}
+.brief-cell:last-child{border-right:none}
+.bc-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:5px}
+.bc-val{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff;line-height:1.4}
+.bc-val.yellow{color:var(--z)}
+.brief-stats{display:grid;grid-template-columns:repeat(4,1fr)}
+.bs-cell{padding:16px 20px;border-right:1px solid rgba(255,255,255,.06);border-top:1px solid rgba(255,255,255,.06)}
+.bs-cell:last-child{border-right:none}
+.bs-num{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--z);margin-bottom:3px}
+.bs-label{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.3px}
+.brief-quote{padding:16px 24px;border-top:1px solid rgba(255,255,255,.06);font-size:13.5px;color:rgba(255,255,255,.5);font-style:italic;line-height:1.6}
+.brief-quote span{color:var(--z);font-style:normal;font-weight:600}
+
+/* ── ARTICLE PROSE ── */
+.art-intro{font-size:18.5px;line-height:1.85;color:var(--t2);margin-bottom:40px;padding-bottom:40px;border-bottom:2px solid var(--z-lt)}
+.art-p{font-size:17px;color:var(--t2);line-height:1.85;margin-bottom:18px}
+.art-p strong{color:var(--t1);font-weight:600}
+.art-p .z-highlight{background:var(--z-lt);color:var(--z-dk);padding:0 4px;border-radius:3px;font-weight:600}
+
+/* ── CHAPTER MARKER (Zepto style — yellow flag) ── */
+.chapter{margin-bottom:8px}
+.ch-flag{display:inline-flex;align-items:center;gap:8px;background:var(--z);color:var(--navy);font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:5px 14px 5px 12px;border-radius:4px;margin-bottom:10px}
+.ch-flag::before{content:'⚡';font-size:12px}
+.ch-h{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--t1);letter-spacing:-.4px;line-height:1.2;margin-bottom:18px}
+
+/* ── FOUNDER CARDS ── */
+.founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 32px}
+.fc{background:var(--navy);border-radius:var(--r);padding:24px;color:#fff;position:relative;overflow:hidden}
+.fc::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,214,0,.06)}
+.fc-avatar{width:56px;height:56px;border-radius:50%;background:var(--z);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:14px}
+.fc-name{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:3px}
+.fc-role{font-size:11.5px;color:var(--z);font-weight:600;letter-spacing:.5px;margin-bottom:10px}
+.fc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.fctag{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:10px;font-weight:600;padding:3px 9px;border-radius:50px;letter-spacing:.3px}
+.fc-quote{font-size:13px;color:rgba(255,255,255,.55);font-style:italic;line-height:1.6;border-left:2px solid var(--z);padding-left:12px}
+
+/* ── PROCESS FLOW (How 10-min works) ── */
+.process-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+.process-flow{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr;gap:0;align-items:center;margin:4px 0 32px}
+.pf-step{background:var(--w);border:2px solid var(--bd);border-radius:var(--r);padding:16px;transition:border-color .2s,transform .2s}
+.pf-step:hover{border-color:var(--z);transform:translateY(-2px)}
+.pf-step.last{border-color:var(--z);background:var(--z-lt)}
+.pf-icon{font-size:28px;margin-bottom:8px}
+.pf-time{display:inline-block;background:var(--navy);color:var(--z);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;margin-bottom:7px;letter-spacing:.5px}
+.pf-step.last .pf-time{background:var(--z);color:var(--navy)}
+.pf-ttl{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.pf-desc{font-size:11.5px;color:var(--t3);line-height:1.5}
+.pf-arr{text-align:center;color:var(--z);font-size:20px;font-weight:700}
+
+/* ── DARK NAVY BREAK SECTION ── */
+.navy-break{background:var(--navy);margin:44px -5%;padding:48px 5%;position:relative;overflow:hidden}
+.navy-break::before{content:'';position:absolute;top:-60px;right:5%;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,0,.08),transparent 70%)}
+.nb-in{max-width:760px;margin:0 auto;text-align:center}
+.nb-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,214,0,.5);margin-bottom:12px}
+.nb-quote{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#fff;line-height:1.35;letter-spacing:-.3px}
+.nb-quote .zhl{color:var(--z)}
+.nb-attr{font-size:13px;color:rgba(255,255,255,.35);margin-top:16px}
+
+/* ── FUNDING JOURNEY ── */
+.fund-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.fund-track{position:relative;padding:0 0 0 0;margin-bottom:40px}
+.fund-line{position:absolute;top:28px;left:40px;right:40px;height:3px;background:var(--bd2);border-radius:2px}
+.fund-fill-bar{position:absolute;top:28px;left:40px;height:3px;background:linear-gradient(90deg,rgba(255,214,0,.4),var(--z));border-radius:2px;width:0%;transition:width 1.5s ease}
+.fund-row{display:flex;justify-content:space-between;position:relative;z-index:1}
+.fund-dot-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:default}
+.fund-dot{width:20px;height:20px;border-radius:50%;border:3px solid var(--bd);background:var(--w);transition:all .3s;flex-shrink:0}
+.fund-dot.active{border-color:var(--z);background:var(--z);box-shadow:0 0 0 4px rgba(255,214,0,.2)}
+.fund-amount{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--t1)}
+.fund-val{font-size:11px;color:var(--green);font-weight:600}
+.fund-date{font-size:10.5px;color:var(--t4)}
+.fund-round{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3)}
+
+/* ── COMPETITION GRID ── */
+.comp-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+.comp-table{border-radius:var(--r);overflow:hidden;border:1px solid var(--bd);margin-bottom:36px;font-size:13.5px}
+.ct-header{display:grid;grid-template-columns:180px 1fr 1fr 1fr;background:var(--navy)}
+.ct-col-h{padding:14px 16px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.5);text-align:center}
+.ct-col-h.zepto{color:var(--z);background:rgba(255,214,0,.08)}
+.ct-row{display:grid;grid-template-columns:180px 1fr 1fr 1fr;border-top:1px solid var(--bd)}
+.ct-row:nth-child(even){background:var(--bd2)}
+.ct-feat{padding:13px 16px;font-size:13px;font-weight:600;color:var(--t2)}
+.ct-val{padding:13px 16px;text-align:center;font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center;gap:4px}
+.ct-val.win{color:var(--z-dk);font-weight:700;background:var(--z-lt)}
+.ct-val.win::after{content:'✓';font-size:11px;color:var(--green)}
+
+/* ── ANIMATED STAT COUNTERS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 36px}
+.stat-box{background:var(--navy);border-radius:var(--r);padding:20px;text-align:center;transition:transform .2s}
+.stat-box:hover{transform:translateY(-3px)}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;color:var(--z);margin-bottom:4px}
+.stat-lbl{font-size:12px;color:rgba(255,255,255,.4);letter-spacing:.3px}
+
+/* ── SPEED LESSONS (different from Byju's) ── */
+.lessons-wrap{display:flex;flex-direction:column;gap:2px;margin-top:8px}
+.lesson-strip{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;background:var(--w);border:1px solid var(--bd);border-radius:0;transition:background .18s,border-color .18s;cursor:default}
+.lesson-strip:first-child{border-radius:var(--r) var(--r) 0 0}
+.lesson-strip:last-child{border-radius:0 0 var(--r) var(--r)}
+.lesson-strip:hover{background:var(--z-lt);border-color:var(--z-md)}
+.ls-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:800;color:var(--z-dk);background:var(--z);padding:4px 9px;border-radius:4px;flex-shrink:0;letter-spacing:.5px;margin-top:2px}
+.ls-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.ls-desc{font-size:13px;color:var(--t2);line-height:1.6}
+
+/* ── DEBATE CARD ── */
+.debate-card{background:var(--w);border:2px solid var(--z-md);border-radius:var(--rl);padding:28px;margin:36px 0;box-shadow:var(--sh)}
+.dc-label{display:inline-flex;align-items:center;gap:6px;background:var(--z-lt);color:var(--z-dk);font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:50px;margin-bottom:14px;border:1px solid var(--z-md)}
+.dc-q{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--t1);margin-bottom:20px;line-height:1.35}
+.dc-sides{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.dc-side{padding:14px;border-radius:10px;border:2px solid transparent}
+.dc-a{background:var(--gr-lt);border-color:var(--gr-md)}
+.dc-b{background:var(--re-lt);border-color:#FCA5A5}
+.dc-sl{font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.dc-a .dc-sl{color:var(--green)}
+.dc-b .dc-sl{color:var(--re)}
+.dc-st{font-size:12.5px;font-weight:600;color:var(--t1);line-height:1.42}
+.dc-bar-row{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px}
+.dc-bar-row span:first-child{color:var(--green)}
+.dc-bar-row span:last-child{color:var(--re)}
+.dc-track{height:7px;background:var(--bd2);border-radius:50px;overflow:hidden}
+.dc-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--green),var(--re));transition:width 1.2s ease;width:0%}
+.dc-note{font-size:11.5px;color:var(--t3);text-align:center;margin-top:7px}
+
+/* ── ART DIVIDER (different style) ── */
+.z-divider{height:2px;background:linear-gradient(90deg,transparent,var(--z),transparent);margin:40px 0;border:none}
+
+/* ── SIDEBAR ── */
+.score-card{background:var(--navy);border-radius:var(--r);padding:20px;margin-bottom:18px;color:#fff}
+.sc-title{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
+.sc-verdict{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--z);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.sc-desc{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.65}
+.sc-stats{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.sc-row{display:flex;justify-content:space-between;font-size:12.5px}
+.sc-row span{color:rgba(255,255,255,.4)}
+.sc-row strong{color:var(--z);font-family:'Space Grotesk',sans-serif}
+
+.toc-card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:18px}
+.toc-h{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bd2)}
+.toc-links{display:flex;flex-direction:column;gap:2px}
+.tl{font-size:13px;color:var(--t3);text-decoration:none;padding:6px 10px;border-radius:6px;border-left:2px solid transparent;transition:all .18s;line-height:1.4;display:block}
+.tl:hover,.tl.on{color:var(--z-dk);border-left-color:var(--z);background:var(--z-lt);padding-left:14px;font-weight:600}
+
+.like-card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px;text-align:center}
+.lc-h{font-size:13px;color:var(--t3);margin-bottom:12px}
+.lbtn{display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 16px;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:700;cursor:pointer;border:2px solid var(--z);background:transparent;color:var(--z-dk);width:100%;margin-bottom:7px;transition:all .2s}
+.lbtn:hover,.lbtn.liked{background:var(--z);color:var(--navy)}
+.dbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:transparent;color:var(--t3);width:100%;transition:all .2s}
+.dbtn:hover{border-color:var(--re);color:var(--re)}
+
+/* ── RELATED ── */
+.related-sec{background:var(--z-lt);border-top:2px solid var(--z-md);padding:48px 5%}
+.rel-in{max-width:1200px;margin:0 auto}
+.rel-h{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--t1);margin-bottom:22px;letter-spacing:-.3px}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rel-card{background:var(--w);border-radius:var(--r);border:1px solid var(--bd);padding:18px;text-decoration:none;display:block;transition:transform .2s,box-shadow .2s}
+.rel-card:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.rel-art{height:72px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.rel-cat{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--or);margin-bottom:5px}
+.rel-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1);line-height:1.3;margin-bottom:5px}
+.rel-meta{font-size:11.5px;color:var(--t3)}
+
+/* ── FOOTER ── */
+.footer{background:#0F0F0F;padding:56px 5% 28px;color:#fff}
+.footer-in{max-width:1200px;margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:44px}
+.ft-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.ft-logo span{color:var(--or)}
+.ft-desc{font-size:13px;color:#9CA3AF;margin-top:11px;line-height:1.72;max-width:250px}
+.ft-ch{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#6B7280;margin-bottom:15px}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-links a{text-decoration:none;color:#D1D5DB;font-size:14px;transition:color .18s}
+.ft-links a:hover{color:var(--or)}
+.ft-div{height:1px;background:#1F2937;margin-bottom:22px}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.ft-bot p{font-size:12.5px;color:#6B7280}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:960px){.hero-in,.art-wrap{grid-template-columns:1fr}.hero-clock-wrap{display:none}.art-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:16px}.founder-grid,.dc-sides,.rel-grid{grid-template-columns:1fr}.stat-grid{grid-template-columns:repeat(2,1fr)}.process-flow{grid-template-columns:1fr;gap:8px}.pf-arr{display:none}.ft-top{grid-template-columns:1fr 1fr}.ct-header,.ct-row{grid-template-columns:130px 1fr 1fr 1fr}}
+@media(max-width:600px){.nav-links li:not(:last-child){display:none}.h-title{font-size:30px}.ch-h{font-size:22px}.stat-grid{grid-template-columns:1fr 1fr}.fund-row{gap:4px}.fund-amount,.fund-val,.fund-round{font-size:10px}.ft-top{grid-template-columns:1fr}.ft-bot{flex-direction:column;text-align:center}.art-sidebar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="index.html" class="logo">
+      <div class="logo-ic">📁</div>
+      <span class="logo-tx">Indian Startup <span>Files</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blogs.html">Case Studies</a></li>
+      <li><a href="debates.html">Debates</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="blogs.html" class="nav-cta">All Files →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- DARK HERO -->
+<div class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="h-bc">
+        <a href="index.html">Home</a><span>›</span>
+        <a href="blogs.html">Case Studies</a><span>›</span>
+        <span>Zepto Files</span>
+      </div>
+      <div class="h-tags">
+        <span class="ht ht-yellow">⚡ Quick Commerce</span>
+        <span class="ht ht-green">🦄 Unicorn</span>
+        <span class="ht ht-white">Success Story</span>
+      </div>
+      <h1 class="h-title">The Zepto Files:<br><span class="accent">How Two 19-Year-Olds</span><br>Rewrote Indian Retail</h1>
+      <p class="h-deck">Stanford dropouts. ₹10 crore seed. 10-minute grocery delivery. The story of Aadit Palicha and Kaivalya Vohra — India's youngest ever unicorn founders, who built a ₹30,000 crore company before their 23rd birthdays.</p>
+      <div class="h-meta">
+        <div class="hm">📅 <strong>February 3, 2025</strong></div>
+        <div class="hm">📖 <strong>9 min</strong> read</div>
+        <div class="hm">👁 <strong>31.2K</strong> views</div>
+        <div class="hm">❤️ <strong>1,423</strong> likes</div>
+      </div>
+      <div class="h-share">
+        <span class="h-share-lbl">Share:</span>
+        <a href="https://wa.me/?text=The%20Zepto%20Files%20—%20Indian%20Startup%20Files" target="_blank" class="sbtn sbtn-wa">💬 WhatsApp</a>
+        <a href="https://twitter.com/intent/tweet?text=The%20Zepto%20Files" target="_blank" class="sbtn sbtn-tw">𝕏 Twitter</a>
+        <button onclick="copyLink()" class="sbtn sbtn-cp" id="cpBtn">🔗 Copy Link</button>
+      </div>
+    </div>
+    <div class="hero-clock-wrap">
+      <div class="clock-ring">
+        <svg class="clock-ring-svg" viewBox="0 0 220 220">
+          <circle class="clock-ring-bg" cx="110" cy="110" r="100"/>
+          <circle class="clock-ring-fill" cx="110" cy="110" r="100" id="clockRingFill"/>
+        </svg>
+        <div class="clock-circle">
+          <div class="clock-num" id="clockNum">10</div>
+          <div class="clock-unit">Minutes</div>
+        </div>
+      </div>
+      <div class="clock-label">Average Zepto delivery time<br><strong>to your door</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="art-wrap" id="artWrap">
+  <div class="art-body" id="article">
+
+    <!-- STARTUP BRIEF -->
+    <div class="brief-card fade-up">
+      <div class="brief-top">
+        <span class="brief-top-l">⚡ Zepto — Startup Brief</span>
+        <div class="brief-badge"><div class="brief-dot"></div>Active &amp; Growing</div>
+      </div>
+      <div class="brief-grid">
+        <div class="brief-cell">
+          <div class="bc-label">Founded</div>
+          <div class="bc-val">2020 · Mumbai</div>
+        </div>
+        <div class="brief-cell">
+          <div class="bc-label">Founders</div>
+          <div class="bc-val">Aadit Palicha<br>Kaivalya Vohra</div>
+        </div>
+        <div class="brief-cell">
+          <div class="bc-label">Sector</div>
+          <div class="bc-val yellow">Quick Commerce</div>
+        </div>
+      </div>
+      <div class="brief-stats">
+        <div class="bs-cell"><div class="bs-num">$5B</div><div class="bs-label">Valuation (2024)</div></div>
+        <div class="bs-cell"><div class="bs-num">350+</div><div class="bs-label">Dark Stores</div></div>
+        <div class="bs-cell"><div class="bs-num">10+</div><div class="bs-label">Cities Live</div></div>
+        <div class="bs-cell"><div class="bs-num">10 min</div><div class="bs-label">Delivery Promise</div></div>
+      </div>
+      <div class="brief-quote">"We're not building a grocery app. We're building <span>India's fastest consumer company</span>." — Aadit Palicha, CEO</div>
+    </div>
+
+    <!-- INTRO -->
+    <p class="art-intro" id="s-intro">In 2020, two Indian teenagers sat in their Stanford dorm rooms, staring at a problem most people had given up on: why does it take 45 minutes to get groceries delivered in India when everything else in the country was getting faster? By 2023, they were billionaires. By 2024, their company was worth $5 billion. This is the story of Zepto — India's most improbable, most exciting, most debated consumer startup.</p>
+
+    <hr class="z-divider">
+
+    <!-- CHAPTER 1 -->
+    <div class="chapter" id="s1">
+      <div class="ch-flag">Chapter 01</div>
+      <h2 class="ch-h">The Dropout Decision: Two Teenagers Leave Stanford</h2>
+    </div>
+    <p class="art-p">Aadit Palicha and Kaivalya Vohra first met as children in Dubai. Both moved to India. Both got into Stanford's Computer Science programme — a feat that puts you in the top 0.1% of applicants globally. And both, in 2020, decided to leave.</p>
+    <p class="art-p">This wasn't impulsive. Palicha had already worked at Goldman Sachs, consulted at McKinsey, and built three startups before he was 18. Vohra had five startups behind him by 17, including an AI company that scraped Wikipedia for insights. They weren't bored students looking for adventure. They were builders who saw a specific, solvable problem.</p>
+
+    <!-- FOUNDER CARDS -->
+    <div class="founder-grid fade-up">
+      <div class="fc">
+        <div class="fc-avatar">A</div>
+        <div class="fc-name">Aadit Palicha</div>
+        <div class="fc-role">Co-Founder &amp; CEO</div>
+        <div class="fc-tags">
+          <span class="fctag">19 at founding</span>
+          <span class="fctag">Stanford CS</span>
+          <span class="fctag">Goldman alum</span>
+        </div>
+        <div class="fc-quote">"Nobody in Silicon Valley believes quick commerce can work in India. That's exactly why we came back."</div>
+      </div>
+      <div class="fc">
+        <div class="fc-avatar">K</div>
+        <div class="fc-name">Kaivalya Vohra</div>
+        <div class="fc-role">Co-Founder &amp; CTO</div>
+        <div class="fc-tags">
+          <span class="fctag">19 at founding</span>
+          <span class="fctag">Stanford CS</span>
+          <span class="fctag">5 startups by 17</span>
+        </div>
+        <div class="fc-quote">"The technology for 10-minute delivery already existed. We just had to actually execute on it, in India, at scale."</div>
+      </div>
+    </div>
+
+    <p class="art-p">Their first company, <strong>KiranaKart</strong>, targeted B2B — supplying inventory to small kirana stores. Within months, they hit a wall. The unit economics didn't work. Margins on wholesale supply to small shops were razor-thin. The pivot they made next would define the next four years.</p>
+    <p class="art-p">They flipped the model entirely: instead of supplying shops, they would <span class="z-highlight">become the shop</span>. But not a regular shop — a dark store, invisible to the public, designed purely for speed.</p>
+
+    <hr class="z-divider">
+
+    <!-- CHAPTER 2 -->
+    <div class="chapter" id="s2">
+      <div class="ch-flag">Chapter 02</div>
+      <h2 class="ch-h">The 10-Minute Formula: How It Actually Works</h2>
+    </div>
+    <p class="art-p">Most people assume 10-minute delivery is physically impossible. It isn't. The math is simple once you change one assumption: <strong>instead of delivering from a distant warehouse, you deliver from a dark store 1–2km away.</strong></p>
+
+    <div class="process-title">The Zepto Delivery Architecture</div>
+    <div class="process-flow fade-up">
+      <div class="pf-step">
+        <div class="pf-icon">📱</div>
+        <div class="pf-time">0:00</div>
+        <div class="pf-ttl">You Order</div>
+        <div class="pf-desc">App routes to nearest dark store. Payment processed in seconds.</div>
+      </div>
+      <div class="pf-arr">→</div>
+      <div class="pf-step">
+        <div class="pf-icon">📦</div>
+        <div class="pf-time">0:90 sec</div>
+        <div class="pf-ttl">Picker Acts</div>
+        <div class="pf-desc">Trained picker grabs your items. ~2,000 SKUs in a small 1,200 sq ft space.</div>
+      </div>
+      <div class="pf-arr">→</div>
+      <div class="pf-step">
+        <div class="pf-icon">🛵</div>
+        <div class="pf-time">~3:00</div>
+        <div class="pf-ttl">Rider Departs</div>
+        <div class="pf-desc">Within 1–2km radius. Zepto's density means short routes.</div>
+      </div>
+      <div class="pf-arr">→</div>
+      <div class="pf-step last">
+        <div class="pf-icon">🏠</div>
+        <div class="pf-time">~9:30</div>
+        <div class="pf-ttl">Delivered ⚡</div>
+        <div class="pf-desc">Average delivery: 8–10 min. Fastest recorded: 4 minutes.</div>
+      </div>
+    </div>
+
+    <p class="art-p">The dark store concept is the secret weapon. Each Zepto dark store carries only <strong>2,000–3,500 SKUs</strong> — the fastest-moving items in that neighbourhood. A Big Bazaar stocks 30,000. A Zepto dark store stocks 10% of that, but those 10% are responsible for 80% of what people actually buy. The long tail lives on Amazon. The everyday essentials live at Zepto.</p>
+    <p class="art-p">First dark store opened in Indiranagar, Bengaluru, in 2021. Today there are over 350 across 10+ Indian cities, each meticulously placed using delivery radius data to ensure no customer is more than 1.5km away.</p>
+
+    <!-- DARK NAVY BREAK -->
+    <div class="navy-break">
+      <div class="nb-in">
+        <div class="nb-label">The Zepto Thesis</div>
+        <div class="nb-quote">"Speed is not a feature. Speed is the <span class="zhl">entire product</span>. The moment you deliver in 45 minutes, you become a supermarket with a delivery option. The moment you deliver in 10 minutes, you become an extension of the customer's kitchen."</div>
+        <div class="nb-attr">— Aadit Palicha, Co-Founder &amp; CEO</div>
+      </div>
+    </div>
+
+    <hr class="z-divider">
+
+    <!-- CHAPTER 3 -->
+    <div class="chapter" id="s3">
+      <div class="ch-flag">Chapter 03</div>
+      <h2 class="ch-h">The Funding Sprint: From ₹10 Crore to $5 Billion</h2>
+    </div>
+    <p class="art-p">The fundraising story of Zepto is almost as impressive as the business itself. In a market that had seen quick commerce attempts fail repeatedly, convincing investors to back another one required something different: real data. And Zepto had it — their first Bengaluru dark store was delivering in under 10 minutes with NPS scores that rivalled the best consumer apps in India.</p>
+
+    <div class="fund-title">Funding Journey — From Seed to Series F</div>
+    <div class="fund-track fade-up">
+      <div class="fund-line"></div>
+      <div class="fund-fill-bar" id="fundBar"></div>
+      <div class="fund-row">
+        <div class="fund-dot-wrap"><div class="fund-dot active"></div><div class="fund-round">Seed</div><div class="fund-amount">$4.7M</div><div class="fund-val">—</div><div class="fund-date">2021</div></div>
+        <div class="fund-dot-wrap"><div class="fund-dot active"></div><div class="fund-round">Series A</div><div class="fund-amount">$60M</div><div class="fund-val">$225M</div><div class="fund-date">Nov 2021</div></div>
+        <div class="fund-dot-wrap"><div class="fund-dot active"></div><div class="fund-round">Series B</div><div class="fund-amount">$200M</div><div class="fund-val">$900M</div><div class="fund-date">Aug 2022</div></div>
+        <div class="fund-dot-wrap"><div class="fund-dot active"></div><div class="fund-round">Series C</div><div class="fund-amount">$200M</div><div class="fund-val">$1.4B 🦄</div><div class="fund-date">May 2023</div></div>
+        <div class="fund-dot-wrap"><div class="fund-dot active"></div><div class="fund-round">Series D</div><div class="fund-amount">$200M</div><div class="fund-val">$1.4B</div><div class="fund-date">Jun 2023</div></div>
+        <div class="fund-dot-wrap"><div class="fund-dot active"></div><div class="fund-round">Series F</div><div class="fund-amount">$665M</div><div class="fund-val">$3.6B</div><div class="fund-date">Jun 2024</div></div>
+      </div>
+    </div>
+    <p class="art-p">Key investors include Y Combinator (early believer), Glade Brook Capital, Nexus Venture Partners, Goodwater Capital, Steadview Capital, and in later rounds, marquee names like Motilal Oswal and India's largest domestic institutions. The May 2023 round confirmed unicorn status at just <strong>$1.4 billion valuation</strong> — within two and a half years of founding.</p>
+
+    <hr class="z-divider">
+
+    <!-- CHAPTER 4 -->
+    <div class="chapter" id="s4">
+      <div class="ch-flag">Chapter 04</div>
+      <h2 class="ch-h">The Battle: Zepto vs India's Quick Commerce Giants</h2>
+    </div>
+    <p class="art-p">Quick commerce in India is a three-horse race — and all three horses are burning serious cash. Blinkit (acquired by Zomato for $568M in 2022), Swiggy Instamart (part of Swiggy's IPO story), and Zepto (the only standalone pure-play). Here's how they actually compare:</p>
+
+    <div class="comp-title">Quick Commerce — Head to Head</div>
+    <div class="comp-table fade-up">
+      <div class="ct-header">
+        <div class="ct-col-h">Feature</div>
+        <div class="ct-col-h zepto">⚡ Zepto</div>
+        <div class="ct-col-h">🟡 Blinkit</div>
+        <div class="ct-col-h">🍊 Instamart</div>
+      </div>
+      <div class="ct-row"><div class="ct-feat">Delivery Time</div><div class="ct-val win">~10 min</div><div class="ct-val">10–15 min</div><div class="ct-val">15–20 min</div></div>
+      <div class="ct-row"><div class="ct-feat">Dark Stores (India)</div><div class="ct-val">350+</div><div class="ct-val win">526+</div><div class="ct-val">400+</div></div>
+      <div class="ct-row"><div class="ct-feat">Cities</div><div class="ct-val">10+</div><div class="ct-val win">40+</div><div class="ct-val">25+</div></div>
+      <div class="ct-row"><div class="ct-feat">Parent Company</div><div class="ct-val win">Independent</div><div class="ct-val">Zomato</div><div class="ct-val">Swiggy</div></div>
+      <div class="ct-row"><div class="ct-feat">IPO Status</div><div class="ct-val win">DRHP Filed</div><div class="ct-val">Listed (via Zomato)</div><div class="ct-val">Listed (Swiggy)</div></div>
+      <div class="ct-row"><div class="ct-feat">Focus</div><div class="ct-val win">100% QComm</div><div class="ct-val">Food + QComm</div><div class="ct-val">Food + QComm</div></div>
+    </div>
+    <p class="art-p">Zepto's biggest advantage — and its biggest risk — is the same thing: it's <strong>all-in on one bet</strong>. While Blinkit and Instamart are subsidiaries fighting for attention inside food delivery giants, Zepto's entire capital, team, and focus is on quick commerce. If the category wins, Zepto wins biggest. If the category fails, there's no safety net.</p>
+
+    <hr class="z-divider">
+
+    <!-- CHAPTER 5 -->
+    <div class="chapter" id="s5">
+      <div class="ch-flag">Chapter 05</div>
+      <h2 class="ch-h">The Numbers That Tell the Story</h2>
+    </div>
+    <div class="stat-grid fade-up">
+      <div class="stat-box"><div class="stat-num" data-target="350" data-suffix="+">0+</div><div class="stat-lbl">Dark Stores</div></div>
+      <div class="stat-box"><div class="stat-num" data-target="5" data-suffix="B" data-prefix="$">$0B</div><div class="stat-lbl">Current Valuation</div></div>
+      <div class="stat-box"><div class="stat-num" data-target="4454" data-suffix="Cr" data-prefix="₹">₹0Cr</div><div class="stat-lbl">Revenue FY24</div></div>
+      <div class="stat-box"><div class="stat-num" data-target="10" data-suffix="+">0+</div><div class="stat-lbl">Cities Live</div></div>
+    </div>
+    <p class="art-p">FY24 revenue of <strong>₹4,454 crore</strong> represents a 140% jump year-on-year — making Zepto one of the fastest-growing consumer companies in Indian history by absolute revenue. Losses are narrowing: from ₹1,272 crore in FY23 to ₹1,248 crore in FY24, on significantly higher revenue. The path to profitability is the central question ahead of their IPO.</p>
+
+    <hr class="z-divider">
+
+    <!-- CHAPTER 6 -->
+    <div class="chapter" id="s6">
+      <div class="ch-flag">Chapter 06</div>
+      <h2 class="ch-h">The IPO Question: What Comes Next?</h2>
+    </div>
+    <p class="art-p">In 2024, Zepto filed its Draft Red Herring Prospectus (DRHP) — the formal step toward a public market listing. The IPO, targeting 2025, would make Aadit Palicha and Kaivalya Vohra — still in their early 20s — among the youngest founders of a publicly listed Indian company in history.</p>
+    <p class="art-p">The IPO faces real questions. Quick commerce as a sector is still in the red across all three major players. <strong>Can the category become profitable before public markets lose patience?</strong> Average order values are rising (now ₹600–800 vs ₹400 in 2021). Contribution margins are improving. But EBITDA profitability remains a future event, not a present one.</p>
+    <p class="art-p">The bull case: a young, growing, urban middle class that values time over money. Grocery delivery that becomes as habitual as calling Uber. A category that, once entrenched, has near-zero churn. The bear case: that the 10-minute promise requires density of dark stores that makes unit economics permanently negative at scale. The IPO will test which narrative investors believe.</p>
+
+    <!-- SPEED LESSONS -->
+    <div class="chapter" id="s7">
+      <div class="ch-flag">Speed Lessons</div>
+      <h2 class="ch-h">5 Things Every Founder Should Learn From Zepto</h2>
+    </div>
+    <div class="lessons-wrap fade-up">
+      <div class="lesson-strip">
+        <div class="ls-num">01</div>
+        <div><div class="ls-title">Speed as a moat, not a feature</div><div class="ls-desc">10-minute delivery isn't just faster grocery delivery — it creates an entirely different category of behaviour. When you're fast enough, you become something new: the customer's external pantry.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">02</div>
+        <div><div class="ls-title">Focus beats diversification in the early years</div><div class="ls-desc">While competitors fight battles on food delivery AND quick commerce simultaneously, Zepto's singular focus on one product in one category is both its operational strength and its investor pitch.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">03</div>
+        <div><div class="ls-title">Dense urban markets first, always</div><div class="ls-desc">Zepto didn't try to serve every Indian city from day one. It went deep in Bengaluru, Mumbai, and Delhi before expanding. Market density enables profitability. Premature expansion kills it.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">04</div>
+        <div><div class="ls-title">Age is not a qualification — data is</div><div class="ls-desc">Palicha and Vohra convinced Glade Brook and Y Combinator not with their Stanford pedigree but with real metrics from their Indiranagar dark store. Numbers don't care how old you are.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">05</div>
+        <div><div class="ls-title">A pivot done fast enough doesn't feel like failure</div><div class="ls-desc">KiranaKart to Zepto was a full 180° pivot — from B2B supply to B2C delivery. They made it in weeks, not quarters. The speed of the pivot preserved capital and credibility.</div></div>
+      </div>
+    </div>
+
+    <!-- DEBATE CARD -->
+    <div class="debate-card">
+      <div class="dc-label">🔥 Debate #02 · 1,892 votes</div>
+      <div class="dc-q">Is Zepto's quick commerce model genuinely sustainable, or is it a VC-funded illusion with no viable path to profit at scale?</div>
+      <div class="dc-sides">
+        <div class="dc-side dc-a">
+          <div class="dc-sl">Side A — Sustainable</div>
+          <div class="dc-st">Density, habit formation, and rising order values will make quick commerce profitable. Zepto's unit economics are improving every quarter.</div>
+        </div>
+        <div class="dc-side dc-b">
+          <div class="dc-sl">Side B — Illusion</div>
+          <div class="dc-st">The dark store density required for 10-min delivery makes EBITDA profitability structurally impossible at scale. The model bleeds forever.</div>
+        </div>
+      </div>
+      <div class="dc-bar-row">
+        <span>Side A — 44%</span>
+        <span>56% — Side B</span>
+      </div>
+      <div class="dc-track"><div class="dc-fill" id="dcFill"></div></div>
+      <div class="dc-note">1,892 readers voted · <a href="debates.html" style="color:var(--z-dk);font-weight:600;text-decoration:none">Join the debate →</a></div>
+    </div>
+
+  </div><!-- /art-body -->
+
+  <!-- SIDEBAR -->
+  <aside class="art-sidebar">
+    <div class="score-card">
+      <div class="sc-title">File Verdict</div>
+      <div class="sc-verdict">⚡ Category Creator</div>
+      <div class="sc-desc">Zepto didn't enter a market — it built one from scratch. Still loss-making, but the trajectory, the team, and the category dynamics make this India's most compelling consumer growth story.</div>
+      <div class="sc-stats">
+        <div class="sc-row"><span>Valuation</span><strong>$5B</strong></div>
+        <div class="sc-row"><span>Sector Rank</span><strong>#2 in India</strong></div>
+        <div class="sc-row"><span>Rev Growth YoY</span><strong>+140%</strong></div>
+        <div class="sc-row"><span>Founders' Age</span><strong>22-23</strong></div>
+      </div>
+    </div>
+    <div class="toc-card">
+      <div class="toc-h">⚡ Contents</div>
+      <div class="toc-links" id="toc">
+        <a href="#s-intro" class="tl on">Introduction</a>
+        <a href="#s1"      class="tl">01 · The Dropout Decision</a>
+        <a href="#s2"      class="tl">02 · The 10-Min Formula</a>
+        <a href="#s3"      class="tl">03 · The Funding Sprint</a>
+        <a href="#s4"      class="tl">04 · The Battle</a>
+        <a href="#s5"      class="tl">05 · The Numbers</a>
+        <a href="#s6"      class="tl">06 · The IPO Question</a>
+        <a href="#s7"      class="tl">07 · Speed Lessons</a>
+      </div>
+    </div>
+    <div class="like-card">
+      <div class="lc-h">Was this file useful?</div>
+      <button class="lbtn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">1,423</span></button>
+      <button class="dbtn" id="disBtn"  onclick="doDislike()">👎 Dislike · <span id="disCount">41</span></button>
+    </div>
+  </aside>
+
+</div><!-- /art-wrap -->
+
+<!-- RELATED -->
+<div class="related-sec">
+  <div class="rel-in">
+    <div class="rel-h">More Case Files</div>
+    <div class="rel-grid">
+      <a href="byjus-collapse.html" class="rel-card">
+        <div class="rel-art" style="background:linear-gradient(135deg,#EDE9FF,#C4B8F5)">📉</div>
+        <div class="rel-cat">EdTech</div>
+        <div class="rel-title">The Byju's Files: How India's Most-Funded Startup Unraveled</div>
+        <div class="rel-meta">12 min read · 42.5K views</div>
+      </a>
+      <a href="paytm-ipo.html" class="rel-card">
+        <div class="rel-art" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE)">📱</div>
+        <div class="rel-cat">Fintech</div>
+        <div class="rel-title">Paytm's IPO Disaster: India's ₹18,300 Crore Humbling</div>
+        <div class="rel-meta">11 min read · 38.7K views</div>
+      </a>
+      <a href="nykaa-success.html" class="rel-card">
+        <div class="rel-art" style="background:linear-gradient(135deg,#FDF2F8,#FBCFE8)">💄</div>
+        <div class="rel-cat">D2C</div>
+        <div class="rel-title">Nykaa's D2C Playbook: Building a ₹1 Lakh Crore Beauty Empire</div>
+        <div class="rel-meta">10 min read · 27.8K views</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-in">
+    <div class="ft-top">
+      <div>
+        <div class="ft-logo">Indian Startup <span>Files</span></div>
+        <p class="ft-desc">Deep-dive case studies, structured debates, and honest analysis of India's startup ecosystem. Zero paywall.</p>
+      </div>
+      <div><div class="ft-ch">Content</div><ul class="ft-links"><li><a href="blogs.html">All Case Studies</a></li><li><a href="debates.html">Debates</a></li><li><a href="blogs.html">Failure Graveyard</a></li></ul></div>
+      <div><div class="ft-ch">Sectors</div><ul class="ft-links"><li><a href="blogs.html">Fintech</a></li><li><a href="blogs.html">EdTech</a></li><li><a href="blogs.html">Quick Commerce</a></li></ul></div>
+      <div><div class="ft-ch">About</div><ul class="ft-links"><li><a href="index.html#about">Our Mission</a></li><li><a href="#">Contact</a></li></ul></div>
+    </div>
+    <div class="ft-div"></div>
+    <div class="ft-bot">
+      <p>© 2025 Indian Startup Files.</p>
+      <p>Hosted on GitHub Pages · Zero Cost · Maximum Depth</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── READING PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const h = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('prog').style.width = Math.min((window.scrollY / h) * 100, 100) + '%';
+  updateTOC();
+});
+
+// ── 10-MIN COUNTDOWN CLOCK ──
+let t = 10;
+const clockEl = document.getElementById('clockNum');
+const ringEl  = document.getElementById('clockRingFill');
+const C = 2 * Math.PI * 100; // circumference of r=100 circle
+
+function updateClock() {
+  if (clockEl) clockEl.textContent = t;
+  if (ringEl) ringEl.style.strokeDashoffset = C - (C * ((10 - t) / 10));
+  t--;
+  if (t < 0) t = 10;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── TOC ACTIVE STATE ──
+const sections = [
+  {id:'s-intro',link:0},{id:'s1',link:1},{id:'s2',link:2},{id:'s3',link:3},
+  {id:'s4',link:4},{id:'s5',link:5},{id:'s6',link:6},{id:'s7',link:7}
+];
+function updateTOC() {
+  const links = document.querySelectorAll('.tl');
+  let active = 0;
+  sections.forEach((s, i) => {
+    const el = document.getElementById(s.id);
+    if (el && el.getBoundingClientRect().top < 110) active = i;
+  });
+  links.forEach((l, i) => l.classList.toggle('on', i === active));
+}
+
+// ── SCROLL ANIMATIONS ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// ── ANIMATED STAT COUNTERS ──
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target  = parseFloat(el.dataset.target);
+    const suffix  = el.dataset.suffix || '';
+    const prefix  = el.dataset.prefix || '';
+    const t0 = performance.now();
+    const dur = 2000;
+    function tick(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const cur = target * eased;
+      el.textContent = prefix + (Number.isInteger(target) ? Math.round(cur) : cur.toFixed(1)) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = prefix + target + suffix;
+    }
+    requestAnimationFrame(tick);
+    counterObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+
+// ── FUNDING BAR ANIMATION ──
+const fundObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.getElementById('fundBar').style.width = '100%';
+      fundObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+const fundEl = document.getElementById('fundBar');
+if (fundEl) fundObs.observe(fundEl);
+
+// ── DEBATE BAR ──
+const debObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.getElementById('dcFill').style.width = '44%';
+      debObs.disconnect();
+    }
+  });
+}, { threshold: 0.4 });
+const dcEl = document.getElementById('dcFill');
+if (dcEl) debObs.observe(dcEl);
+
+// ── LIKE / DISLIKE ──
+let liked = false, disliked = false;
+let lc = 1423, dc = 41;
+function doLike() {
+  liked = !liked;
+  if (liked) lc++; else lc--;
+  document.getElementById('likeBtn').classList.toggle('liked', liked);
+  document.getElementById('likeCount').textContent = lc.toLocaleString();
+}
+function doDislike() {
+  disliked = !disliked;
+  if (disliked) dc++; else dc--;
+  const btn = document.getElementById('disBtn');
+  btn.style.borderColor = disliked ? '#DC2626' : '';
+  btn.style.color       = disliked ? '#DC2626' : '';
+  document.getElementById('disCount').textContent = dc;
+}
+
+// ── COPY LINK ──
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const b = document.getElementById('cpBtn');
+    b.textContent = '✅ Copied!';
+    setTimeout(() => b.textContent = '🔗 Copy Link', 2200);
+  });
+}
+</script>
+</body>
+</html>
