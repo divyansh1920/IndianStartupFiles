@@ -488,15 +488,22 @@ window.addEventListener('scroll',()=>{
 
 let liked=false,disliked=false;
 let lc=1847,dc=89;
+
 function doLike(){
+  // if dislike active → undo it first
+  if(disliked){dc--;disliked=false;document.getElementById('dislikeBtn').style.borderColor='';document.getElementById('dislikeBtn').style.color='';document.getElementById('disCount').textContent=dc;}
+  // toggle like
   if(!liked){lc++;liked=true;document.getElementById('likeBtn').classList.add('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
   else{lc--;liked=false;document.getElementById('likeBtn').classList.remove('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
 }
+
 function doDislike(){
+  // if like active → undo it first
+  if(liked){lc--;liked=false;document.getElementById('likeBtn').classList.remove('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
+  // toggle dislike
   if(!disliked){dc++;disliked=true;document.getElementById('dislikeBtn').style.borderColor='var(--re)';document.getElementById('dislikeBtn').style.color='var(--re)';document.getElementById('disCount').textContent=dc;}
   else{dc--;disliked=false;document.getElementById('dislikeBtn').style.borderColor='';document.getElementById('dislikeBtn').style.color='';document.getElementById('disCount').textContent=dc;}
 }
-
 function copyLink(){
   navigator.clipboard.writeText(window.location.href).then(()=>{
     const b=document.getElementById('copyBtn');
