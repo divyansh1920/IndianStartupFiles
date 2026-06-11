@@ -184,9 +184,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .like-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 20px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:2px solid var(--p);background:transparent;color:var(--p);width:100%;margin-bottom:8px;transition:all .2s}
 .like-btn:hover{background:var(--p);color:#fff}
 .like-btn.liked{background:var(--p);color:#fff}
-.dislike-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:transparent;color:var(--t3);width:100%;transition:all .2s}
-.dislike-btn:hover{border-color:var(--re);color:var(--re)}
-
+.dislike-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:2px solid var(--re);background:transparent;color:var(--re);width:100%;transition:all .2s}
+.dislike-btn:hover{background:var(--re);color:#fff}
+.dislike-btn.disliked{background:var(--re);color:#fff}
+  
 /* RELATED */
 .related-sec{padding:48px 5%;background:var(--p-lt);border-top:1px solid var(--p-md)}
 .related-in{max-width:1200px;margin:0 auto}
@@ -490,21 +491,18 @@ let liked=false,disliked=false;
 let lc=1847,dc=89;
 
 function doLike(){
-  // if dislike active → undo it first
-  if(disliked){dc--;disliked=false;document.getElementById('dislikeBtn').style.borderColor='';document.getElementById('dislikeBtn').style.color='';document.getElementById('disCount').textContent=dc;}
-  // toggle like
+  if(disliked){dc--;disliked=false;document.getElementById('dislikeBtn').classList.remove('disliked');document.getElementById('disCount').textContent=dc;}
   if(!liked){lc++;liked=true;document.getElementById('likeBtn').classList.add('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
   else{lc--;liked=false;document.getElementById('likeBtn').classList.remove('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
 }
 
 function doDislike(){
-  // if like active → undo it first
   if(liked){lc--;liked=false;document.getElementById('likeBtn').classList.remove('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
-  // toggle dislike
-  if(!disliked){dc++;disliked=true;document.getElementById('dislikeBtn').style.borderColor='var(--re)';document.getElementById('dislikeBtn').style.color='var(--re)';document.getElementById('disCount').textContent=dc;}
-  else{dc--;disliked=false;document.getElementById('dislikeBtn').style.borderColor='';document.getElementById('dislikeBtn').style.color='';document.getElementById('disCount').textContent=dc;}
+  if(!disliked){dc++;disliked=true;document.getElementById('dislikeBtn').classList.add('disliked');document.getElementById('disCount').textContent=dc;}
+  else{dc--;disliked=false;document.getElementById('dislikeBtn').classList.remove('disliked');document.getElementById('disCount').textContent=dc;}
 }
-function copyLink(){
+  
+  function copyLink(){
   navigator.clipboard.writeText(window.location.href).then(()=>{
     const b=document.getElementById('copyBtn');
     b.textContent='✅ Copied!';setTimeout(()=>b.textContent='🔗 Copy Link',2000);
