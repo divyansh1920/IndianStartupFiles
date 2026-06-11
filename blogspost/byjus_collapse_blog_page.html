@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Byju's Files — Indian Startup Files</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p:#4B2DB5;--p-lt:#EDEAFF;--p-dk:#2D1A7A;--p-md:#C4B8F5;
+  --g:#F5A623;--g-lt:#FFF8EB;--g-dk:#B87B0F;--g-md:#FAD07A;
+  --bg:#FFFDF7;--white:#FFFFFF;
+  --t1:#0F0F0F;--t2:#374151;--t3:#6B7280;--t4:#9CA3AF;
+  --bd:#E5E7EB;--bd2:#F3F4F6;
+  --re:#DC2626;--re-lt:#FEF2F2;
+  --gr:#059669;--gr-lt:#ECFDF5;
+  --sh:0 2px 8px rgba(0,0,0,0.07),0 1px 3px rgba(0,0,0,0.04);
+  --sh2:0 8px 32px rgba(0,0,0,0.10),0 3px 10px rgba(0,0,0,0.05);
+  --r:12px;--rl:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.8}
+
+/* PROGRESS BAR */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--p);width:0%;z-index:9999;transition:width .1s linear}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(255,253,247,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:0 5%}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-ic{width:34px;height:34px;background:#FF4500;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.logo-tx{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--t1)}
+.logo-tx span{color:#FF4500}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--t2);font-size:14px;font-weight:500;transition:color .18s}
+.nav-links a:hover{color:#FF4500}
+.nav-cta{background:#FF4500!important;color:#fff!important;padding:8px 20px;border-radius:8px;font-weight:600!important}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1E0E6B 0%,#3D22A0 40%,#6546CF 80%,#7B5BD4 100%);padding:64px 5% 56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-in{max-width:800px;margin:0 auto;position:relative;z-index:1}
+.hero-bc{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:20px;display:flex;align-items:center;gap:6px}
+.hero-bc a{color:rgba(255,255,255,.7);text-decoration:none;transition:color .18s}
+.hero-bc a:hover{color:#fff}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.htag{display:inline-flex;align-items:center;padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.htag-pu{background:rgba(255,255,255,.15);color:#fff;backdrop-filter:blur(4px)}
+.htag-re{background:rgba(220,38,38,.25);color:#FCA5A5}
+.htag-gd{background:rgba(245,166,35,.2);color:#FAD07A}
+.hero-title{font-family:'Playfair Display',serif;font-size:44px;font-weight:900;color:#fff;line-height:1.12;letter-spacing:-.5px;margin-bottom:16px}
+.hero-deck{font-size:17px;color:rgba(255,255,255,.8);line-height:1.7;max-width:680px;margin-bottom:28px}
+.hero-meta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:20px}
+.hm{display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.7)}
+.hm strong{color:#fff}
+.share-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.share-label{font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.sbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:transform .18s,opacity .18s}
+.sbtn:hover{transform:translateY(-1px);opacity:.9}
+.sbtn-wa{background:#25D366;color:#fff}
+.sbtn-tw{background:#1DA1F2;color:#fff}
+.sbtn-li{background:#0A66C2;color:#fff}
+.sbtn-cp{background:rgba(255,255,255,.15);color:#fff;backdrop-filter:blur(4px)}
+
+/* ARTICLE LAYOUT */
+.art-wrap{max-width:1200px;margin:0 auto;padding:48px 5% 64px;display:grid;grid-template-columns:1fr 280px;gap:48px;align-items:start}
+.art-body{min-width:0}
+.art-sidebar{position:sticky;top:84px}
+
+/* COMPANY FILE CARD */
+.file-card{background:var(--white);border:2px solid var(--g-md);border-radius:var(--rl);overflow:hidden;margin-bottom:36px;box-shadow:var(--sh)}
+.file-header{background:linear-gradient(135deg,var(--g),#E8940F);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.file-header-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--white)}
+.file-header-icon{font-size:22px}
+.file-rows{padding:4px 0}
+.file-row{display:flex;align-items:flex-start;padding:10px 20px;border-bottom:1px solid var(--bd2)}
+.file-row:last-child{border-bottom:none}
+.file-key{font-size:12px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;min-width:110px;flex-shrink:0;padding-top:2px}
+.file-val{font-size:14px;color:var(--t1);font-weight:500;line-height:1.5}
+.file-val.status{display:inline-flex;align-items:center;gap:6px}
+.status-dot{width:8px;height:8px;background:var(--re);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* KEY NUMBERS */
+.kn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:36px}
+.kn{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);padding:16px;transition:transform .2s,box-shadow .2s}
+.kn:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.kn-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--p);margin-bottom:4px}
+.kn-lbl{font-size:12px;color:var(--t3);font-weight:500}
+.kn.gold .kn-num{color:var(--g-dk)}
+.kn.red .kn-num{color:var(--re)}
+.kn.green .kn-num{color:var(--gr)}
+
+/* ARTICLE CONTENT */
+.art-intro{font-size:18.5px;line-height:1.85;color:var(--t2);margin-bottom:40px;padding-bottom:40px;border-bottom:2px solid var(--p-lt)}
+
+.section-block{margin-bottom:48px}
+.section-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g-dk);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-num::after{content:'';flex:1;height:1px;background:var(--g-md)}
+.section-h{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--p);margin-bottom:20px;line-height:1.25;letter-spacing:-.3px}
+.art-p{font-size:17px;color:var(--t2);line-height:1.85;margin-bottom:18px}
+.art-p:last-child{margin-bottom:0}
+.art-p strong{color:var(--t1);font-weight:600}
+
+/* PULL QUOTE */
+.pull-quote{background:var(--p-lt);border-left:4px solid var(--p);border-radius:0 var(--r) var(--r) 0;padding:24px 28px;margin:32px 0;position:relative}
+.pull-quote::before{content:'"';font-family:'Playfair Display',serif;font-size:72px;color:var(--p-md);position:absolute;top:-10px;left:16px;line-height:1}
+.pq-text{font-family:'DM Sans',sans-serif;font-size:19px;font-style:italic;color:var(--p-dk);line-height:1.65;padding-top:16px;font-weight:500}
+
+/* RED FLAGS */
+.flag-list{display:flex;flex-direction:column;gap:16px;margin:20px 0}
+.flag-item{background:var(--re-lt);border:1px solid #FCA5A5;border-radius:var(--r);padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.flag-num{background:var(--re);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.flag-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--re);margin-bottom:6px}
+.flag-desc{font-size:13.5px;color:#374151;line-height:1.65}
+
+/* ACQUISITION LIST */
+.acq-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0}
+.acq-item{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px;transition:box-shadow .18s}
+.acq-item:hover{box-shadow:var(--sh)}
+.acq-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.acq-detail{font-size:12.5px;color:var(--t3)}
+.acq-amount{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--p);margin-top:6px}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:36px;margin:24px 0 0}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--p),var(--g))}
+.tl-item{position:relative;margin-bottom:28px}
+.tl-dot{position:absolute;left:-32px;top:4px;width:16px;height:16px;border-radius:50%;border:3px solid var(--p);background:var(--white);z-index:1}
+.tl-item.gold .tl-dot{border-color:var(--g-dk);background:var(--g)}
+.tl-item.red .tl-dot{border-color:var(--re);background:var(--re-lt)}
+.tl-year{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--p);text-transform:uppercase;margin-bottom:4px}
+.tl-item.gold .tl-year{color:var(--g-dk)}
+.tl-item.red .tl-year{color:var(--re)}
+.tl-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px;line-height:1.3}
+.tl-desc{font-size:13px;color:var(--t3);line-height:1.6}
+
+/* LESSONS BOX */
+.lessons-box{background:var(--p-lt);border:1px solid var(--p-md);border-radius:var(--rl);padding:32px;margin-top:8px}
+.lessons-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--p-dk);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.lesson-item{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start}
+.lesson-item:last-child{margin-bottom:0}
+.l-num{background:var(--p);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.l-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--p-dk);margin-bottom:4px}
+.l-desc{font-size:13.5px;color:var(--t2);line-height:1.6}
+
+/* DIVIDER */
+.art-div{height:1px;background:var(--bd2);margin:40px 0;position:relative}
+.art-div::before{content:'◆';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg);padding:0 12px;color:var(--bd);font-size:14px}
+
+/* DEBATE CARD (in body) */
+.debate-inline{background:var(--white);border:2px solid #FFD4C2;border-radius:var(--rl);padding:28px;margin:40px 0;box-shadow:var(--sh)}
+.di-label{display:inline-flex;align-items:center;gap:6px;background:#FFF0EB;color:#FF4500;font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:50px;margin-bottom:13px}
+.di-q{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:var(--t1);margin-bottom:20px;line-height:1.35}
+.di-sides{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.di-side{padding:16px;border-radius:12px;border:2px solid transparent}
+.di-a{background:var(--p-lt);border-color:var(--p-md)}
+.di-b{background:#FFF0EB;border-color:#FFD4C2}
+.di-sl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.di-a .di-sl{color:var(--p)}
+.di-b .di-sl{color:#FF4500}
+.di-st{font-size:13px;font-weight:600;color:var(--t1);line-height:1.45}
+.bar-wrap{margin-top:6px}
+.bar-lbls{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px}
+.bar-track{height:7px;background:var(--bd2);border-radius:50px;overflow:hidden}
+.bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--p),#FF4500);transition:width 1.2s ease;width:0%}
+.bar-note{font-size:12px;color:var(--t3);text-align:center;margin-top:8px}
+
+/* SIDEBAR */
+.toc-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);padding:20px;margin-bottom:20px;box-shadow:var(--sh)}
+.toc-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--t1);letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd2)}
+.toc-links{display:flex;flex-direction:column;gap:8px}
+.toc-link{font-size:13px;color:var(--t3);text-decoration:none;padding:5px 8px;border-radius:6px;border-left:2px solid transparent;transition:all .18s;line-height:1.4}
+.toc-link:hover{color:var(--p);border-left-color:var(--p);background:var(--p-lt);padding-left:12px}
+.toc-link.active{color:var(--p);border-left-color:var(--p);background:var(--p-lt);padding-left:12px;font-weight:600}
+.verdict-card{background:linear-gradient(135deg,var(--p-dk),var(--p));border-radius:var(--r);padding:20px;color:#fff;margin-bottom:20px}
+.vc-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px}
+.vc-verdict{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:8px}
+.vc-desc{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6}
+.like-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);padding:20px;text-align:center}
+.lc-title{font-size:13px;color:var(--t3);margin-bottom:14px}
+.like-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 20px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:2px solid var(--p);background:transparent;color:var(--p);width:100%;margin-bottom:8px;transition:all .2s}
+.like-btn:hover{background:var(--p);color:#fff}
+.like-btn.liked{background:var(--p);color:#fff}
+.dislike-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:transparent;color:var(--t3);width:100%;transition:all .2s}
+.dislike-btn:hover{border-color:var(--re);color:var(--re)}
+
+/* RELATED */
+.related-sec{padding:48px 5%;background:var(--p-lt);border-top:1px solid var(--p-md)}
+.related-in{max-width:1200px;margin:0 auto}
+.rel-h{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--p-dk);margin-bottom:24px}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rel-card{background:var(--white);border-radius:var(--r);border:1px solid var(--p-md);padding:20px;text-decoration:none;transition:transform .2s,box-shadow .2s;display:block}
+.rel-card:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.rel-img{height:80px;border-radius:8px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;font-size:32px}
+.rel-cat{font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--p);margin-bottom:6px}
+.rel-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1);line-height:1.3;margin-bottom:6px}
+.rel-meta{font-size:12px;color:var(--t3)}
+
+/* FOOTER */
+.footer{background:#0F0F0F;padding:56px 5% 28px;color:#fff}
+.footer-in{max-width:1200px;margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:44px}
+.ft-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.ft-logo span{color:#FF4500}
+.ft-desc{font-size:13px;color:#9CA3AF;margin-top:11px;line-height:1.72;max-width:250px}
+.ft-ch{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#6B7280;margin-bottom:15px}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-links a{text-decoration:none;color:#D1D5DB;font-size:14px;transition:color .18s}
+.ft-links a:hover{color:#FF4500}
+.ft-div{height:1px;background:#1F2937;margin-bottom:22px}
+.ft-bot{display:flex;justify-content:space-between;align-items:center}
+.ft-bot p{font-size:12.5px;color:#6B7280}
+
+@media(max-width:960px){.art-wrap{grid-template-columns:1fr}.art-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:16px}.rel-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.nav-links li:not(:last-child){display:none}.hero-title{font-size:30px}.di-sides{grid-template-columns:1fr}.acq-list{grid-template-columns:1fr}.kn-grid{grid-template-columns:1fr 1fr}.rel-grid{grid-template-columns:1fr}.ft-top{grid-template-columns:1fr}.ft-bot{flex-direction:column;gap:10px;text-align:center}.art-sidebar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/IndianStartupFiles/index.html" class="logo">
+      <div class="logo-ic">📁</div>
+      <span class="logo-tx">Indian Startup <span>Files</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/IndianStartupFiles/index.html">Home</a></li>
+      <li><a href="/IndianStartupFiles/blogs.html">Case Studies</a></li>
+      <li><a href="/IndianStartupFiles/debates/indian_startup_files_debates_page.html">Debates</a></li>
+      <li><a href="/IndianStartupFiles/index.html#about">About</a></li>
+      <li><a href="/IndianStartupFiles/blogs.html" class="nav-cta">All Files →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="hero-bc">
+      <a href="/IndianStartupFiles/index.html">Home</a><span>›</span>
+      <a href="/IndianStartupFiles/blogs.html">Case Studies</a><span>›</span>
+      <span>Byju's Files</span>
+    </div>
+    <div class="hero-tags">
+      <span class="htag htag-pu">📚 EdTech</span>
+      <span class="htag htag-re">Collapse</span>
+      <span class="htag htag-gd">⭐ Featured File</span>
+    </div>
+    <h1 class="hero-title">The Byju's Files: How India's Most-Funded Startup Completely Unraveled</h1>
+    <p class="hero-deck">The story of ambition, opacity, and what happens when a $22 billion company treats governance as a suggestion and accountability as optional.</p>
+    <div class="hero-meta">
+      <div class="hm">📅 <strong>January 15, 2025</strong></div>
+      <div class="hm">📖 <strong>12 min</strong> read</div>
+      <div class="hm">👁 <strong>42.5K</strong> views</div>
+      <div class="hm">❤️ <strong>1.8K</strong> likes</div>
+    </div>
+    <div class="share-row">
+      <span class="share-label">Share:</span>
+      <a href="https://wa.me/?text=The%20Byju's%20Files%20—%20Indian%20Startup%20Files" target="_blank" class="sbtn sbtn-wa">💬 WhatsApp</a>
+      <a href="https://twitter.com/intent/tweet?text=The%20Byju%27s%20Files%20—%20Indian%20Startup%20Files" target="_blank" class="sbtn sbtn-tw">𝕏 Twitter</a>
+      <a href="https://linkedin.com/sharing/share-offsite/?url=" target="_blank" class="sbtn sbtn-li">💼 LinkedIn</a>
+      <button onclick="copyLink()" class="sbtn sbtn-cp" id="copyBtn">🔗 Copy Link</button>
+    </div>
+  </div>
+</div>
+
+<div class="art-wrap" id="artWrap">
+
+  <div class="art-body" id="article">
+
+    <div class="file-card">
+      <div class="file-header">
+        <span class="file-header-title">📁 Company File — Byju's</span>
+        <span class="file-header-icon">📂</span>
+      </div>
+      <div class="file-rows">
+        <div class="file-row"><span class="file-key">Full Name</span><span class="file-val">Think &amp; Learn Pvt Ltd (Byju's)</span></div>
+        <div class="file-row"><span class="file-key">Founded</span><span class="file-val">2011 · Bangalore, Karnataka</span></div>
+        <div class="file-row"><span class="file-key">Founder</span><span class="file-val">Byju Raveendran &amp; Divya Gokulnath</span></div>
+        <div class="file-row"><span class="file-key">Sector</span><span class="file-val">EdTech — K-12, Test Prep, Upskilling</span></div>
+        <div class="file-row"><span class="file-key">Peak Valuation</span><span class="file-val">$22 Billion (January 2022)</span></div>
+        <div class="file-row"><span class="file-key">Total Funding</span><span class="file-val">$5.9 Billion (across 30+ rounds)</span></div>
+        <div class="file-row"><span class="file-key">Key Investors</span><span class="file-val">Sequoia, Tiger Global, Tencent, SoftBank, Qatar Investment Authority</span></div>
+        <div class="file-row"><span class="file-key">Peak Employees</span><span class="file-val">50,000+ (2022)</span></div>
+        <div class="file-row"><span class="file-key">Status</span><span class="file-val status"><span class="status-dot"></span>Under NCLT Insolvency Proceedings (2024)</span></div>
+      </div>
+    </div>
+
+    <div class="kn-grid">
+      <div class="kn"><div class="kn-num">$22B</div><div class="kn-lbl">Peak Valuation (Jan 2022)</div></div>
+      <div class="kn gold"><div class="kn-num">$5.9B</div><div class="kn-lbl">Total Funding Raised</div></div>
+      <div class="kn red"><div class="kn-num">₹4,588Cr</div><div class="kn-lbl">Losses in FY2021</div></div>
+      <div class="kn green"><div class="kn-num">150M+</div><div class="kn-lbl">Registered Users (Peak)</div></div>
+    </div>
+
+    <p class="art-intro" id="s-intro">In the summer of 2021, Byju Raveendran stood at the summit of Indian edtech. His company had just completed a funding round valuing it at $22 billion — the world's most valuable edtech company and India's most valuable startup. Three years later, Byju's is under insolvency proceedings. Employees went unpaid for months. Fifty thousand jobs evaporated. This is the full file — from its improbable founding to its equally improbable collapse.</p>
+
+    <div class="section-block" id="s1">
+      <div class="section-num">01 — The Rise</div>
+      <h2 class="section-h">The Making of a Teacher (2011–2018)</h2>
+      <p class="art-p">Byju Raveendran grew up in Azhikode, a small coastal town in Kerala. His father taught physics; his mother taught mathematics. After engineering, he worked in shipping — until a chance encounter changed everything. In 2003, a group of friends asked him to help them prepare for the CAT examination. Several cracked India's top IIMs. Word spread. By 2006, he was giving weekend sessions to 1,200 students at Delhi's Siri Fort Auditorium — without a microphone, without any formal infrastructure.</p>
+      <p class="art-p">In 2011, he formalized this into <strong>Think &amp; Learn Pvt Ltd</strong>. The core insight was powerful: students didn't need classrooms. They could learn better through visual, animated content on a screen. At a time when most Indian edtech was digitizing textbook PDFs, Byju's was building something closer to Netflix than a school.</p>
+      <p class="art-p">The Byju's Learning App launched in 2015. In 2016, <strong>Sequoia Capital led a $75M Series A</strong>. By 2018, with 15 million downloads, 900,000 paid subscribers, and a $1B valuation, Byju's had achieved unicorn status. Crucially — it was profitable. That detail would matter enormously later.</p>
+    </div>
+
+    <div class="pull-quote">
+      <div class="pq-text">Students didn't need classrooms. They needed a screen, animation, and a teacher who could make algebra feel like a story. Byju understood this before anyone else in India did.</div>
+    </div>
+
+    <div class="art-div"></div>
+
+    <div class="section-block" id="s2">
+      <div class="section-num">02 — The Boom</div>
+      <h2 class="section-h">The Pandemic Gold Rush (2020–2021)</h2>
+      <p class="art-p">Then COVID-19 arrived. Schools closed. For most businesses, the pandemic was a crisis. For Byju's, it was a rocket strapped to an already fast-moving vehicle. App downloads went from 45 million users in March 2020 to 75 million by May 2020 — a 70% surge in eight weeks.</p>
+      <p class="art-p">The fundraising machine went into overdrive. Silver Lake, BlackRock, UBS, Naspers — institutional capital poured in. By October 2021, a final monster round valued Byju's at <strong>$22 billion</strong>. And then the acquisitions started. This is where the story turns.</p>
+
+      <div class="acq-list">
+        <div class="acq-item"><div class="acq-name">WhiteHatJr</div><div class="acq-detail">Coding for kids · Jul 2020</div><div class="acq-amount">$300M</div></div>
+        <div class="acq-item"><div class="acq-name">Aakash Educational</div><div class="acq-detail">NEET/JEE coaching · Apr 2021</div><div class="acq-amount">$950M</div></div>
+        <div class="acq-item"><div class="acq-name">Great Learning</div><div class="acq-detail">Professional upskilling · Oct 2021</div><div class="acq-amount">$600M</div></div>
+        <div class="acq-item"><div class="acq-name">Epic (US)</div><div class="acq-detail">Children's reading app · Aug 2021</div><div class="acq-amount">$500M</div></div>
+        <div class="acq-item"><div class="acq-name">Toppr</div><div class="acq-detail">Test prep platform · Sep 2021</div><div class="acq-amount">$150M</div></div>
+        <div class="acq-item"><div class="acq-name">Tynker</div><div class="acq-detail">Coding education · 2021</div><div class="acq-amount">$200M</div></div>
+      </div>
+      <p class="art-p" style="margin-top:16px">Total acquisition spend in 2021 alone: approximately <strong>$2.5 billion</strong>. The strategy was a classic land-grab — buy everything, consolidate the market. But integration is hard. Cultural alignment across six companies simultaneously is harder. Spending $2.5B in a year while burning cash operationally created a fragility the company would never recover from.</p>
+    </div>
+
+    <div class="art-div"></div>
+
+    <div class="section-block" id="s3">
+      <div class="section-num">03 — The Warning Signs</div>
+      <h2 class="section-h">The Red Flags Everyone Chose to Ignore</h2>
+      <p class="art-p">By late 2021, the cracks were already visible to anyone paying attention. Most people chose not to look.</p>
+      <div class="flag-list">
+        <div class="flag-item"><div class="flag-num">1</div><div><div class="flag-title">The Missing Financial Results</div><div class="flag-desc">Byju's FY2021 results were due in December 2021. They weren't filed — not for 18 months. When finally published, they showed losses of <strong>₹4,588 crore ($550M)</strong> on revenue of just ₹2,428 crore. A loss ratio that should have raised every alarm.</div></div></div>
+        <div class="flag-item"><div class="flag-num">2</div><div><div class="flag-title">Deloitte's Resignation</div><div class="flag-desc">In June 2022, Deloitte — one of the Big Four auditors and Byju's external auditor — resigned mid-engagement. Auditors don't resign from billion-dollar companies without serious concerns about what they're seeing. Three board members resigned simultaneously.</div></div></div>
+        <div class="flag-item"><div class="flag-num">3</div><div><div class="flag-title">The $1.2 Billion Term Loan Default</div><div class="flag-desc">In late 2021, Byju's borrowed $1.2B in US markets via an aggressive term loan B. By mid-2022, the company was defaulting on quarterly covenants. Lenders called for accelerated repayment. Legal battles in US courts followed for over a year.</div></div></div>
+        <div class="flag-item"><div class="flag-num">4</div><div><div class="flag-title">Predatory Sales Practices</div><div class="flag-desc">Investigations uncovered sales agents coached to push parents into loans for courses using high-pressure, misleading tactics. The NCPCR launched an investigation. Consumer forums were flooded with complaints from families across India.</div></div></div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <div class="pq-text">When your auditor resigns mid-engagement and three board members quit the same week, it isn't a paperwork inconvenience. It's the clearest fire alarm the corporate world has. The ecosystem shrugged. That says something uncomfortable about us too.</div>
+    </div>
+
+    <div class="art-div"></div>
+
+    <div class="section-block" id="s4">
+      <div class="section-num">04 — The Fall</div>
+      <h2 class="section-h">The Unraveling (2022–2024)</h2>
+      <p class="art-p">The year 2022 was when the dam broke. In October, Byju's laid off approximately 2,500 employees in a single day — announced via an all-hands Zoom call lasting under fifteen minutes. More layoffs followed. Over 30,000 employees would lose jobs in 2022–23.</p>
+      <p class="art-p">Global interest rates rose sharply in 2022. Easy money ended. Startups worldwide saw valuations collapse. For Byju's — raised on the assumption of perpetual cheap capital — this was existential. No new investors were coming. Existing investors began writing down their stakes to near-zero.</p>
+      <p class="art-p">By early 2023, employees across cities reported not receiving salaries for one, two, three months. Provident Fund contributions weren't being deposited — EPFO issued notices. A mass exodus of senior leadership accelerated.</p>
+      <p class="art-p">In 2023, Byju's attempted a rights issue at a <strong>$200M valuation</strong> — a 99% markdown from its $22B peak. Investors including Prosus and General Atlantic went to court to block it. The company was in open war with its own investors. And then, in a move that stunned India's business community, the <strong>BCCI</strong> — the cricket board — took Byju's to the NCLT for ₹158 crore in unpaid sponsorship dues. India's most celebrated startup was officially in bankruptcy court.</p>
+    </div>
+
+    <div class="art-div"></div>
+
+    <div class="section-block" id="s5">
+      <div class="section-num">05 — The Timeline</div>
+      <h2 class="section-h">Key Milestones, Charted</h2>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2011</div><div class="tl-title">Founded in Bangalore</div><div class="tl-desc">Think &amp; Learn Pvt Ltd incorporated. First years run bootstrapped from CAT coaching revenue.</div></div>
+        <div class="tl-item gold"><div class="tl-dot"></div><div class="tl-year">2015</div><div class="tl-title">Byju's Learning App Launches</div><div class="tl-desc">Video-first K-12 app. Reaches 15M downloads in year one. NPS scores rival top consumer apps.</div></div>
+        <div class="tl-item gold"><div class="tl-dot"></div><div class="tl-year">2016 – 2018</div><div class="tl-title">Sequoia Invests · Unicorn Status</div><div class="tl-desc">$75M Series A in 2016. By 2018 — $1B valuation, 900K paid subscribers. The company is profitable.</div></div>
+        <div class="tl-item gold"><div class="tl-dot"></div><div class="tl-year">2020 – 2021</div><div class="tl-title">Pandemic Boom · $22B Peak</div><div class="tl-desc">COVID-19 drives 70% user growth in 8 weeks. Raises $3B+. Acquires 6 companies for $2.5B. Peak valuation: $22B.</div></div>
+        <div class="tl-item red"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-title">Deloitte Exits · $1.2B Default</div><div class="tl-desc">Auditor resigns. Three board members quit. Term loan covenants defaulted. 2,500 employees laid off in one day.</div></div>
+        <div class="tl-item red"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-title">FY21 Losses Exposed · Rights Issue War</div><div class="tl-desc">₹4,588Cr losses revealed. Rights issue at $200M valuation (99% markdown). Investors sue. BCCI files at NCLT.</div></div>
+        <div class="tl-item red"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-title">NCLT Insolvency · Resolution Process</div><div class="tl-desc">Formal insolvency proceedings begin. Resolution Professional appointed. Employees unpaid for months. Empire dissolved.</div></div>
+      </div>
+    </div>
+
+    <div class="art-div"></div>
+
+    <div class="section-block" id="s6">
+      <div class="section-num">06 — The Lessons</div>
+      <h2 class="section-h">What Every Founder Must Learn From This</h2>
+      <div class="lessons-box">
+        <div class="lessons-title">📚 The Byju's Lessons</div>
+        <div class="lesson-item"><div class="l-num">1</div><div><div class="l-title">Charisma is not accountability</div><div class="l-desc">Byju Raveendran is an extraordinary teacher and salesman. But being a great salesman is a liability in a CEO when it means selling a false picture to your board and regulators.</div></div></div>
+        <div class="lesson-item"><div class="l-num">2</div><div><div class="l-title">Acquisitions compound problems, they don't solve them</div><div class="l-desc">Every acquisition Byju's made was meant to plug a gap. Instead, each added integration debt and culture clashes. The $950M Aakash deal — a physical coaching centre — was the strategic mistake that arguably sealed the fate.</div></div></div>
+        <div class="lesson-item"><div class="l-num">3</div><div><div class="l-title">Auditor resignations are fire alarms, not paperwork</div><div class="l-desc">When Deloitte walked, it was the clearest possible signal. That the ecosystem shrugged and moved on says something uncomfortable about our collective due diligence culture.</div></div></div>
+        <div class="lesson-item"><div class="l-num">4</div><div><div class="l-title">Governance is not bureaucracy</div><div class="l-desc">Byju's ran for years with a small, founder-controlled board and minimal checks. The term loan disaster, the missing financials, the unchecked spending — all possible because no one had the power to say no.</div></div></div>
+        <div class="lesson-item"><div class="l-num">5</div><div><div class="l-title">150 million users isn't a business model</div><div class="l-desc">User numbers were always impressive. But the unit economics never worked at the company level. Scale without profitability, funded by cheap capital, is not a business — it's a bet. And this one lost.</div></div></div>
+      </div>
+    </div>
+
+    <div class="debate-inline">
+      <div class="di-label">🔥 Live Debate #14 · 2,341 votes</div>
+      <div class="di-q">Was Byju's collapse primarily a founder's ego problem, or were Indian VCs equally at fault for reckless over-funding?</div>
+      <div class="di-sides">
+        <div class="di-side di-a"><div class="di-sl">Side A — Founder's Fault</div><div class="di-st">Byju Raveendran's aggressive expansion, refusal to accept accountability, and misleading financials created an unrecoverable spiral.</div></div>
+        <div class="di-side di-b"><div class="di-sl">Side B — VC Hype Culture</div><div class="di-st">VCs chasing the "Indian Unicorn" narrative threw money blindly without governance — making them equal architects of the disaster.</div></div>
+      </div>
+      <div class="bar-lbls"><span style="color:var(--p);font-weight:700">Side A — 62%</span><span style="color:#FF4500;font-weight:700">38% — Side B</span></div>
+      <div class="bar-track"><div class="bar-fill" id="debBar"></div></div>
+      <div class="bar-note">2,341 readers voted · Join the debate ↑</div>
+    </div>
+
+  </div>
+
+  <aside class="art-sidebar">
+    <div class="verdict-card">
+      <div class="vc-title">File Verdict</div>
+      <div class="vc-verdict">⚠️ Preventable Collapse</div>
+      <div class="vc-desc">Multiple early warning signs were visible and ignored. A combination of unchecked ambition, weak governance, and VC pressure created an unavoidable endgame.</div>
+    </div>
+    <div class="toc-card">
+      <div class="toc-title">Contents</div>
+      <div class="toc-links" id="toc">
+        <a href="#s-intro" class="toc-link active">Introduction</a>
+        <a href="#s1" class="toc-link">01 · The Rise (2011–18)</a>
+        <a href="#s2" class="toc-link">02 · Pandemic Boom</a>
+        <a href="#s3" class="toc-link">03 · Red Flags</a>
+        <a href="#s4" class="toc-link">04 · The Unraveling</a>
+        <a href="#s5" class="toc-link">05 · Timeline</a>
+        <a href="#s6" class="toc-link">06 · Lessons</a>
+      </div>
+    </div>
+    <div class="like-card">
+      <div class="lc-title">Was this file useful?</div>
+      <button class="like-btn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">1,847</span></button>
+      <button class="dislike-btn" id="dislikeBtn" onclick="doDislike()">👎 Dislike · <span id="disCount">89</span></button>
+    </div>
+  </aside>
+
+</div>
+
+<div class="related-sec">
+  <div class="related-in">
+    <div class="rel-h">More Case Files</div>
+    <div class="rel-grid">
+      <a href="zepto-rise.html" class="rel-card">
+        <div class="rel-img" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE)">⚡</div>
+        <div class="rel-cat">Quick Commerce</div>
+        <div class="rel-title">Zepto: How Two 19-Year-Olds Disrupted Indian Grocery</div>
+        <div class="rel-meta">9 min read · 31.2K views</div>
+      </a>
+      <a href="paytm-ipo.html" class="rel-card">
+        <div class="rel-img" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE)">📱</div>
+        <div class="rel-cat">Fintech</div>
+        <div class="rel-title">Paytm's IPO Disaster: India's ₹18,300 Crore Humbling</div>
+        <div class="rel-meta">11 min read · 38.7K views</div>
+      </a>
+      <a href="oyo-global.html" class="rel-card">
+        <div class="rel-img" style="background:linear-gradient(135deg,#FEF2F2,#FCA5A5)">🏨</div>
+        <div class="rel-cat">PropTech</div>
+        <div class="rel-title">OYO's Global Disaster: How India's Hotel Empire Imploded Abroad</div>
+        <div class="rel-meta">13 min read · 35.1K views</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-in">
+    <div class="ft-top">
+      <div>
+        <div class="ft-logo">Indian Startup <span>Files</span></div>
+        <p class="ft-desc">Deep-dive case studies, structured debates, and honest analysis of India's startup ecosystem. Zero paywall.</p>
+      </div>
+      <div><div class="ft-ch">Content</div><ul class="ft-links"><li><a href="/IndianStartupFiles/blogs.html">All Case Studies</a></li><li><a href="/IndianStartupFiles/index.html#debates">Debates</a></li><li><a href="/IndianStartupFiles/blogs.html">Failure Graveyard</a></li></ul></div>
+      <div><div class="ft-ch">Sectors</div><ul class="ft-links"><li><a href="/IndianStartupFiles/blogs.html">Fintech</a></li><li><a href="/IndianStartupFiles/blogs.html">EdTech</a></li><li><a href="/IndianStartupFiles/blogs.html">Quick Commerce</a></li></ul></div>
+      <div><div class="ft-ch">About</div><ul class="ft-links"><li><a href="/IndianStartupFiles/index.html#about">Our Mission</a></li><li><a href="#">Contact</a></li></ul></div>
+    </div>
+    <div class="ft-div"></div>
+    <div class="ft-bot"><p>© 2025 Indian Startup Files.</p><p>Hosted on GitHub Pages · Zero Cost · Maximum Depth</p></div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const a=document.getElementById('article');
+  const top=window.scrollY;
+  const h=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=Math.min((top/h)*100,100)+'%';
+  const secs=[{id:'s-intro',link:0},{id:'s1',link:1},{id:'s2',link:2},{id:'s3',link:3},{id:'s4',link:4},{id:'s5',link:5},{id:'s6',link:6}];
+  const links=document.querySelectorAll('.toc-link');
+  let active=0;
+  secs.forEach((s,i)=>{const el=document.getElementById(s.id);if(el&&el.getBoundingClientRect().top<120)active=i});
+  links.forEach((l,i)=>l.classList.toggle('active',i===active));
+});
+
+let liked=false,disliked=false;
+let lc=1847,dc=89;
+function doLike(){
+  if(!liked){lc++;liked=true;document.getElementById('likeBtn').classList.add('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
+  else{lc--;liked=false;document.getElementById('likeBtn').classList.remove('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
+}
+function doDislike(){
+  if(!disliked){dc++;disliked=true;document.getElementById('dislikeBtn').style.borderColor='var(--re)';document.getElementById('dislikeBtn').style.color='var(--re)';document.getElementById('disCount').textContent=dc;}
+  else{dc--;disliked=false;document.getElementById('dislikeBtn').style.borderColor='';document.getElementById('dislikeBtn').style.color='';document.getElementById('disCount').textContent=dc;}
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    const b=document.getElementById('copyBtn');
+    b.textContent='✅ Copied!';setTimeout(()=>b.textContent='🔗 Copy Link',2000);
+  });
+}
+
+const bo=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)document.getElementById('debBar').style.width='62%'})});
+bo.observe(document.querySelector('.debate-inline'));
+</script>
+</body>
+</html>
