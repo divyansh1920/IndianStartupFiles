@@ -491,54 +491,63 @@ let disliked = false;
 let lc = 1847;
 let dc = 89;
 
-function renderVotes() {
+function doLike() {
   const likeBtn = document.getElementById("likeBtn");
   const dislikeBtn = document.getElementById("dislikeBtn");
   const likeCount = document.getElementById("likeCount");
   const dislikeCount = document.getElementById("dislikeCount");
 
-  likeCount.textContent = lc.toLocaleString();
-  dislikeCount.textContent = dc.toLocaleString();
-
-  likeBtn.classList.toggle("liked", liked);
-  dislikeBtn.classList.toggle("disliked", disliked);
-
-  dislikeBtn.style.borderColor = disliked ? "var(--re)" : "";
-  dislikeBtn.style.color = disliked ? "var(--re)" : "";
-}
-
-function doLike() {
   if (liked) {
-    liked = false;
     lc--;
+    liked = false;
+    likeBtn.classList.remove("liked");
   } else {
-    liked = true;
     lc++;
+    liked = true;
+    likeBtn.classList.add("liked");
+
     if (disliked) {
-      disliked = false;
       dc--;
+      disliked = false;
+      dislikeBtn.classList.remove("disliked");
+      dislikeBtn.style.borderColor = "";
+      dislikeBtn.style.color = "";
     }
   }
-  renderVotes();
+
+  likeCount.textContent = lc.toLocaleString();
+  dislikeCount.textContent = dc.toLocaleString();
 }
 
 function doDislike() {
+  const likeBtn = document.getElementById("likeBtn");
+  const dislikeBtn = document.getElementById("dislikeBtn");
+  const likeCount = document.getElementById("likeCount");
+  const dislikeCount = document.getElementById("dislikeCount");
+
   if (disliked) {
-    disliked = false;
     dc--;
+    disliked = false;
+    dislikeBtn.classList.remove("disliked");
+    dislikeBtn.style.borderColor = "";
+    dislikeBtn.style.color = "";
   } else {
-    disliked = true;
     dc++;
+    disliked = true;
+    dislikeBtn.classList.add("disliked");
+    dislikeBtn.style.borderColor = "var(--re)";
+    dislikeBtn.style.color = "var(--re)";
+
     if (liked) {
-      liked = false;
       lc--;
+      liked = false;
+      likeBtn.classList.remove("liked");
     }
   }
-  renderVotes();
-}
 
-document.addEventListener("DOMContentLoaded", renderVotes);
-  
+  likeCount.textContent = lc.toLocaleString();
+  dislikeCount.textContent = dc.toLocaleString();
+}  
 function copyLink(){
   navigator.clipboard.writeText(window.location.href).then(()=>{
     const b=document.getElementById('copyBtn');
