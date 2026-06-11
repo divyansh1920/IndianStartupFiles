@@ -130,6 +130,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .bnum{display:flex;align-items:center;gap:3px;font-size:12px;color:var(--t3)}
 .read-btn{font-size:13px;font-weight:600;color:var(--orange);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:3px;transition:gap .18s}
 .read-btn:hover{gap:7px}
+.bcard.locked{cursor:not-allowed}
+.bcard.locked:hover{transform:none!important;box-shadow:none!important}
+.lock-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:50px;backdrop-filter:blur(4px);letter-spacing:.4px}
+.read-btn.locked-btn{color:var(--t4);cursor:not-allowed;pointer-events:none;font-size:12px}
 
 /* TAG COLORS */
 .tag-or{background:var(--or-lt);color:var(--orange)}
@@ -315,56 +319,56 @@ const BLOGS = [
     slug:"zepto-rise", category:"Quick Commerce", cc:"tag-bl", outcome:"Unicorn", oc:"tag-gr",
     date:"2025-02-03", rt:9, views:31200, likes:1423, dislikes:41,
     excerpt:"Stanford dropouts. ₹10 crore seed. 10-minute grocery delivery. How Aadit Palicha and Kaivalya Vohra became billionaires at age 19 and built India's fastest unicorn.",
-    emoji:"⚡", bg:"linear-gradient(135deg,#EFF6FF,#BFDBFE)", wm:"ZEPTO", featured:false, isNew:false
+    emoji:"⚡", bg:"linear-gradient(135deg,#EFF6FF,#BFDBFE)", wm:"ZEPTO", featured:false, isNew:false, locked:true
   },
   {
     id:3, title:"Paytm's IPO Disaster: Inside India's ₹18,300 Crore Humbling",
     slug:"paytm-ipo", category:"Fintech", cc:"tag-pu", outcome:"IPO Crash", oc:"tag-am",
     date:"2025-01-28", rt:11, views:38700, likes:1654, dislikes:112,
     excerpt:"India's largest IPO ever. First-day crash of 27%. A founder who refused to apologise. The full anatomy of Paytm's most embarrassing chapter and what really went wrong.",
-    emoji:"📱", bg:"linear-gradient(135deg,#F5F3FF,#DDD6FE)", wm:"PAYTM", featured:false, isNew:false
+    emoji:"📱", bg:"linear-gradient(135deg,#F5F3FF,#DDD6FE)", wm:"PAYTM", featured:false, isNew:false, locked:true
   },
   {
     id:4, title:"Nykaa's Playbook: How Falguni Nayar Built a ₹1 Lakh Crore Beauty Empire at 50",
     slug:"nykaa-success", category:"D2C", cc:"tag-pk", outcome:"IPO Win", oc:"tag-gr",
     date:"2025-02-14", rt:10, views:27800, likes:1289, dislikes:28,
     excerpt:"She quit investment banking at 50 to sell lipstick online. Today Nykaa is India's most successful woman-led startup. The precise D2C strategy behind a beauty unicorn.",
-    emoji:"💄", bg:"linear-gradient(135deg,#FDF2F8,#FBCFE8)", wm:"NYKAA", featured:false, isNew:false
+    emoji:"💄", bg:"linear-gradient(135deg,#FDF2F8,#FBCFE8)", wm:"NYKAA", featured:false, isNew:false, locked:true
   },
   {
     id:5, title:"CRED's Controversial Model: Burning Cash to Build Trust Worth Billions",
     slug:"cred-model", category:"Fintech", cc:"tag-pu", outcome:"Controversy", oc:"tag-am",
     date:"2025-02-20", rt:8, views:24500, likes:1102, dislikes:203,
     excerpt:"CRED spends more acquiring a customer than it earns from them. And it's still worth $6.4B. We investigate why the smartest investors keep backing Kunal Shah's expensive experiment.",
-    emoji:"💳", bg:"linear-gradient(135deg,#F5F3FF,#EDE9FE)", wm:"CRED", featured:false, isNew:false
+    emoji:"💳", bg:"linear-gradient(135deg,#F5F3FF,#EDE9FE)", wm:"CRED", featured:false, isNew:false, locked:true
   },
   {
     id:6, title:"OYO's Global Disaster: How Ritesh Agarwal's Hotel Empire Imploded Abroad",
     slug:"oyo-global", category:"PropTech", cc:"tag-re", outcome:"Failure", oc:"tag-re",
     date:"2025-01-10", rt:13, views:35100, likes:1567, dislikes:145,
     excerpt:"OYO raised $3B, expanded to 80 countries, and then collapsed in most of them. How India's youngest billionaire over-extended an already fragile empire beyond recovery.",
-    emoji:"🏨", bg:"linear-gradient(135deg,#FEF2F2,#FCA5A5)", wm:"OYO", featured:false, isNew:false
+    emoji:"🏨", bg:"linear-gradient(135deg,#FEF2F2,#FCA5A5)", wm:"OYO", featured:false, isNew:false, locked:true
   },
   {
     id:7, title:"Zomato's Three Near-Death Moments and How It Survived Every Single One",
     slug:"zomato-survival", category:"FoodTech", cc:"tag-or", outcome:"Pivot", oc:"tag-bl",
     date:"2025-03-01", rt:10, views:29300, likes:1391, dislikes:67,
     excerpt:"Zomato came dangerously close to shutting down three separate times. Each time it survived by making a brutal pivot that nobody believed in. Until it worked spectacularly.",
-    emoji:"🍕", bg:"linear-gradient(135deg,#FFF0EB,#FFD4C2)", wm:"ZOMATO", featured:false, isNew:true
+    emoji:"🍕", bg:"linear-gradient(135deg,#FFF0EB,#FFD4C2)", wm:"ZOMATO", featured:false, isNew:true, locked:true
   },
   {
     id:8, title:"PharmEasy's Valuation Crash: From ₹37,000 Crore to Desperate Rights Issue",
     slug:"pharmeasy-crash", category:"HealthTech", cc:"tag-te", outcome:"Crash", oc:"tag-re",
     date:"2025-03-08", rt:9, views:21600, likes:978, dislikes:89,
     excerpt:"Once valued at $5.6B, PharmEasy diluted shares at a 90% discount just to survive. The full anatomy of India's most painful healthtech implosion and what investors missed.",
-    emoji:"💊", bg:"linear-gradient(135deg,#F0FDFA,#99F6E4)", wm:"PHARMEASY", featured:false, isNew:true
+    emoji:"💊", bg:"linear-gradient(135deg,#F0FDFA,#99F6E4)", wm:"PHARMEASY", featured:false, isNew:true, locked:true
   },
   {
     id:9, title:"Mamaearth's D2C Blueprint: Building India's First Toxic-Free Unicorn",
     slug:"mamaearth-blueprint", category:"D2C", cc:"tag-gr", outcome:"Success", oc:"tag-gr",
     date:"2025-03-15", rt:8, views:18900, likes:891, dislikes:22,
     excerpt:"Two parents, a baby with sensitive skin, and a WhatsApp group. How Varun and Ghazal Alagh built a ₹10,000 crore company from their living room and changed Indian beauty.",
-    emoji:"🌿", bg:"linear-gradient(135deg,#ECFDF5,#A7F3D0)", wm:"MAMAEARTH", featured:false, isNew:true
+    emoji:"🌿", bg:"linear-gradient(135deg,#ECFDF5,#A7F3D0)", wm:"MAMAEARTH", featured:false, isNew:true, locked:true
   }
 ];
 // ═══════════════════════════════════════════════════
@@ -464,26 +468,35 @@ function render(){
   document.getElementById('showCt').textContent=data.length;
   if(!data.length){grid.innerHTML='';noRes.classList.add('on');lmW.style.display='none';return}
   noRes.classList.remove('on');
-  grid.innerHTML=vis.map((b,i)=>`
-    <div class="bcard fi" style="transition-delay:${i*0.05}s" onclick="go('${b.slug}')">
-      <div class="bcard-img" style="background:${b.bg}">
-  <img src="${b.image}" alt="${b.title}" style="max-width:70%;max-height:70%;object-fit:contain;">
-  <div class="bcard-wm">${b.wm}</div>
-        ${(b.isNew||isNewF(b.date))?'<div class="nbadge">NEW</div>':''}
-      </div>
-      <div class="bcard-body">
-        <div class="bcard-tags"><span class="ctag ${b.cc}">${b.category}</span><span class="ctag ${b.oc}">${b.outcome}</span></div>
-        <div class="bcard-h">${b.title}</div>
-        <p class="bcard-p">${b.excerpt}</p>
-        <div class="bcard-ft">
-          <div class="bcard-date">📅 ${fmtD(b.date)} &nbsp;·&nbsp; 📖 ${b.rt} min read</div>
-          <div class="bcard-stats">
-            <div class="bnums"><span class="bnum">👁 ${fmt(b.views)}</span><span class="bnum">❤️ ${fmt(b.likes)}</span><span class="bnum">👎 ${b.dislikes}</span></div>
-            <button class="read-btn" onclick="event.stopPropagation();go('${b.slug}')">Read →</button>
+  grid.innerHTML=vis.map((b,i)=>{
+    const clickDiv = b.locked ? '' : `onclick="go('${b.slug}')"`;
+    const badge = b.locked
+      ? '<div class="lock-badge">🔒 Coming Soon</div>'
+      : ((b.isNew||isNewF(b.date)) ? '<div class="nbadge">NEW</div>' : '');
+    const readBtn = b.locked
+      ? '<button class="read-btn locked-btn">🔒 Locked</button>'
+      : `<button class="read-btn" onclick="event.stopPropagation();go('${b.slug}')">Read →</button>`;
+    return `
+      <div class="bcard fi${b.locked?' locked':''}" style="transition-delay:${i*0.05}s" ${clickDiv}>
+        <div class="bcard-img" style="background:${b.bg}">
+          <img src="${b.image}" alt="${b.title}" style="max-width:70%;max-height:70%;object-fit:contain;">
+          <div class="bcard-wm">${b.wm}</div>
+          ${badge}
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-tags"><span class="ctag ${b.cc}">${b.category}</span><span class="ctag ${b.oc}">${b.outcome}</span></div>
+          <div class="bcard-h">${b.title}</div>
+          <p class="bcard-p">${b.excerpt}</p>
+          <div class="bcard-ft">
+            <div class="bcard-date">📅 ${fmtD(b.date)} &nbsp;·&nbsp; 📖 ${b.rt} min read</div>
+            <div class="bcard-stats">
+              <div class="bnums"><span class="bnum">👁 ${fmt(b.views)}</span><span class="bnum">❤️ ${fmt(b.likes)}</span><span class="bnum">👎 ${b.dislikes}</span></div>
+              ${readBtn}
+            </div>
           </div>
         </div>
-      </div>
-    </div>`).join('');
+      </div>`;
+  }).join('');
   requestAnimationFrame(()=>{document.querySelectorAll('.bcard.fi').forEach((el,i)=>setTimeout(()=>el.classList.add('v'),i*55))});
   if(data.length>shown){lmW.style.display='block';lmB.style.display='';lmB.textContent=`Load More Files (${data.length-shown} remaining) →`;lmI.textContent=''}
   else{lmW.style.display='block';lmB.style.display='none';lmI.textContent=`✓ All ${data.length} files shown`}
