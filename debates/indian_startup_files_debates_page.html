@@ -511,7 +511,7 @@ const DEBATES = [
     duration: "47:32",
     date: "Jan 20, 2025",
     // ★ BYJU'S AUDIO — Google Drive link
-    driveUrl: "https://drive.google.com/file/d/1WRQy8gF60s9qIKsLbLC1T4if5mMM8VOT/view?usp=sharing",
+    driveUrl: "https://archive.org/details/d-1-demo_202606",
     art:   "linear-gradient(135deg,#4B2DB5,#7B5BD4)",
     emoji: "📉",
     tags:  [{t:"EdTech",c:"tag-or"},{t:"Collapse",c:"tag-re"}]
@@ -629,23 +629,26 @@ const DEBATES = [
 //  Input:  https://drive.google.com/file/d/FILE_ID/view?usp=sharing
 //  Output: https://drive.google.com/uc?export=download&id=FILE_ID
 // ════════════════════════════════════════════════════════════
-function driveToStream(sharingUrl) {
-  if (!sharingUrl) return "";
-  const match = sharingUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+function driveToStream(url) {
+  if (!url) return "";
+  // If it's a Google Drive URL, extract ID and build open link
+  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (match && match[1]) {
     return "https://drive.google.com/uc?export=open&id=" + match[1];
   }
-  return sharingUrl;
+  // Direct URL (Archive.org, GitHub raw, etc.) — pass through unchanged
+  return url;
 }
-// Fallback URL format (used if primary fails)
-function driveFallback(sharingUrl) {
-  if (!sharingUrl) return "";
-  const match = sharingUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+
+function driveFallback(url) {
+  if (!url) return "";
+  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (match && match[1]) {
     return "https://docs.google.com/uc?export=download&id=" + match[1];
   }
   return "";
 }
+
   
 // ════════════════════════════════════════════════════════════
 //  STATE
