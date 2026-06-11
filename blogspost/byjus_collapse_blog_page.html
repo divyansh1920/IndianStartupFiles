@@ -486,69 +486,57 @@ window.addEventListener('scroll',()=>{
   links.forEach((l,i)=>l.classList.toggle('active',i===active));
 });
 
-let liked = false;
-let disliked = false;
-let lc = 1847;
-let dc = 89;
+let reaction = null; // null, "like", or "dislike"
+let likeCountVal = 1847;
+let dislikeCountVal = 89;
 
-function doLike() {
+function renderReaction() {
   const likeBtn = document.getElementById("likeBtn");
   const dislikeBtn = document.getElementById("dislikeBtn");
   const likeCount = document.getElementById("likeCount");
   const dislikeCount = document.getElementById("dislikeCount");
 
-  if (liked) {
-    lc--;
-    liked = false;
-    likeBtn.classList.remove("liked");
+  likeCount.textContent = likeCountVal.toLocaleString();
+  dislikeCount.textContent = dislikeCountVal.toLocaleString();
+
+  likeBtn.classList.toggle("liked", reaction === "like");
+  dislikeBtn.classList.toggle("disliked", reaction === "dislike");
+
+  dislikeBtn.style.borderColor = reaction === "dislike" ? "var(--re)" : "";
+  dislikeBtn.style.color = reaction === "dislike" ? "var(--re)" : "";
+}
+
+function doLike() {
+  if (reaction === "like") {
+    likeCountVal--;
+    reaction = null;
   } else {
-    lc++;
-    liked = true;
-    likeBtn.classList.add("liked");
-
-    if (disliked) {
-      dc--;
-      disliked = false;
-      dislikeBtn.classList.remove("disliked");
-      dislikeBtn.style.borderColor = "";
-      dislikeBtn.style.color = "";
+    if (reaction === "dislike") {
+      dislikeCountVal--;
     }
+    likeCountVal++;
+    reaction = "like";
   }
-
-  likeCount.textContent = lc.toLocaleString();
-  dislikeCount.textContent = dc.toLocaleString();
+  renderReaction();
 }
 
 function doDislike() {
-  const likeBtn = document.getElementById("likeBtn");
-  const dislikeBtn = document.getElementById("dislikeBtn");
-  const likeCount = document.getElementById("likeCount");
-  const dislikeCount = document.getElementById("dislikeCount");
-
-  if (disliked) {
-    dc--;
-    disliked = false;
-    dislikeBtn.classList.remove("disliked");
-    dislikeBtn.style.borderColor = "";
-    dislikeBtn.style.color = "";
+  if (reaction === "dislike") {
+    dislikeCountVal--;
+    reaction = null;
   } else {
-    dc++;
-    disliked = true;
-    dislikeBtn.classList.add("disliked");
-    dislikeBtn.style.borderColor = "var(--re)";
-    dislikeBtn.style.color = "var(--re)";
-
-    if (liked) {
-      lc--;
-      liked = false;
-      likeBtn.classList.remove("liked");
+    if (reaction === "like") {
+      likeCountVal--;
     }
+    dislikeCountVal++;
+    reaction = "dislike";
   }
+  renderReaction();
+}
 
-  likeCount.textContent = lc.toLocaleString();
-  dislikeCount.textContent = dc.toLocaleString();
-}  
-function copyLink(){
+document.addEventListener("DOMContentLoaded", renderReaction);
+  
+  function copyLink(){
   navigator.clipboard.writeText(window.location.href).then(()=>{
     const b=document.getElementById('copyBtn');
     b.textContent='✅ Copied!';setTimeout(()=>b.textContent='🔗 Copy Link',2000);
