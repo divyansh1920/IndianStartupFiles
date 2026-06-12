@@ -425,8 +425,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
     </div>
     <div class="like-card">
       <div class="lc-title">Was this file useful?</div>
-      <button class="like-btn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">1,847</span></button>
-      <button class="dislike-btn" id="dislikeBtn" onclick="doDislike()">👎 Dislike · <span id="disCount">89</span></button>
+      <button class="like-btn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">…</span></button>
+      <button class="dislike-btn" id="dislikeBtn" onclick="doDislike()">👎 Dislike · <span id="disCount">…</span></button>
     </div>
   </aside>
 
@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   if (localStorage.getItem('disliked_' + SLUG)) {
     const btn = document.getElementById('dislikeBtn');
-    if (btn) { btn.style.borderColor = '#DC2626'; btn.style.color = '#DC2626'; }
+    if (btn) btn.classList.add('disliked');
   }
 });
 
@@ -560,14 +560,14 @@ async function doLike() {
       SS.rpc('remove_dislike', { p_slug: SLUG });
       localStorage.removeItem('disliked_' + SLUG);
       const db = document.getElementById('dislikeBtn');
-      if (db) { db.style.borderColor = ''; db.style.color = ''; }
-    }
-    // Add like
-    SS.rpc('add_like', { p_slug: SLUG });
-    localStorage.setItem('liked_' + SLUG, '1');
-    const lb = document.getElementById('likeBtn');
-    if (lb) lb.classList.add('liked');
+    if (db) db.classList.add('disliked');
   } else {
+    SS.rpc('remove_dislike', { p_slug: SLUG });
+    localStorage.removeItem('disliked_' + SLUG);
+    const db = document.getElementById('dislikeBtn');
+    if (db) db.classList.remove('disliked');
+  }
+    else {
     // Undo like
     SS.rpc('remove_like', { p_slug: SLUG });
     localStorage.removeItem('liked_' + SLUG);
