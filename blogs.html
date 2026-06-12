@@ -516,6 +516,29 @@ function animCt(id,target,dur){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
+  // Load real stats from Supabase and update listing page
+SS.getAllStats().then(allStats => {
+  // 1. Update totals in the stats strip
+  const totalViews = allStats.reduce((s, r) => s + (r.views || 0), 0);
+  const totalLikes = allStats.reduce((s, r) => s + (r.likes || 0), 0);
+  const tvEl = document.getElementById('tViews');
+  const tlEl = document.getElementById('tLikes');
+  if (tvEl) tvEl.textContent = SS.fmt(totalViews);
+  if (tlEl) tlEl.textContent = SS.fmt(totalLikes);
+
+  // 2. Merge real stats into BLOGS data array (updates card numbers)
+  allStats.forEach(row => {
+    const blog = BLOGS.find(b => b.slug === row.slug);
+    if (blog) {
+      blog.views    = row.views    || blog.views;
+      blog.likes    = row.likes    || blog.likes;
+      blog.dislikes = row.dislikes || blog.dislikes;
+    }
+  });
+
+  // 3. Re-render grid with real numbers
+  render();
+});
   const tv=BLOGS.reduce((s,b)=>s+b.views,0);
   const tl=BLOGS.reduce((s,b)=>s+b.likes,0);
   document.getElementById('tCount').textContent=BLOGS.length;
@@ -532,6 +555,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v')}),{threshold:.1});
   setTimeout(()=>document.querySelectorAll('.fi:not(.v)').forEach(el=>obs.observe(el)),300);
 });
+</script>
+<script src="supabase-stats.js">
 </script>
 </body>
 </html>
