@@ -505,6 +505,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);line-
   </div>
 </footer>
 
+<script src="supabase-stats.js"></script>
 <script>
 const startups=['Byju\'s','Zepto','Paytm','Nykaa','CRED','Zomato','Groww','Ola','PhonePe','Meesho','ShareChat','BharatPe','Razorpay','Oyo','Flipkart','Dream11','Swiggy','CRED','Lenskart','Unacademy','Physics Wallah','boAt','Mamaearth','Slice','Open','Zetwerk'];
 const tkr=document.getElementById('tkr');
@@ -516,20 +517,51 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-const barObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){document.getElementById('bfill').style.width='62%'}});
-});
-const bf=document.getElementById('bfill');
-if(bf)barObs.observe(bf);
-</script>
-<script src="supabase-stats.js">
-</script>
-<script>
-// Update homepage reader count with real Supabase total
-SS.getAllStats().then(allStats => {
-  const totalViews = allStats.reduce((s, r) => s + (r.views || 0), 0);
-  const el = document.getElementById('homeReaders');
-  if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
+// Global Live Metric Integration Engine
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Sync global views to counter
+  SS.getAllStats().then(allStats => {
+    if(allStats && allStats.length > 0) {
+      const totalViews = allStats.reduce((s, r) => s + (parseInt(r.views) || 0), 0);
+      const el = document.getElementById('homeReaders');
+      if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
+    }
+  });
+
+  // 2. Fetch Live Database Sync for the Primary Homepage Debate Component (Episode 1)
+  SS.rpc('get_debate_votes', { p_debate_id: 1 }).then(result => {
+    if (!result) return;
+    const total = parseInt(result.total) || 0;
+    const aVotes = parseInt(result.a) || 0;
+    const bVotes = parseInt(result.b) || 0;
+    
+    if (total > 0) {
+      const pctA = Math.round((aVotes / total) * 100);
+      const pctB = 100 - pctA;
+
+      const labelEl = document.querySelector('.d-label');
+      if (labelEl) labelEl.textContent = `🔥 Debate #14 · ${total.toLocaleString()} votes`;
+
+      const barAEl = document.querySelector('.bar-a');
+      if (barAEl) barAEl.textContent = `Side A — ${pctA}%`;
+
+      const barBEl = document.querySelector('.bar-b');
+      if (barBEl) barBEl.textContent = `${pctB}% — Side B`;
+
+      const noteEl = document.querySelector('.bar-note');
+      if (noteEl) noteEl.textContent = `${total.toLocaleString()} readers voted · Debate closes soon`;
+
+      const barObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            document.getElementById('bfill').style.width = pctA + '%';
+          }
+        });
+      });
+      const bf = document.getElementById('bfill');
+      if (bf) barObs.observe(bf);
+    }
+  });
 });
 </script>
 </body>
