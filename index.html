@@ -531,6 +531,11 @@ SS.getAllStats().then(allStats => {
   const el = document.getElementById('homeReaders');
   if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
 });
-</script>
+
+// ADD THIS BLOCK RIGHT BELOW ↓
+SS.getTotalVotes().then(total => {
+  const el = document.getElementById('totalVotesEl');
+  if (el) el.textContent = total.toLocaleString();
+});</script>
 </body>
 </html>
