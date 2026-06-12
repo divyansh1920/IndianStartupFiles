@@ -908,14 +908,14 @@ function loadEp(id) {
   document.getElementById('pcNowTxt').textContent   = d.ep + " — " + d.title;
 
   // Update debate section
+ // Update debate section
   document.getElementById('debQuestion').textContent  = '"' + d.question + '"';
   document.getElementById('sideATxt').textContent     = d.sideA;
   document.getElementById('sideBTxt').textContent     = d.sideB;
   document.getElementById('voteA').textContent        = 'Side A — ' + d.pctA + '%';
   document.getElementById('voteB').textContent        = d.pctB + '% — Side B';
   document.getElementById('debVotesCount').textContent = d.totalVotes.toLocaleString() + ' votes cast';
-  document.getElementById('voteNote').textContent     =
-    d.totalVotes.toLocaleString() + ' listeners voted · Listen and decide for yourself';
+  document.getElementById('voteNote').textContent     = d.totalVotes.toLocaleString() + ' listeners voted · Listen and decide for yourself';
 
   // Animate vote bar
   document.getElementById('voteFill').style.width = '0%';
@@ -923,25 +923,32 @@ function loadEp(id) {
     document.getElementById('voteFill').style.width = d.pctA + '%';
   }, 200);
 
-  // Load REAL vote counts from database
-SS.rpc('get_debate_votes', { p_debate_id: d.dbId }).then(result => {
-  if (!result || (!result.a && !result.b)) return; // no votes yet, keep defaults
-  const total = parseInt(result.total) || 0;
-  const aVotes = parseInt(result.a) || 0;
-  const bVotes = parseInt(result.b) || 0;
-  if (total === 0) return;
-  const pctA = Math.round((aVotes / total) * 100);
-  const pctB = 100 - pctA;
-  document.getElementById('voteA').textContent = 'Side A — ' + pctA + '%';
-  document.getElementById('voteB').textContent = pctB + '% — Side B';
-  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
-  document.getElementById('voteNote').textContent = total.toLocaleString() + ' listeners voted · Listen and decide';
-  setTimeout(() => { document.getElementById('voteFill').style.width = pctA + '%'; }, 200);
-});
+  // Load REAL vote counts from database cleanly
+  SS.rpc('get_debate_votes', { p_debate_id: d.dbId }).then(result => {
+    if (!result) return;
+    const total = parseInt(result.total) || 0;
+    const aVotes = parseInt(result.a) || 0;
+    const bVotes = parseInt(result.b) || 0;
+    if (total === 0) return;
+    
+    const pctA = Math.round((aVotes / total) * 100);
+    const pctB = 100 - pctA;
+    
+    document.getElementById('voteA').textContent = 'Side A — ' + pctA + '%';
+    document.getElementById('voteB').textContent = pctB + '% — Side B';
+    document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
+    document.getElementById('voteNote').textContent = total.toLocaleString() + ' listeners voted · Listen and decide';
+    
+    // Sync back to local array data profile
+    d.totalVotes = total;
+    d.pctA = pctA;
+    d.pctB = pctB;
+    document.getElementById('pcVotes').textContent = total.toLocaleString();
+    
+    setTimeout(() => { document.getElementById('voteFill').style.width = pctA + '%'; }, 200);
+  }).catch(err => console.error("Debate fetch error:", err));
 
-// Check if user already voted on this debate
-const userVoted = localStorage.getItem('voted_debate_' + d.dbId);
-// (future: disable voting buttons if already voted)
+  const userVoted = localStorage.getItem('voted_debate_' + d.dbId);
 
   // Update download link
   document.getElementById('dlBtn').href = d.driveUrl || '#';
