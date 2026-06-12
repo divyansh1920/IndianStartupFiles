@@ -250,7 +250,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);line-
       <div class="stats-row">
         <div><div class="stat-n">50+</div><div class="stat-l">Case Studies</div></div>
         <div><div class="stat-n">30+</div><div class="stat-l">Live Debates</div></div>
-        <div><div class="stat-n">100K+</div><div class="stat-l">Readers</div></div>
+        <div><div class="stat-n" id="homeReaders">100K+</div><div class="stat-l">Readers</div></div>
       </div>
     </div>
     <div class="hero-vis">
@@ -521,6 +521,16 @@ const barObs=new IntersectionObserver(entries=>{
 });
 const bf=document.getElementById('bfill');
 if(bf)barObs.observe(bf);
+</script>
+<script src="supabase-stats.js">
+</script>
+<script>
+// Update homepage reader count with real Supabase total
+SS.getAllStats().then(allStats => {
+  const totalViews = allStats.reduce((s, r) => s + (r.views || 0), 0);
+  const el = document.getElementById('homeReaders');
+  if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
+});
 </script>
 </body>
 </html>
