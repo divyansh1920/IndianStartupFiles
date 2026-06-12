@@ -310,14 +310,14 @@ const BLOGS = [
   {
     id:1, title:"The Byju's Files: How India's Most-Funded Startup Completely Unraveled",
     slug:"blogspost/byjus_collapse_blog_page", category:"EdTech", cc:"tag-or", outcome:"Collapse", oc:"tag-re",
-    date:"2025-01-15", rt:12, views:42500, likes:1847, dislikes:89,
+    date:"2025-01-15", rt:12, views:0, likes:0, dislikes:0,
     excerpt:"A $22B valuation. $5.9B in funding from the world's best investors. And then — nothing. Every decision and every ignored red flag that led to India's biggest startup implosion.",
     image:"https://logos-world.net/wp-content/uploads/2021/08/Byjus-Logo.png", bg:"linear-gradient(135deg,#FFF0EB,#FECDB8)", wm:"BYJU'S", featured:true, isNew:false
   },
   {
     id:2, title:"Zepto: How Two 19-Year-Old Stanford Dropouts Disrupted Indian Grocery",
     slug:"blogspost/zepto_blog_page", category:"Quick Commerce", cc:"tag-bl", outcome:"Unicorn", oc:"tag-gr",
-    date:"2025-11-03", rt:9, views:31200, likes:1423, dislikes:41,
+    date:"2025-11-03", rt:9, views:0, likes:0, dislikes:0,
     excerpt:"Stanford dropouts. ₹10 crore seed. 10-minute grocery delivery. How Aadit Palicha and Kaivalya Vohra became billionaires at age 19 and built India's fastest unicorn.",
     image:"https://thehardcopy.co/wp-content/uploads/Zepto-Featured-Image-Option-2-1536x1030.png", bg:"linear-gradient(135deg,#EFF6FF,#BFDBFE)", wm:"ZEPTO", featured:false, isNew:false
   },
@@ -516,34 +516,26 @@ function animCt(id,target,dur){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  // Load real stats from Supabase and update listing page
-SS.getAllStats().then(allStats => {
-  // 1. Update totals in the stats strip
-  const totalViews = allStats.reduce((s, r) => s + (r.views || 0), 0);
-  const totalLikes = allStats.reduce((s, r) => s + (r.likes || 0), 0);
-  const tvEl = document.getElementById('tViews');
-  const tlEl = document.getElementById('tLikes');
-  if (tvEl) tvEl.textContent = SS.fmt(totalViews);
-  if (tlEl) tlEl.textContent = SS.fmt(totalLikes);
-
-  // 2. Merge real stats into BLOGS data array (updates card numbers)
-  allStats.forEach(row => {
-    const blog = BLOGS.find(b => b.slug === row.slug);
-    if (blog) {
-      blog.views    = row.views    || blog.views;
-      blog.likes    = row.likes    || blog.likes;
-      blog.dislikes = row.dislikes || blog.dislikes;
-    }
+  // Load REAL stats from Supabase only
+  SS.getAllStats().then(allStats => {
+    const totalViews = allStats.reduce((s,r) => s+(parseInt(r.views)||0), 0);
+    const totalLikes = allStats.reduce((s,r) => s+(parseInt(r.likes)||0), 0);
+    // Update stat strip with real numbers
+    animCt('tViews', totalViews, 1400);
+    animCt('tLikes', totalLikes, 1200);
+    // Merge real DB values into BLOGS (0 if not in DB yet)
+    allStats.forEach(row => {
+      const blog = BLOGS.find(b => b.slug === row.slug);
+      if (blog) {
+        blog.views    = parseInt(row.views)    || 0;
+        blog.likes    = parseInt(row.likes)    || 0;
+        blog.dislikes = parseInt(row.dislikes) || 0;
+      }
+    });
+    renderFeatured();
+    render();
   });
-
-  // 3. Re-render grid with real numbers
-  render();
-});
-  const tv=BLOGS.reduce((s,b)=>s+b.views,0);
-  const tl=BLOGS.reduce((s,b)=>s+b.likes,0);
   document.getElementById('tCount').textContent=BLOGS.length;
-  animCt('tViews',tv,1400);
-  animCt('tLikes',tl,1200);
   document.getElementById('sInput').addEventListener('input',function(){
     sq=this.value.trim();
     document.getElementById('sClear').classList.toggle('on',!!sq);
