@@ -64,5 +64,19 @@ function ssFmt(n) {
   return '' + n;
 }
 
+// Get total debate votes across all debates
+async function ssGetTotalVotes() {
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/get_total_votes', {
+      method: 'POST',
+      headers: _H,
+      body: JSON.stringify({})
+    });
+    if (!res.ok) return 0;
+    const text = await res.text();
+    return parseInt(text) || 0;
+  } catch(e) { return 0; }
+}
+
 // Expose on window so all pages can use it
-window.SS = { rpc: ssRpc, getStats: ssGetStats, getAllStats: ssGetAllStats, fmt: ssFmt };
+window.SS = { rpc: ssRpc, getStats: ssGetStats, getAllStats: ssGetAllStats, fmt: ssFmt, getTotalVotes: ssGetTotalVotes };
