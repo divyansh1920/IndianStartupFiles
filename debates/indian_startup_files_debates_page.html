@@ -388,11 +388,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
         </div>
         <div class="deb-question" id="debQuestion">"Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?"</div>
         <div class="deb-sides">
-          <div class="deb-side ds-a">
+          <div class="deb-side ds-a" onclick="castVote('A')" style="cursor:pointer">
             <div class="ds-label">Side A</div>
             <div class="ds-text" id="sideATxt">Founder's ego and refusal to accept accountability led to the disaster.</div>
           </div>
-          <div class="deb-side ds-b">
+          <div class="deb-side ds-b" onclick="castVote('B')" style="cursor:pointer">
             <div class="ds-label">Side B</div>
             <div class="ds-text" id="sideBTxt">VCs threw billions without governance — they're equal architects of the disaster.</div>
           </div>
@@ -498,6 +498,7 @@ const DEBATES = [
 
   // ── EPISODE 1 ── (BYJU'S — AUDIO ADDED)
   {
+    dbId: 1,
     id: 1,
     ep: "EP 01",
     title: "Was Byju's Collapse the Founder's Fault or VC Greed?",
@@ -519,6 +520,7 @@ const DEBATES = [
 
   // ── EPISODE 2 ── (ZEPTO — ADD AUDIO LINK BELOW)
   {
+    dbId: 2,
     id: 2,
     ep: "EP 02",
     title: "Is Zepto's Quick Commerce Model Sustainable or a VC-Funded Illusion?",
@@ -540,6 +542,7 @@ const DEBATES = [
 
   // ── EPISODE 3 ── (ZOMATO — ADD AUDIO LINK BELOW)
   {
+    dbId: 3,
     id: 3,
     ep: "EP 03",
     title: "Did Zomato Kill India's Small Restaurants or Save Them?",
@@ -561,6 +564,7 @@ const DEBATES = [
 
   // ── EPISODE 4 ── (OYO — ADD AUDIO LINK BELOW)
   {
+    dbId: 4,
     id: 4,
     ep: "EP 04",
     title: "Was OYO's Global Expansion Bold Strategy or Pure Recklessness?",
@@ -582,6 +586,7 @@ const DEBATES = [
 
   // ── EPISODE 5 ── (CRED — ADD AUDIO LINK BELOW)
   {
+    dbId: 5,
     id: 5,
     ep: "EP 05",
     title: "Is CRED a Genius Business Model or a Slow-Moving Train Wreck?",
@@ -603,6 +608,7 @@ const DEBATES = [
 
   // ── EPISODE 6 ── (PAYTM — ADD AUDIO LINK BELOW)
   {
+    dbId: 6,
     id: 6,
     ep: "EP 06",
     title: "Should Paytm Have Gone Public When It Did?",
@@ -917,6 +923,26 @@ function loadEp(id) {
     document.getElementById('voteFill').style.width = d.pctA + '%';
   }, 200);
 
+  // Load REAL vote counts from database
+SS.rpc('get_debate_votes', { p_debate_id: d.dbId }).then(result => {
+  if (!result || (!result.a && !result.b)) return; // no votes yet, keep defaults
+  const total = parseInt(result.total) || 0;
+  const aVotes = parseInt(result.a) || 0;
+  const bVotes = parseInt(result.b) || 0;
+  if (total === 0) return;
+  const pctA = Math.round((aVotes / total) * 100);
+  const pctB = 100 - pctA;
+  document.getElementById('voteA').textContent = 'Side A — ' + pctA + '%';
+  document.getElementById('voteB').textContent = pctB + '% — Side B';
+  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
+  document.getElementById('voteNote').textContent = total.toLocaleString() + ' listeners voted · Listen and decide';
+  setTimeout(() => { document.getElementById('voteFill').style.width = pctA + '%'; }, 200);
+});
+
+// Check if user already voted on this debate
+const userVoted = localStorage.getItem('voted_debate_' + d.dbId);
+// (future: disable voting buttons if already voted)
+
   // Update download link
   document.getElementById('dlBtn').href = d.driveUrl || '#';
 
@@ -1029,6 +1055,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const total = DEBATES.reduce((sum, d) => sum + d.totalVotes, 0);
   document.getElementById('totalVotesEl').textContent = total.toLocaleString();
 });
+  async function castVote(side) {
+  const d = DEBATES.find(x => x.id === curId);
+  if (!d) return;
+
+  // Prevent double voting
+  const key = 'voted_debate_' + d.dbId;
+  if (localStorage.getItem(key)) {
+    showToast('🗳️ You already voted on this debate!');
+    return;
+  }
+
+  // Cast vote to database
+  const result = await SS.rpc('cast_debate_vote', { p_debate_id: d.dbId, p_side: side });
+  localStorage.setItem(key, side);
+
+  if (!result) { showToast('⚠️ Vote failed. Try again.'); return; }
+
+  // Update UI with fresh counts
+  const total = parseInt(result.total) || 1;
+  const aVotes = parseInt(result.a) || 0;
+  const bVotes = parseInt(result.b) || 0;
+  const pctA = Math.round((aVotes / total) * 100);
+  const pctB = 100 - pctA;
+
+  document.getElementById('voteA').textContent = 'Side A — ' + pctA + '%';
+  document.getElementById('voteB').textContent = pctB + '% — Side B';
+  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
+  document.getElementById('voteFill').style.width = pctA + '%';
+  document.getElementById('voteNote').textContent = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
+
+  showToast('✅ Vote cast for Side ' + side + '! Results updated.');
+
+  // Refresh episode grid with updated total
+  renderGrid();
+}
+</script>
+<script src="supabase-stats.js">
+  
 </script>
 </body>
 </html>
