@@ -392,15 +392,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
     </div>
 
     <div class="debate-inline">
-      <div class="di-label" id="byjuLocalDebateLabel">🔥 Live Debate #14 · 0 votes</div>
+      <div class="di-label">🔥 Live Debate #14 · 2,341 votes</div>
       <div class="di-q">Was Byju's collapse primarily a founder's ego problem, or were Indian VCs equally at fault for reckless over-funding?</div>
       <div class="di-sides">
         <div class="di-side di-a"><div class="di-sl">Side A — Founder's Fault</div><div class="di-st">Byju Raveendran's aggressive expansion, refusal to accept accountability, and misleading financials created an unrecoverable spiral.</div></div>
         <div class="di-side di-b"><div class="di-sl">Side B — VC Hype Culture</div><div class="di-st">VCs chasing the "Indian Unicorn" narrative threw money blindly without governance — making them equal architects of the disaster.</div></div>
       </div>
-      <div class="bar-lbls"><span id="byjuLocalBarA" style="color:var(--p);font-weight:700">Side A — 0%</span><span id="byjuLocalBarB" style="color:#FF4500;font-weight:700">0% — Side B</span></div>
-      <div class="bar-track"><div class="bar-fill" id="bfill"></div></div>
-      <div class="bar-note" id="byjuLocalDebateNote">2,341 readers voted · Join the debate ↑</div>
+      <div class="bar-lbls"><span style="color:var(--p);font-weight:700">Side A — 62%</span><span style="color:#FF4500;font-weight:700">38% — Side B</span></div>
+      <div class="bar-track"><div class="bar-fill" id="debBar"></div></div>
+      <div class="bar-note">2,341 readers voted · Join the debate ↑</div>
     </div>
 
   </div>
@@ -425,8 +425,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
     </div>
     <div class="like-card">
       <div class="lc-title">Was this file useful?</div>
-      <button class="like-btn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">0</span></button>
-      <button class="dislike-btn" id="dislikeBtn" onclick="doDislike()">👎 Dislike · <span id="disCount">0</span></button>
+      <button class="like-btn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">1,847</span></button>
+      <button class="dislike-btn" id="dislikeBtn" onclick="doDislike()">👎 Dislike · <span id="disCount">89</span></button>
     </div>
   </aside>
 
@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   if (localStorage.getItem('disliked_' + SLUG)) {
     const btn = document.getElementById('dislikeBtn');
-    if (btn) btn.classList.add('disliked');
+    if (btn) { btn.style.borderColor = '#DC2626'; btn.style.color = '#DC2626'; }
   }
 });
 
@@ -560,14 +560,14 @@ async function doLike() {
       SS.rpc('remove_dislike', { p_slug: SLUG });
       localStorage.removeItem('disliked_' + SLUG);
       const db = document.getElementById('dislikeBtn');
-    if (db) db.classList.add('disliked');
+      if (db) { db.style.borderColor = ''; db.style.color = ''; }
+    }
+    // Add like
+    SS.rpc('add_like', { p_slug: SLUG });
+    localStorage.setItem('liked_' + SLUG, '1');
+    const lb = document.getElementById('likeBtn');
+    if (lb) lb.classList.add('liked');
   } else {
-    SS.rpc('remove_dislike', { p_slug: SLUG });
-    localStorage.removeItem('disliked_' + SLUG);
-    const db = document.getElementById('dislikeBtn');
-    if (db) db.classList.remove('disliked');
-  }
-    else {
     // Undo like
     SS.rpc('remove_like', { p_slug: SLUG });
     localStorage.removeItem('liked_' + SLUG);
