@@ -256,8 +256,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
     <div class="hero-meta">
       <div class="hm">📅 <strong>January 15, 2025</strong></div>
       <div class="hm">📖 <strong>12 min</strong> read</div>
-      <div class="hm">👁 <strong>42.5K</strong> views</div>
-      <div class="hm">❤️ <strong>1.8K</strong> likes</div>
+      <div class="hm">👁 <strong id="heroViews">…</strong> views</div>
+      <div class="hm">❤️ <strong id="heroLikes">…</strong> likes</div>
     </div>
     <div class="share-row">
       <span class="share-label">Share:</span>
@@ -475,42 +475,147 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 </footer>
 
 <script>
-window.addEventListener('scroll',()=>{
-  const a=document.getElementById('article');
-  const top=window.scrollY;
-  const h=document.body.scrollHeight-window.innerHeight;
-  document.getElementById('prog').style.width=Math.min((top/h)*100,100)+'%';
-  const secs=[{id:'s-intro',link:0},{id:'s1',link:1},{id:'s2',link:2},{id:'s3',link:3},{id:'s4',link:4},{id:'s5',link:5},{id:'s6',link:6}];
-  const links=document.querySelectorAll('.toc-link');
-  let active=0;
-  secs.forEach((s,i)=>{const el=document.getElementById(s.id);if(el&&el.getBoundingClientRect().top<120)active=i});
-  links.forEach((l,i)=>l.classList.toggle('active',i===active));
+// ── READING PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const h = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('prog').style.width = Math.min((window.scrollY / h) * 100, 100) + '%';
+  updateTOC();
 });
 
-let liked=false,disliked=false;
-let lc=1847,dc=89;
-
-function doLike(){
-  if(disliked){dc--;disliked=false;document.getElementById('dislikeBtn').classList.remove('disliked');document.getElementById('disCount').textContent=dc;}
-  if(!liked){lc++;liked=true;document.getElementById('likeBtn').classList.add('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
-  else{lc--;liked=false;document.getElementById('likeBtn').classList.remove('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
+// ── TOC ACTIVE STATE ──
+const tocSecs = [
+  {id:'s-intro',i:0},{id:'s1',i:1},{id:'s2',i:2},{id:'s3',i:3},
+  {id:'s4',i:4},{id:'s5',i:5},{id:'s6',i:6}
+];
+function updateTOC() {
+  const links = document.querySelectorAll('.toc-link');
+  let active = 0;
+  tocSecs.forEach((s) => {
+    const el = document.getElementById(s.id);
+    if (el && el.getBoundingClientRect().top < 110) active = s.i;
+  });
+  links.forEach((l, i) => l.classList.toggle('active', i === active));
 }
 
-function doDislike(){
-  if(liked){lc--;liked=false;document.getElementById('likeBtn').classList.remove('liked');document.getElementById('likeCount').textContent=lc.toLocaleString();}
-  if(!disliked){dc++;disliked=true;document.getElementById('dislikeBtn').classList.add('disliked');document.getElementById('disCount').textContent=dc;}
-  else{dc--;disliked=false;document.getElementById('dislikeBtn').classList.remove('disliked');document.getElementById('disCount').textContent=dc;}
-}
-  
-  function copyLink(){
-  navigator.clipboard.writeText(window.location.href).then(()=>{
-    const b=document.getElementById('copyBtn');
-    b.textContent='✅ Copied!';setTimeout(()=>b.textContent='🔗 Copy Link',2000);
+// ── DEBATE BAR ANIMATION ──
+const debObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) document.getElementById('bfill').style.width = '62%'; });
+});
+const bf = document.getElementById('bfill');
+if (bf) debObs.observe(bf);
+
+// ── COPY LINK ──
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const b = document.getElementById('copyBtn');
+    b.textContent = '✅ Copied!';
+    setTimeout(() => b.textContent = '🔗 Copy Link', 2000);
   });
 }
 
-const bo=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)document.getElementById('debBar').style.width='62%'})});
-bo.observe(document.querySelector('.debate-inline'));
+// ══════════════════════════════════════════════════════
+// REAL STATS — Supabase Integration
+// ══════════════════════════════════════════════════════
+const SLUG = 'byjus-collapse'; // unique slug for this article
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // 1. COUNT THIS VIEW (once per browser session — prevents refresh spam)
+  if (!sessionStorage.getItem('v_' + SLUG)) {
+    sessionStorage.setItem('v_' + SLUG, '1');
+    SS.rpc('increment_view', { p_slug: SLUG }); // fire and forget
+  }
+
+  // 2. LOAD CURRENT STATS FROM DATABASE
+  const stats = await SS.getStats(SLUG);
+
+  // 3. UPDATE ALL DISPLAY ELEMENTS
+  const hv = document.getElementById('heroViews');
+  const hl = document.getElementById('heroLikes');
+  const lc = document.getElementById('likeCount');
+  const dc = document.getElementById('disCount');
+  if (hv) hv.textContent = SS.fmt(stats.views);
+  if (hl) hl.textContent = SS.fmt(stats.likes);
+  if (lc) lc.textContent = SS.fmt(stats.likes);
+  if (dc) dc.textContent = stats.dislikes;
+
+  // 4. RESTORE LIKE/DISLIKE STATE (localStorage remembers per user)
+  if (localStorage.getItem('liked_' + SLUG)) {
+    const btn = document.getElementById('likeBtn');
+    if (btn) btn.classList.add('liked');
+  }
+  if (localStorage.getItem('disliked_' + SLUG)) {
+    const btn = document.getElementById('dislikeBtn');
+    if (btn) { btn.style.borderColor = '#DC2626'; btn.style.color = '#DC2626'; }
+  }
+});
+
+// ── LIKE BUTTON ──
+async function doLike() {
+  const alreadyLiked = localStorage.getItem('liked_' + SLUG);
+
+  if (!alreadyLiked) {
+    // If previously disliked, undo that first
+    if (localStorage.getItem('disliked_' + SLUG)) {
+      SS.rpc('remove_dislike', { p_slug: SLUG });
+      localStorage.removeItem('disliked_' + SLUG);
+      const db = document.getElementById('dislikeBtn');
+      if (db) { db.style.borderColor = ''; db.style.color = ''; }
+    }
+    // Add like
+    SS.rpc('add_like', { p_slug: SLUG });
+    localStorage.setItem('liked_' + SLUG, '1');
+    const lb = document.getElementById('likeBtn');
+    if (lb) lb.classList.add('liked');
+  } else {
+    // Undo like
+    SS.rpc('remove_like', { p_slug: SLUG });
+    localStorage.removeItem('liked_' + SLUG);
+    const lb = document.getElementById('likeBtn');
+    if (lb) lb.classList.remove('liked');
+  }
+
+  // Refresh count from DB
+  await new Promise(r => setTimeout(r, 300)); // small delay for DB
+  const stats = await SS.getStats(SLUG);
+  const lc = document.getElementById('likeCount');
+  const hl = document.getElementById('heroLikes');
+  if (lc) lc.textContent = SS.fmt(stats.likes);
+  if (hl) hl.textContent = SS.fmt(stats.likes);
+}
+
+// ── DISLIKE BUTTON ──
+async function doDislike() {
+  const alreadyDisliked = localStorage.getItem('disliked_' + SLUG);
+
+  if (!alreadyDisliked) {
+    // If previously liked, undo that first
+    if (localStorage.getItem('liked_' + SLUG)) {
+      SS.rpc('remove_like', { p_slug: SLUG });
+      localStorage.removeItem('liked_' + SLUG);
+      const lb = document.getElementById('likeBtn');
+      if (lb) lb.classList.remove('liked');
+    }
+    // Add dislike
+    SS.rpc('add_dislike', { p_slug: SLUG });
+    localStorage.setItem('disliked_' + SLUG, '1');
+    const db = document.getElementById('dislikeBtn');
+    if (db) { db.style.borderColor = '#DC2626'; db.style.color = '#DC2626'; }
+  } else {
+    // Undo dislike
+    SS.rpc('remove_dislike', { p_slug: SLUG });
+    localStorage.removeItem('disliked_' + SLUG);
+    const db = document.getElementById('dislikeBtn');
+    if (db) { db.style.borderColor = ''; db.style.color = ''; }
+  }
+
+  await new Promise(r => setTimeout(r, 300));
+  const stats = await SS.getStats(SLUG);
+  const dc = document.getElementById('disCount');
+  if (dc) dc.textContent = stats.dislikes;
+}
+</script>
+<script src="supabase-stats.js">
 </script>
 </body>
 </html>
