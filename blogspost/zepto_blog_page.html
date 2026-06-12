@@ -317,8 +317,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
       <div class="h-meta">
         <div class="hm">📅 <strong>February 3, 2025</strong></div>
         <div class="hm">📖 <strong>9 min</strong> read</div>
-        <div class="hm">👁 <strong>31.2K</strong> views</div>
-        <div class="hm">❤️ <strong>1,423</strong> likes</div>
+        <div class="hm">👁 <strong id="heroViews">…</strong> views</div>
+        <div class="hm">❤️ <strong id="heroLikes">…</strong> likes</div>
       </div>
       <div class="h-share">
         <span class="h-share-lbl">Share:</span>
@@ -681,64 +681,59 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 </footer>
 
 <script>
-// ── READING PROGRESS BAR ──
+// ── PROGRESS BAR ──
 window.addEventListener('scroll', () => {
   const h = document.body.scrollHeight - window.innerHeight;
   document.getElementById('prog').style.width = Math.min((window.scrollY / h) * 100, 100) + '%';
   updateTOC();
 });
 
-// ── 10-MIN COUNTDOWN CLOCK ──
+// ── COUNTDOWN CLOCK ──
 let t = 10;
 const clockEl = document.getElementById('clockNum');
 const ringEl  = document.getElementById('clockRingFill');
-const C = 2 * Math.PI * 100; // circumference of r=100 circle
-
+const C = 2 * Math.PI * 100;
 function updateClock() {
   if (clockEl) clockEl.textContent = t;
-  if (ringEl) ringEl.style.strokeDashoffset = C - (C * ((10 - t) / 10));
-  t--;
-  if (t < 0) t = 10;
+  if (ringEl)  ringEl.style.strokeDashoffset = C - (C * ((10 - t) / 10));
+  t--; if (t < 0) t = 10;
 }
 updateClock();
 setInterval(updateClock, 1000);
 
-// ── TOC ACTIVE STATE ──
-const sections = [
-  {id:'s-intro',link:0},{id:'s1',link:1},{id:'s2',link:2},{id:'s3',link:3},
-  {id:'s4',link:4},{id:'s5',link:5},{id:'s6',link:6},{id:'s7',link:7}
-];
+// ── TOC ──
+const tocSecs = [
+  'intro','s1','s2','s3','s4','s5','s6','s7'
+].map((id,i) => ({id: id === 'intro' ? 's-intro' : id, i}));
 function updateTOC() {
   const links = document.querySelectorAll('.tl');
   let active = 0;
-  sections.forEach((s, i) => {
+  tocSecs.forEach(s => {
     const el = document.getElementById(s.id);
-    if (el && el.getBoundingClientRect().top < 110) active = i;
+    if (el && el.getBoundingClientRect().top < 110) active = s.i;
   });
   links.forEach((l, i) => l.classList.toggle('on', i === active));
 }
 
-// ── SCROLL ANIMATIONS ──
+// ── SCROLL FADE-UP ──
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.1 });
 document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
-// ── ANIMATED STAT COUNTERS ──
+// ── ANIMATED COUNTERS ──
 const counterObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
     const el = e.target;
-    const target  = parseFloat(el.dataset.target);
-    const suffix  = el.dataset.suffix || '';
-    const prefix  = el.dataset.prefix || '';
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
     const t0 = performance.now();
-    const dur = 2000;
     function tick(now) {
-      const p = Math.min((now - t0) / dur, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const cur = target * eased;
-      el.textContent = prefix + (Number.isInteger(target) ? Math.round(cur) : cur.toFixed(1)) + suffix;
+      const p = Math.min((now - t0) / 2000, 1);
+      const v = target * (1 - Math.pow(1 - p, 3));
+      el.textContent = prefix + (Number.isInteger(target) ? Math.round(v) : v.toFixed(1)) + suffix;
       if (p < 1) requestAnimationFrame(tick);
       else el.textContent = prefix + target + suffix;
     }
@@ -746,49 +741,14 @@ const counterObs = new IntersectionObserver(entries => {
     counterObs.unobserve(el);
   });
 }, { threshold: 0.5 });
-document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
 
-// ── FUNDING BAR ANIMATION ──
+// ── FUNDING BAR + DEBATE BAR ──
 const fundObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.getElementById('fundBar').style.width = '100%';
-      fundObs.disconnect();
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { document.getElementById('fundBar').style.width='100%'; fundObs.disconnect(); } });
 }, { threshold: 0.3 });
-const fundEl = document.getElementById('fundBar');
-if (fundEl) fundObs.observe(fundEl);
-
-// ── DEBATE BAR ──
 const debObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.getElementById('dcFill').style.width = '44%';
-      debObs.disconnect();
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { document.getElementById('dcFill').style.width='44%'; debObs.disconnect(); } });
 }, { threshold: 0.4 });
-const dcEl = document.getElementById('dcFill');
-if (dcEl) debObs.observe(dcEl);
-
-// ── LIKE / DISLIKE ──
-let liked = false, disliked = false;
-let lc = 1423, dc = 41;
-function doLike() {
-  liked = !liked;
-  if (liked) lc++; else lc--;
-  document.getElementById('likeBtn').classList.toggle('liked', liked);
-  document.getElementById('likeCount').textContent = lc.toLocaleString();
-}
-function doDislike() {
-  disliked = !disliked;
-  if (disliked) dc++; else dc--;
-  const btn = document.getElementById('disBtn');
-  btn.style.borderColor = disliked ? '#DC2626' : '';
-  btn.style.color       = disliked ? '#DC2626' : '';
-  document.getElementById('disCount').textContent = dc;
-}
 
 // ── COPY LINK ──
 function copyLink() {
@@ -798,6 +758,92 @@ function copyLink() {
     setTimeout(() => b.textContent = '🔗 Copy Link', 2200);
   });
 }
+
+// ══════════════════════════════════════════════════
+// REAL STATS — Supabase Integration
+// ══════════════════════════════════════════════════
+const SLUG = 'zepto-rise';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // Observe counters and bars after DOM ready
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+  const fb = document.getElementById('fundBar'); if (fb) fundObs.observe(fb);
+  const dcf = document.getElementById('dcFill'); if (dcf) debObs.observe(dcf);
+
+  // Count view once per session
+  if (!sessionStorage.getItem('v_' + SLUG)) {
+    sessionStorage.setItem('v_' + SLUG, '1');
+    SS.rpc('increment_view', { p_slug: SLUG });
+  }
+
+  // Load stats
+  const stats = await SS.getStats(SLUG);
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('heroViews', SS.fmt(stats.views));
+  setEl('heroLikes', SS.fmt(stats.likes));
+  setEl('likeCount', SS.fmt(stats.likes));
+  setEl('disCount',  stats.dislikes);
+
+  // Restore state
+  if (localStorage.getItem('liked_' + SLUG)) {
+    const lb = document.getElementById('likeBtn'); if (lb) lb.classList.add('liked');
+  }
+  if (localStorage.getItem('disliked_' + SLUG)) {
+    const db = document.getElementById('disBtn');
+    if (db) { db.style.borderColor = '#DC2626'; db.style.color = '#DC2626'; }
+  }
+});
+
+// ── LIKE ──
+async function doLike() {
+  const liked = localStorage.getItem('liked_' + SLUG);
+  if (!liked) {
+    if (localStorage.getItem('disliked_' + SLUG)) {
+      SS.rpc('remove_dislike', { p_slug: SLUG });
+      localStorage.removeItem('disliked_' + SLUG);
+      const db = document.getElementById('disBtn');
+      if (db) { db.style.borderColor=''; db.style.color=''; }
+    }
+    SS.rpc('add_like', { p_slug: SLUG });
+    localStorage.setItem('liked_' + SLUG, '1');
+    const lb = document.getElementById('likeBtn'); if (lb) lb.classList.add('liked');
+  } else {
+    SS.rpc('remove_like', { p_slug: SLUG });
+    localStorage.removeItem('liked_' + SLUG);
+    const lb = document.getElementById('likeBtn'); if (lb) lb.classList.remove('liked');
+  }
+  await new Promise(r => setTimeout(r, 300));
+  const stats = await SS.getStats(SLUG);
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('likeCount', SS.fmt(stats.likes));
+  setEl('heroLikes', SS.fmt(stats.likes));
+}
+
+// ── DISLIKE ──
+async function doDislike() {
+  const disliked = localStorage.getItem('disliked_' + SLUG);
+  if (!disliked) {
+    if (localStorage.getItem('liked_' + SLUG)) {
+      SS.rpc('remove_like', { p_slug: SLUG });
+      localStorage.removeItem('liked_' + SLUG);
+      const lb = document.getElementById('likeBtn'); if (lb) lb.classList.remove('liked');
+    }
+    SS.rpc('add_dislike', { p_slug: SLUG });
+    localStorage.setItem('disliked_' + SLUG, '1');
+    const db = document.getElementById('disBtn');
+    if (db) { db.style.borderColor='#DC2626'; db.style.color='#DC2626'; }
+  } else {
+    SS.rpc('remove_dislike', { p_slug: SLUG });
+    localStorage.removeItem('disliked_' + SLUG);
+    const db = document.getElementById('disBtn');
+    if (db) { db.style.borderColor=''; db.style.color=''; }
+  }
+  await new Promise(r => setTimeout(r, 300));
+  const stats = await SS.getStats(SLUG);
+  const dc = document.getElementById('disCount'); if (dc) dc.textContent = stats.dislikes;
+}
+</script>
+<script src="supabase-stats.js">
 </script>
 </body>
 </html>
