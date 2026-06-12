@@ -410,7 +410,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);line-
       <p class="sec-sub" style="margin:0 auto">Every case study has a debate attached. Vote, argue, and see where India stands on the decisions that defined these companies.</p>
     </div>
     <div class="dcard">
-      <div class="d-label">🔥 Debate #14 · 2,341 votes</div>
+      <div class="d-label" id="homeDebLabel">🔥 Debate #14 · 0 votes</div>
       <div class="d-q">Was Byju's collapse primarily a founder's ego problem, or were Indian VCs equally at fault for reckless over-funding?</div>
       <div class="d-sides">
         <div class="d-side d-a">
@@ -423,11 +423,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);line-
         </div>
       </div>
       <div class="bar-labels">
-        <span class="bar-a">Side A — 62%</span>
-        <span class="bar-b">38% — Side B</span>
+        <span class="bar-a" id="homeBarA">Side A — 0%</span>
+        <span class="bar-b" id="homeBarB">0% — Side B</span>
       </div>
       <div class="bar-track"><div class="bar-fill" id="bfill"></div></div>
-      <div class="bar-note">2,341 readers voted · Debate closes in 4 days</div>
+      <div class="bar-note" id="homeBarNote">0 readers voted · Live & ongoing</div>
     </div>
     <div style="text-align:center;margin-top:32px">
       <a href="/IndianStartupFiles/debates/indian_startup_files_debates_page.html" class="btn-pri">See All Debates →</a>
@@ -517,7 +517,7 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
 const barObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){document.getElementById('bfill').style.width='62%'}});
+  entries.forEach(e=>{if(e.isIntersecting){document.getElementById('bfill').style.width='0%'}});
 });
 const bf=document.getElementById('bfill');
 if(bf)barObs.observe(bf);
@@ -525,17 +525,32 @@ if(bf)barObs.observe(bf);
 <script src="supabase-stats.js">
 </script>
 <script>
-// Update homepage reader count with real Supabase total
+// Real reader count
 SS.getAllStats().then(allStats => {
   const totalViews = allStats.reduce((s, r) => s + (r.views || 0), 0);
   const el = document.getElementById('homeReaders');
   if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
 });
 
-// ADD THIS BLOCK RIGHT BELOW ↓
-SS.getTotalVotes().then(total => {
-  const el = document.getElementById('totalVotesEl');
-  if (el) el.textContent = total.toLocaleString();
-});</script>
+// Real debate vote data for Debate #1 (Byju's)
+SS.rpc('get_debate_votes', { p_debate_id: 1 }).then(result => {
+  const total  = result ? (parseInt(result.total) || 0) : 0;
+  const aVotes = result ? (parseInt(result.a)     || 0) : 0;
+  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 0;
+  const pctB   = 100 - pctA;
+
+  const label    = document.getElementById('homeDebLabel');
+  const barA     = document.getElementById('homeBarA');
+  const barB     = document.getElementById('homeBarB');
+  const barFill  = document.getElementById('bfill');
+  const barNote  = document.getElementById('homeBarNote');
+
+  if (label)   label.textContent   = '🔥 Debate #14 · ' + total.toLocaleString() + ' votes';
+  if (barA)    barA.textContent    = 'Side A — ' + pctA + '%';
+  if (barB)    barB.textContent    = pctB + '% — Side B';
+  if (barFill) barFill.style.width = pctA + '%';
+  if (barNote) barNote.textContent = total.toLocaleString() + ' readers voted · Live & ongoing';
+});
+</script>
 </body>
 </html>
