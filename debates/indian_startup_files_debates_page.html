@@ -329,7 +329,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
           <div class="pc-meta-row">
             <div class="pcm">🕒 <strong id="pcDuration">–:––</strong></div>
             <div class="pcm">📅 <strong id="pcDate">Jan 20, 2025</strong></div>
-            <div class="pcm">🗳️ <strong id="pcVotes">2,341</strong> votes</div>
+            <div class="pcm">🗳️ <strong id="pcVotes">-</strong> votes</div>
           </div>
         </div>
       </div>
@@ -384,7 +384,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
       <div class="deb-area">
         <div class="deb-top">
           <div class="deb-heading">⚖️ The Debate Question</div>
-          <div class="deb-votes-ct" id="debVotesCount">2,341 votes cast</div>
+          <div class="deb-votes-ct" id="debVotesCount">— votes cast</div>
         </div>
         <div class="deb-question" id="debQuestion">"Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?"</div>
         <div class="deb-sides">
@@ -398,11 +398,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
           </div>
         </div>
         <div class="vote-row">
-          <span id="voteA">Side A — 62%</span>
-          <span id="voteB">38% — Side B</span>
-        </div>
+          <span id="voteA">Side A — —%</span>
+          <span id="voteB">38% — Side B</span><span id="voteB">—% — Side B</span>
+          div>
         <div class="vote-track"><div class="vote-fill" id="voteFill"></div></div>
-        <div class="vote-note" id="voteNote">2,341 listeners have voted · Listen and decide for yourself</div>
+        <div class="vote-note" id="voteNote">Be the first to vote · Listen and decide for yourself</div>
       </div>
 
     </div><!-- /player-card -->
@@ -506,9 +506,9 @@ const DEBATES = [
     question: "Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?",
     sideA: "Founder's ego and refusal to accept accountability created an unrecoverable spiral.",
     sideB: "VCs threw billions without governance — they're equal architects of the disaster.",
-    pctA: 62,
-    pctB: 38,
-    totalVotes: 2341,
+    pctA: 50,
+    pctB: 50,
+    totalVotes: 0,
     duration: "47:32",
     date: "Jan 20, 2025",
     // ★ BYJU'S AUDIO — Google Drive link
@@ -528,9 +528,9 @@ const DEBATES = [
     question: "Is quick commerce a genuine retail revolution, or a VC-funded illusion with no viable unit economics?",
     sideA: "Density, habit, and scale will make quick commerce the future of Indian retail.",
     sideB: "Dark stores and 10-min delivery with thin margins make this a money-burning fantasy.",
-    pctA: 44,
-    pctB: 56,
-    totalVotes: 1892,
+    pctA: 50,
+    pctB: 50,
+    totalVotes: 0,
     duration: "38:15",
     date: "Feb 5, 2025",
     // ★ ADD EP 02 AUDIO — paste your Google Drive sharing link here:
@@ -550,9 +550,9 @@ const DEBATES = [
     question: "Did Zomato democratise food delivery for small restaurants, or is its commission model slowly strangling them?",
     sideA: "Zomato gave small restaurants national reach and entirely new customer bases.",
     sideB: "35% commissions are predatory — Zomato is slowly killing the industry it claims to serve.",
-    pctA: 51,
-    pctB: 49,
-    totalVotes: 1654,
+    pctA: 50,
+    pctB: 50,
+    totalVotes: 0,
     duration: "42:50",
     date: "Feb 18, 2025",
     // ★ ADD EP 03 AUDIO — paste your Google Drive sharing link here:
@@ -572,9 +572,9 @@ const DEBATES = [
     question: "Was Ritesh Agarwal's global expansion bold strategic vision, or textbook recklessness that nearly destroyed OYO?",
     sideA: "The global vision was correct — execution failed, not the underlying strategy.",
     sideB: "Expanding to 80 countries without a stable home base was textbook recklessness.",
-    pctA: 32,
-    pctB: 68,
-    totalVotes: 1423,
+    pctA: 50,
+    pctB: 50,
+    totalVotes: 0,
     duration: "51:10",
     date: "Mar 1, 2025",
     // ★ ADD EP 04 AUDIO — paste your Google Drive sharing link here:
@@ -594,9 +594,9 @@ const DEBATES = [
     question: "Is CRED building India's highest-trust financial brand, or just burning VC money stylishly?",
     sideA: "CRED is building India's most valuable trust-based financial brand. Patience required.",
     sideB: "The unit economics are fundamentally broken. World's most expensive rewards programme.",
-    pctA: 58,
-    pctB: 42,
-    totalVotes: 1187,
+    pctA: 50,
+    pctB: 50,
+    totalVotes: 0,
     duration: "35:22",
     date: "Mar 12, 2025",
     // ★ ADD EP 05 AUDIO — paste your Google Drive sharing link here:
@@ -616,9 +616,9 @@ const DEBATES = [
     question: "Was Paytm's IPO timing catastrophically wrong, or are its problems structural regardless of when it listed?",
     sideA: "The timing was wrong — the business model was unproven at public-company scale.",
     sideB: "Paytm's problems are structural. Any IPO would have revealed the same issues eventually.",
-    pctA: 71,
-    pctB: 29,
-    totalVotes: 2089,
+    pctA: 50,
+    pctB: 50,
+    totalVotes: 0,
     duration: "44:05",
     date: "Mar 25, 2025",
     // ★ ADD EP 06 AUDIO — paste your Google Drive sharing link here:
@@ -1051,9 +1051,27 @@ document.addEventListener('DOMContentLoaded', () => {
   heroEq.classList.add('idle');
   miniEq.classList.add('idle');
 
-  // Compute and display total votes
-  const total = DEBATES.reduce((sum, d) => sum + d.totalVotes, 0);
-  document.getElementById('totalVotesEl').textContent = total.toLocaleString();
+  // Load REAL total votes from DB
+  SS.rpc('get_total_votes', {}).then(total => {
+    const el = document.getElementById('totalVotesEl');
+    if (el) el.textContent = (parseInt(total) || 0).toLocaleString();
+  });
+
+  // Load REAL vote data for episode 1 shown on page load
+  SS.rpc('get_debate_votes', { p_debate_id: 1 }).then(result => {
+    if (!result) return;
+    const tot  = parseInt(result.total) || 0;
+    if (tot === 0) return;
+    const aVotes = parseInt(result.a) || 0;
+    const pctA   = Math.round((aVotes / tot) * 100);
+    const pctB   = 100 - pctA;
+    document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
+    document.getElementById('voteB').textContent         = pctB + '% — Side B';
+    document.getElementById('debVotesCount').textContent = tot.toLocaleString() + ' votes cast';
+    document.getElementById('voteNote').textContent      = tot.toLocaleString() + ' listeners voted · Listen and decide for yourself';
+    document.getElementById('pcVotes').textContent       = tot.toLocaleString();
+    setTimeout(() => { document.getElementById('voteFill').style.width = pctA + '%'; }, 500);
+  });
 });
   async function castVote(side) {
   const d = DEBATES.find(x => x.id === curId);
@@ -1091,7 +1109,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderGrid();
 }
 </script>
-<script src="supabase-stats.js">
+<script src="/IndianStartupFiles/supabase-stats.js">
   
 </script>
 </body>
