@@ -240,7 +240,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .lbtn:hover,.lbtn.liked{background:var(--z);color:var(--navy)}
 .dbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:transparent;color:var(--t3);width:100%;transition:all .2s}
 .dbtn:hover{border-color:var(--re);color:var(--re)}
+.dbtn.disliked{border-color:var(--re)!important;color:var(--re)!important;background:rgba(220,38,38,0.08)}
 
+  
 /* ── RELATED ── */
 .related-sec{background:var(--z-lt);border-top:2px solid var(--z-md);padding:48px 5%}
 .rel-in{max-width:1200px;margin:0 auto}
@@ -626,8 +628,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
     </div>
     <div class="like-card">
       <div class="lc-h">Was this file useful?</div>
-      <button class="lbtn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">1,423</span></button>
-      <button class="dbtn" id="disBtn"  onclick="doDislike()">👎 Dislike · <span id="disCount">41</span></button>
+      <button class="lbtn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">…</span></button>
+      <button class="dbtn" id="disBtn"  onclick="doDislike()">👎 Dislike · <span id="disCount">…</span></button>
     </div>
   </aside>
 
@@ -790,7 +792,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   if (localStorage.getItem('disliked_' + SLUG)) {
     const db = document.getElementById('disBtn');
-    if (db) { db.style.borderColor = '#DC2626'; db.style.color = '#DC2626'; }
+    if (db) db.classList.add('disliked');
   }
 });
 
@@ -831,12 +833,12 @@ async function doDislike() {
     SS.rpc('add_dislike', { p_slug: SLUG });
     localStorage.setItem('disliked_' + SLUG, '1');
     const db = document.getElementById('disBtn');
-    if (db) { db.style.borderColor='#DC2626'; db.style.color='#DC2626'; }
+    if (db) db.classList.add('disliked');
   } else {
     SS.rpc('remove_dislike', { p_slug: SLUG });
     localStorage.removeItem('disliked_' + SLUG);
     const db = document.getElementById('disBtn');
-    if (db) { db.style.borderColor=''; db.style.color=''; }
+    if (db) db.classList.remove('disliked');
   }
   await new Promise(r => setTimeout(r, 300));
   const stats = await SS.getStats(SLUG);
