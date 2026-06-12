@@ -261,7 +261,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
       <p class="h-sub">India's biggest startup decisions argued from two sides. Listen to both. Vote for what you believe. A new file goes on trial every two weeks.</p>
       <div class="h-stats">
         <div class="hstat"><strong>6</strong><span>Episodes</span></div>
-        <div class="hstat"><strong id="totalVotesEl">10,586</strong><span>Votes Cast</span></div>
+        <div class="hstat"><strong id="totalVotesEl">0</strong><span>Votes Cast</span></div>
         <div class="hstat"><strong>~42 min</strong><span>Avg Runtime</span></div>
       </div>
     </div>
@@ -329,7 +329,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
           <div class="pc-meta-row">
             <div class="pcm">🕒 <strong id="pcDuration">–:––</strong></div>
             <div class="pcm">📅 <strong id="pcDate">Jan 20, 2025</strong></div>
-            <div class="pcm">🗳️ <strong id="pcVotes">2,341</strong> votes</div>
+            <div class="pcm">🗳️ <strong id="pcVotes">0</strong> votes</div>
           </div>
         </div>
       </div>
@@ -384,7 +384,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
       <div class="deb-area">
         <div class="deb-top">
           <div class="deb-heading">⚖️ The Debate Question</div>
-          <div class="deb-votes-ct" id="debVotesCount">2,341 votes cast</div>
+          <div class="deb-votes-ct" id="debVotesCount">0 votes cast</div>
         </div>
         <div class="deb-question" id="debQuestion">"Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?"</div>
         <div class="deb-sides">
@@ -402,7 +402,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
           <span id="voteB">38% — Side B</span>
         </div>
         <div class="vote-track"><div class="vote-fill" id="voteFill"></div></div>
-        <div class="vote-note" id="voteNote">2,341 listeners have voted · Listen and decide for yourself</div>
+        <div class="vote-note" id="voteNote">0 listeners have voted · Listen and decide for yourself</div>
       </div>
 
     </div><!-- /player-card -->
@@ -506,9 +506,9 @@ const DEBATES = [
     question: "Was Byju's collapse the founder's ego problem, or were VCs equally at fault for reckless over-funding?",
     sideA: "Founder's ego and refusal to accept accountability created an unrecoverable spiral.",
     sideB: "VCs threw billions without governance — they're equal architects of the disaster.",
-    pctA: 62,
-    pctB: 38,
-    totalVotes: 2341,
+    pctA: 0,
+    pctB: 0,
+    totalVotes: 0,
     duration: "47:32",
     date: "Jan 20, 2025",
     // ★ BYJU'S AUDIO — Google Drive link
@@ -1044,7 +1044,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Animate the main player debate vote bar on load
   setTimeout(() => {
-    document.getElementById('voteFill').style.width = '62%';
+    document.getElementById('voteFill').style.width = '0%';
   }, 400);
 
   // Equalisers start in idle (non-animated) state
@@ -1052,8 +1052,8 @@ document.addEventListener('DOMContentLoaded', () => {
   miniEq.classList.add('idle');
 
   // Compute and display total votes
-  const total = DEBATES.reduce((sum, d) => sum + d.totalVotes, 0);
-  document.getElementById('totalVotesEl').textContent = total.toLocaleString();
+  // Total votes loaded from DB via get_debate_votes per episode
+  document.getElementById('totalVotesEl').textContent = '0';
 });
   async function castVote(side) {
   const d = DEBATES.find(x => x.id === curId);
@@ -1068,9 +1068,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cast vote to database
   const result = await SS.rpc('cast_debate_vote', { p_debate_id: d.dbId, p_side: side });
-  localStorage.setItem(key, side);
 
   if (!result) { showToast('⚠️ Vote failed. Try again.'); return; }
+  localStorage.setItem(key, side);
 
   // Update UI with fresh counts
   const total = parseInt(result.total) || 1;
