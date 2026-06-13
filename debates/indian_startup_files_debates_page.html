@@ -1063,6 +1063,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const aVotes = result.a    || 0;
     const pctA   = tot > 0 ? Math.round((aVotes / tot) * 100) : 0;
     const pctB   = 100 - pctA;
+    const deb = DEBATES.find(x => x.dbId === 1);
+if (deb) { deb.totalVotes = tot; deb.pctA = pctA; deb.pctB = pctB; }
+renderGrid();
     document.getElementById('pcVotes').textContent       = tot.toLocaleString();
     document.getElementById('voteA').textContent         = tot > 0 ? 'Side A — ' + pctA + '%' : 'Side A — —%';
     document.getElementById('voteB').textContent         = tot > 0 ? pctB + '% — Side B' : '—% — Side B';
@@ -1076,43 +1079,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // ════════════════════════════════════════════════════════════
 //  CAST VOTE
 // ════════════════════════════════════════════════════════════
-async function castVote(side) {
-  const d = DEBATES.find(x => x.id === curId);
-  if (!d) return;
-
-  const key = 'voted_debate_' + d.dbId;
-  if (localStorage.getItem(key)) {
-    showToast('🗳️ You already voted on this debate!');
-    return;
-  }
-
-  // SS.vote now calls cast_debate_vote RPC → returns {a,b,total} on success
-  const result = await SS.vote(d.dbId, side);
-
-  if (!result) {
-    showToast('⚠️ Vote failed. Please try again.');
-    return;
-  }
-
-  // Lock only after confirmed success
-  localStorage.setItem(key, side);
-
-  // result already has fresh counts — no second fetch needed
-  const total  = parseInt(result.total) || 0;
-  const aVotes = parseInt(result.a)     || 0;
-  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
-  const pctB   = 100 - pctA;
-
-  document.getElementById('pcVotes').textContent       = total.toLocaleString();
-  document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
-  document.getElementById('voteB').textContent         = pctB + '% — Side B';
-  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
-  document.getElementById('voteFill').style.width      = pctA + '%';
-  document.getElementById('voteNote').textContent      = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
-
-  SS.getTotalVotes().then(t => {
-    const el = document.getElementById('totalVotesEl');
-    if (el) el.textContent = (t || 0).toLocaleString();
   });
 
   showToast('✅ Voted Side ' + side + '! Results updated.');
@@ -1162,6 +1128,8 @@ async function castVote(side) {
   });
 
   showToast('✅ Voted Side ' + side + '! Results updated.');
+  const deb2 = DEBATES.find(x => x.dbId === d.dbId);
+  if (deb2) { deb2.totalVotes = total; deb2.pctA = pctA; deb2.pctB = pctB; }
   renderGrid();
 }
 </script>
