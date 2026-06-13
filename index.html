@@ -530,24 +530,26 @@ SS.getAllStats().then(allStats => {
   if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
 });
 
-// Real debate vote data for Debate #1 (Byju's)
-SS.rpc('get_debate_votes', { p_debate_id: 1 }).then(result => {
-  const total  = result ? (parseInt(result.total) || 0) : 0;
-  const aVotes = result ? (parseInt(result.a)     || 0) : 0;
+// Real debate vote data — always synced with debate page
+SS.getDebateVotes(1).then(result => {
+  const total  = result.total || 0;
+  const aVotes = result.a    || 0;
   const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 0;
   const pctB   = 100 - pctA;
 
-  const label    = document.getElementById('homeDebLabel');
-  const barA     = document.getElementById('homeBarA');
-  const barB     = document.getElementById('homeBarB');
-  const barFill  = document.getElementById('bfill');
-  const barNote  = document.getElementById('homeBarNote');
+  const label   = document.getElementById('homeDebLabel');
+  const barA    = document.getElementById('homeBarA');
+  const barB    = document.getElementById('homeBarB');
+  const barFill = document.getElementById('bfill');
+  const barNote = document.getElementById('homeBarNote');
 
   if (label)   label.textContent   = '🔥 Debate #14 · ' + total.toLocaleString() + ' votes';
-  if (barA)    barA.textContent    = 'Side A — ' + pctA + '%';
-  if (barB)    barB.textContent    = pctB + '% — Side B';
-  if (barFill) barFill.style.width = pctA + '%';
-  if (barNote) barNote.textContent = total.toLocaleString() + ' readers voted · Live & ongoing';
+  if (barA)    barA.textContent    = total > 0 ? 'Side A — ' + pctA + '%' : 'Side A — —%';
+  if (barB)    barB.textContent    = total > 0 ? pctB + '% — Side B' : '—% — Side B';
+  if (barFill) barFill.style.width = (total > 0 ? pctA : 0) + '%';
+  if (barNote) barNote.textContent = total > 0
+    ? total.toLocaleString() + ' readers voted · Live & ongoing'
+    : 'Be the first to vote · Live & ongoing';
 });
 </script>
 </body>
