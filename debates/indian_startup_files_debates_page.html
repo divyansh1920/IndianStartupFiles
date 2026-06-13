@@ -1086,21 +1086,20 @@ async function castVote(side) {
     return;
   }
 
-  // Direct REST insert
-  const success = await SS.vote(d.dbId, side);
+  // SS.vote now calls cast_debate_vote RPC → returns {a,b,total} on success
+  const result = await SS.vote(d.dbId, side);
 
-  if (!success) {
+  if (!result) {
     showToast('⚠️ Vote failed. Please try again.');
-    return; // localStorage NOT set → user can retry
+    return;
   }
 
   // Lock only after confirmed success
   localStorage.setItem(key, side);
 
-  // Fetch fresh live counts
-  const result = await SS.getDebateVotes(d.dbId);
-  const total  = result.total || 0;
-  const aVotes = result.a    || 0;
+  // result already has fresh counts — no second fetch needed
+  const total  = parseInt(result.total) || 0;
+  const aVotes = parseInt(result.a)     || 0;
   const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
   const pctB   = 100 - pctA;
 
@@ -1111,7 +1110,6 @@ async function castVote(side) {
   document.getElementById('voteFill').style.width      = pctA + '%';
   document.getElementById('voteNote').textContent      = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
 
-  // Update totalVotesEl in hero
   SS.getTotalVotes().then(t => {
     const el = document.getElementById('totalVotesEl');
     if (el) el.textContent = (t || 0).toLocaleString();
