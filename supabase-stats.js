@@ -7,7 +7,7 @@ const _H = {
   'Content-Type': 'application/json'
 };
 
-// Call RPC function (views/likes/dislikes)
+// ── CORE RPC CALLER ──────────────────────────────────────────
 async function ssRpc(fnName, params) {
   try {
     const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/' + fnName, {
@@ -24,7 +24,7 @@ async function ssRpc(fnName, params) {
   } catch(e) { console.warn('Supabase error:', fnName, e); return null; }
 }
 
-// Get stats for ONE article slug
+// ── ARTICLE STATS ────────────────────────────────────────────
 async function ssGetStats(slug) {
   try {
     const res = await fetch(
@@ -36,7 +36,6 @@ async function ssGetStats(slug) {
   } catch(e) { return { views: 0, likes: 0, dislikes: 0 }; }
 }
 
-// Get stats for ALL articles
 async function ssGetAllStats() {
   try {
     const res = await fetch(
@@ -47,16 +46,19 @@ async function ssGetAllStats() {
   } catch(e) { return []; }
 }
 
-// ── DEBATE VOTES (direct REST, no RPC function needed) ──
+// ── DEBATE VOTES — ALL VIA RPC (bypasses schema cache) ───────
 
-// INSERT one vote directly — returns true if success
+// INSERT vote via RPC → returns {a, b, total} on success, false on fail
 async function ssVote(debateId, side) {
   try {
     const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/cast_debate_vote', {
       method: 'POST', headers: _H,
       body: JSON.stringify({ p_debate_id: debateId, p_side: side })
     });
-    if (!res.ok) { console.warn('Vote failed:', res.status, await res.text()); return false; }
+    if (!res.ok) {
+      console.warn('Vote RPC failed:', res.status, await res.text());
+      return false;
+    }
     const text = await res.text();
     if (!text || text === 'null') return false;
     const parsed = JSON.parse(text);
@@ -64,7 +66,7 @@ async function ssVote(debateId, side) {
   } catch(e) { console.warn('Vote error:', e); return false; }
 }
 
-// GET vote counts for one debate — returns { a, b, total }
+// GET vote counts for one debate via RPC → returns {a, b, total}
 async function ssGetDebateVotes(debateId) {
   try {
     const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/get_debate_votes', {
@@ -76,11 +78,15 @@ async function ssGetDebateVotes(debateId) {
     if (!text || text === 'null') return { a: 0, b: 0, total: 0 };
     const parsed = JSON.parse(text);
     const d = Array.isArray(parsed) ? parsed[0] : parsed;
-    return { a: parseInt(d?.a)||0, b: parseInt(d?.b)||0, total: parseInt(d?.total)||0 };
+    return {
+      a:     parseInt(d?.a)     || 0,
+      b:     parseInt(d?.b)     || 0,
+      total: parseInt(d?.total) || 0
+    };
   } catch(e) { return { a: 0, b: 0, total: 0 }; }
 }
 
-// GET total votes across ALL debates
+// GET total votes across all debates via RPC → returns number
 async function ssGetTotalVotes() {
   try {
     const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/get_total_votes', {
@@ -92,7 +98,7 @@ async function ssGetTotalVotes() {
   } catch(e) { return 0; }
 }
 
-// Format numbers
+// ── FORMAT ───────────────────────────────────────────────────
 function ssFmt(n) {
   n = parseInt(n) || 0;
   if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
@@ -100,12 +106,13 @@ function ssFmt(n) {
   return '' + n;
 }
 
+// ── EXPOSE ───────────────────────────────────────────────────
 window.SS = {
-  rpc:             ssRpc,
-  getStats:        ssGetStats,
-  getAllStats:      ssGetAllStats,
-  fmt:             ssFmt,
-  vote:            ssVote,
-  getDebateVotes:  ssGetDebateVotes,
-  getTotalVotes:   ssGetTotalVotes
+  rpc:            ssRpc,
+  getStats:       ssGetStats,
+  getAllStats:     ssGetAllStats,
+  fmt:            ssFmt,
+  vote:           ssVote,
+  getDebateVotes: ssGetDebateVotes,
+  getTotalVotes:  ssGetTotalVotes
 };
