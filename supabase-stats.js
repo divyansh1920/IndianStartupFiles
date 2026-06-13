@@ -20,15 +20,21 @@ async function ssRpc(fnName, params) {
       headers: _H,
       body: JSON.stringify(params || {})
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      const errText = await res.text();
+      console.warn('Supabase RPC failed:', fnName, res.status, errText);
+      return null;
+    }
     const text = await res.text();
-    return text ? JSON.parse(text) : null;
+    if (!text || text === 'null') return null;
+    const parsed = JSON.parse(text);
+    // Supabase sometimes wraps scalar returns in array — unwrap it
+    return Array.isArray(parsed) ? (parsed[0] ?? null) : parsed;
   } catch(e) {
     console.warn('Supabase error:', fnName, e);
     return null;
   }
 }
-
 // Get stats for ONE article slug
 async function ssGetStats(slug) {
   try {
