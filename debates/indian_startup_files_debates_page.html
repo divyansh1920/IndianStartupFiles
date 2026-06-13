@@ -1123,6 +1123,13 @@ function clearAllVotes() {
   const aVotes = result.a    || 0;
   const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
   const pctB   = 100 - pctA;
+  localStorage.setItem(key, side);
+
+// Disable vote buttons immediately after voting
+const sA = document.querySelector('.deb-side.ds-a');
+const sB = document.querySelector('.deb-side.ds-b');
+sA.style.opacity = '0.6'; sA.style.pointerEvents = 'none';
+sB.style.opacity = '0.6'; sB.style.pointerEvents = 'none';
 
   document.getElementById('pcVotes').textContent       = total.toLocaleString();
   document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
