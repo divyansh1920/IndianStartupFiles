@@ -477,7 +477,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
   </div>
 </footer>
 
-<script src="/IndianStartupFiles/supabase-stats.js">
 <script>
 // ════════════════════════════════════════════════════════════
 //
@@ -1124,7 +1123,52 @@ async function castVote(side) {
   
 });
 </script>
+<script src="/IndianStartupFiles/supabase-stats.js"></script>
+<script>
+// ── castVote lives here — AFTER supabase-stats.js loads so SS is defined ──
+async function castVote(side) {
+  const d = DEBATES.find(x => x.id === curId);
+  if (!d) return;
 
+  const key = 'voted_debate_' + d.dbId;
+  if (localStorage.getItem(key)) {
+    showToast('🗳️ You already voted on this debate!');
+    return;
+  }
+
+  const success = await SS.vote(d.dbId, side);
+
+  if (!success) {
+    showToast('⚠️ Vote failed. Please try again.');
+    return;
+  }
+
+  localStorage.setItem(key, side);
+
+  const result = await SS.getDebateVotes(d.dbId);
+  const total  = result.total || 0;
+  const aVotes = result.a    || 0;
+  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
+  const pctB   = 100 - pctA;
+
+  document.getElementById('pcVotes').textContent       = total.toLocaleString();
+  document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
+  document.getElementById('voteB').textContent         = pctB + '% — Side B';
+  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
+  document.getElementById('voteFill').style.width      = pctA + '%';
+  document.getElementById('voteNote').textContent      = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
+
+  SS.getTotalVotes().then(t => {
+    const el = document.getElementById('totalVotesEl');
+    if (el) el.textContent = (t || 0).toLocaleString();
+  });
+
+  showToast('✅ Voted Side ' + side + '! Results updated.');
+  renderGrid();
+}
+</script>
+</body>
+</html>
   
 </script>
 </body>
