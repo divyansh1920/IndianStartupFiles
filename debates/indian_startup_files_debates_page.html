@@ -400,7 +400,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
         <div class="vote-row">
           <span id="voteA">Side A — 0%</span>
           <span id="voteB">0% — Side B</span>
-          div>
+          </div>
         <div class="vote-track"><div class="vote-fill" id="voteFill"></div></div>
         <div class="vote-note" id="voteNote">Be the first to vote · Listen and decide for yourself</div>
       </div>
@@ -1044,7 +1044,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Animate the main player debate vote bar on load
   setTimeout(() => {
-    document.getElementById('voteFill').style.width = '62%';
+    document.getElementById('voteFill').style.width = '0%';
   }, 400);
 
   // Equalisers start in idle (non-animated) state
@@ -1058,54 +1058,58 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Load REAL vote data for episode 1 shown on page load
-  SS.rpc('get_debate_votes', { p_debate_id: 1 }).then(result => {
-    if (!result) return;
-    const tot  = parseInt(result.total) || 0;
-    if (tot === 0) return;
-    const aVotes = parseInt(result.a) || 0;
-    const pctA   = Math.round((aVotes / tot) * 100);
-    const pctB   = 100 - pctA;
-    document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
-    document.getElementById('voteB').textContent         = pctB + '% — Side B';
-    document.getElementById('debVotesCount').textContent = tot.toLocaleString() + ' votes cast';
-    document.getElementById('voteNote').textContent      = tot.toLocaleString() + ' listeners voted · Listen and decide for yourself';
-    document.getElementById('pcVotes').textContent       = tot.toLocaleString();
-    setTimeout(() => { document.getElementById('voteFill').style.width = pctA + '%'; }, 500);
-  });
+  SS.rpc('get_debate_votes', { p_debate_id: d.dbId }).then(result => {
+  const total  = result ? (parseInt(result.total) || 0) : 0;
+  const aVotes = result ? (parseInt(result.a)     || 0) : 0;
+  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
+  const pctB   = 100 - pctA;
+  document.getElementById('pcVotes').textContent       = total.toLocaleString();
+  document.getElementById('voteA').textContent         = 'Side A — ' + (total > 0 ? pctA : '—') + '%';
+  document.getElementById('voteB').textContent         = (total > 0 ? pctB : '—') + '% — Side B';
+  document.getElementById('debVotesCount').textContent = total > 0 ? total.toLocaleString() + ' votes cast' : '— votes cast';
+  document.getElementById('voteNote').textContent      = total > 0
+    ? total.toLocaleString() + ' listeners voted · Listen and decide for yourself'
+    : 'Be the first to vote · Listen and decide for yourself';
+  setTimeout(() => {
+    document.getElementById('voteFill').style.width = (total > 0 ? pctA : 0) + '%';
+  }, 200);
+});
 });
   async function castVote(side) {
   const d = DEBATES.find(x => x.id === curId);
   if (!d) return;
 
-  // Prevent double voting
   const key = 'voted_debate_' + d.dbId;
   if (localStorage.getItem(key)) {
     showToast('🗳️ You already voted on this debate!');
     return;
   }
 
-  // Cast vote to database
+  // Cast vote to database FIRST, check result, THEN lock localStorage
   const result = await SS.rpc('cast_debate_vote', { p_debate_id: d.dbId, p_side: side });
+
+  if (!result) {
+    showToast('⚠️ Vote failed. Please try again.');
+    return; // localStorage NOT set → user can retry
+  }
+
+  // Only lock user out AFTER confirmed success
   localStorage.setItem(key, side);
 
-  if (!result) { showToast('⚠️ Vote failed. Try again.'); return; }
+  // Update UI with fresh counts from DB
+  const total  = parseInt(result.total) || 1;
+  const aVotes = parseInt(result.a)     || 0;
+  const pctA   = Math.round((aVotes / total) * 100);
+  const pctB   = 100 - pctA;
 
-  // Update UI with fresh counts
-  const total = parseInt(result.total) || 1;
-  const aVotes = parseInt(result.a) || 0;
-  const bVotes = parseInt(result.b) || 0;
-  const pctA = Math.round((aVotes / total) * 100);
-  const pctB = 100 - pctA;
-
-  document.getElementById('voteA').textContent = 'Side A — ' + pctA + '%';
-  document.getElementById('voteB').textContent = pctB + '% — Side B';
+  document.getElementById('pcVotes').textContent       = total.toLocaleString();
+  document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
+  document.getElementById('voteB').textContent         = pctB + '% — Side B';
   document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
-  document.getElementById('voteFill').style.width = pctA + '%';
-  document.getElementById('voteNote').textContent = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
+  document.getElementById('voteFill').style.width      = pctA + '%';
+  document.getElementById('voteNote').textContent      = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
 
   showToast('✅ Vote cast for Side ' + side + '! Results updated.');
-
-  // Refresh episode grid with updated total
   renderGrid();
 }
 </script>
