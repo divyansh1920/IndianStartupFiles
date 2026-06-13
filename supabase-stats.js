@@ -52,45 +52,43 @@ async function ssGetAllStats() {
 // INSERT one vote directly — returns true if success
 async function ssVote(debateId, side) {
   try {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/debate_votes', {
-      method: 'POST',
-      headers: { ..._H, 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ debate_id: debateId, side: side })
+    const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/cast_debate_vote', {
+      method: 'POST', headers: _H,
+      body: JSON.stringify({ p_debate_id: debateId, p_side: side })
     });
-    if (!res.ok) {
-      console.warn('Vote insert failed:', res.status, await res.text());
-      return false;
-    }
-    return true;
+    if (!res.ok) { console.warn('Vote failed:', res.status, await res.text()); return false; }
+    const text = await res.text();
+    if (!text || text === 'null') return false;
+    const parsed = JSON.parse(text);
+    return Array.isArray(parsed) ? (parsed[0] || false) : parsed;
   } catch(e) { console.warn('Vote error:', e); return false; }
 }
 
 // GET vote counts for one debate — returns { a, b, total }
 async function ssGetDebateVotes(debateId) {
   try {
-    const res = await fetch(
-      SUPABASE_URL + '/rest/v1/debate_votes?debate_id=eq.' + debateId + '&select=side',
-      { headers: _H }
-    );
+    const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/get_debate_votes', {
+      method: 'POST', headers: _H,
+      body: JSON.stringify({ p_debate_id: debateId })
+    });
     if (!res.ok) return { a: 0, b: 0, total: 0 };
-    const rows = await res.json();
-    const a = rows.filter(r => r.side === 'A').length;
-    const b = rows.filter(r => r.side === 'B').length;
-    return { a, b, total: a + b };
+    const text = await res.text();
+    if (!text || text === 'null') return { a: 0, b: 0, total: 0 };
+    const parsed = JSON.parse(text);
+    const d = Array.isArray(parsed) ? parsed[0] : parsed;
+    return { a: parseInt(d?.a)||0, b: parseInt(d?.b)||0, total: parseInt(d?.total)||0 };
   } catch(e) { return { a: 0, b: 0, total: 0 }; }
 }
 
 // GET total votes across ALL debates
 async function ssGetTotalVotes() {
   try {
-    const res = await fetch(
-      SUPABASE_URL + '/rest/v1/debate_votes?select=id&limit=0',
-      { headers: { ..._H, 'Prefer': 'count=exact' } }
-    );
+    const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/get_total_votes', {
+      method: 'POST', headers: _H, body: JSON.stringify({})
+    });
     if (!res.ok) return 0;
-    const range = res.headers.get('content-range') || '';
-    const parts = range.split('/');
-    return parseInt(parts[parts.length - 1]) || 0;
+    const text = await res.text();
+    return parseInt(text) || 0;
   } catch(e) { return 0; }
 }
 
