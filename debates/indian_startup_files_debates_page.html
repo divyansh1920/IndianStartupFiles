@@ -1075,16 +1075,6 @@ renderGrid();
       : 'Be the first to vote · Listen and decide for yourself';
     setTimeout(() => { document.getElementById('voteFill').style.width = (tot > 0 ? pctA : 0) + '%'; }, 500);
   });
-
-  // ════════════════════════════════════════════════════════════
-//  CAST VOTE
-// ════════════════════════════════════════════════════════════
-  });
-
-  showToast('✅ Voted Side ' + side + '! Results updated.');
-  renderGrid();
-}
-  
 });
 </script>
 <script src="/IndianStartupFiles/supabase-stats.js"></script>
@@ -1132,9 +1122,6 @@ async function castVote(side) {
   if (deb2) { deb2.totalVotes = total; deb2.pctA = pctA; deb2.pctB = pctB; }
   renderGrid();
 }
-</script>
-</body>
-</html>
   
 </script>
 </body>
