@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Mamaearth Files — Indian Startup Files</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FDFBF7;--w:#fff;
+  --m:#2D6B4A;--m-lt:#EDF6F0;--m-md:#9DD4B0;--m-dk:#1A4030;
+  --pe:#FF6B35;--pe-lt:#FFF3EE;--pe-md:#FFCCBC;
+  --gold:#B8860B;--gold-lt:#FFFBEB;--gold-md:#FDE68A;
+  --green:#059669;--gr-lt:#ECFDF5;--gr-md:#A7F3D0;
+  --or:#FF4500;--or-lt:#FFF0EB;
+  --re:#DC2626;--re-lt:#FEF2F2;
+  --t1:#0F0F0F;--t2:#374151;--t3:#6B7280;--t4:#9CA3AF;
+  --bd:#E5E7EB;--bd2:#F3F4F6;
+  --sh:0 2px 8px rgba(0,0,0,0.07);--sh2:0 8px 32px rgba(0,0,0,0.10);
+  --r:12px;--rl:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.8}
+
+/* ── PROGRESS BAR — forest green ── */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--m);width:0%;z-index:9999;transition:width .1s linear;box-shadow:0 0 8px rgba(45,107,74,.5)}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;background:rgba(253,251,247,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:0 5%}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-ic{width:34px;height:34px;background:var(--or);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-tx{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--t1)}
+.logo-tx span{color:var(--or)}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--t2);font-size:14px;font-weight:500;transition:color .18s}
+.nav-links a:hover{color:var(--or)}
+.nav-cta{background:var(--or)!important;color:#fff!important;padding:8px 20px;border-radius:8px;font-weight:600!important}
+
+/* ── HERO — FOREST GREEN ── */
+.hero{background:linear-gradient(135deg,#1A4030 0%,#255C42 35%,#2D7A52 65%,#3A9264 100%);padding:0;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-40px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);pointer-events:none}
+.hero-in{max-width:1200px;margin:0 auto;padding:64px 5%;display:grid;grid-template-columns:1fr 320px;gap:56px;align-items:center;position:relative;z-index:1}
+.h-bc{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:18px;display:flex;align-items:center;gap:6px}
+.h-bc a{color:rgba(255,255,255,.5);text-decoration:none}
+.h-bc a:hover{color:rgba(255,255,255,.85)}
+.h-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.ht{display:inline-flex;align-items:center;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.ht-green{background:var(--pe);color:#fff}
+.ht-success{background:rgba(255,255,255,.15);color:rgba(255,255,255,.85)}
+.ht-ipo{background:rgba(255,107,53,.25);color:#FFCCBC;border:1px solid rgba(255,107,53,.3)}
+.h-title{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;line-height:1.1;letter-spacing:-1.5px;color:#fff;margin-bottom:16px}
+.h-title .accent{color:var(--pe)}
+.h-deck{font-size:16px;color:rgba(255,255,255,.7);line-height:1.72;max-width:480px;margin-bottom:28px}
+.h-meta{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:22px}
+.hm{display:flex;align-items:center;gap:5px;font-size:13px;color:rgba(255,255,255,.55)}
+.hm strong{color:rgba(255,255,255,.9)}
+.h-share{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.h-share-lbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.sbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:transform .18s,opacity .18s}
+.sbtn:hover{transform:translateY(-1px);opacity:.9}
+.sbtn-wa{background:#25D366;color:#fff}
+.sbtn-tw{background:#1DA1F2;color:#fff}
+.sbtn-cp{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+
+/* ── HERO: PRODUCT LABEL CARD ── */
+.product-label{background:rgba(255,255,255,.1);backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.2);border-radius:18px;padding:26px 22px;color:#fff}
+.pl-header{text-align:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.15)}
+.pl-brand{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--pe);margin-bottom:5px}
+.pl-cert{display:inline-flex;align-items:center;gap:5px;background:rgba(255,107,53,.2);color:#FFCCBC;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:50px;border:1px solid rgba(255,107,53,.3)}
+.pl-rows{margin:12px 0}
+.pl-row{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);gap:10px}
+.pl-row:last-child{border-bottom:none}
+.pl-key{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap}
+.pl-val{font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:600;color:#fff;text-align:right;line-height:1.4}
+.pl-footer{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);text-align:center}
+.pl-tagline{font-size:14px;font-style:italic;color:rgba(255,255,255,.6);letter-spacing:.3px}
+.pl-tagline span{color:var(--pe);font-style:normal;font-weight:600}
+
+/* ── ARTICLE LAYOUT ── */
+.art-wrap{max-width:1200px;margin:0 auto;padding:48px 5% 64px;display:grid;grid-template-columns:1fr 272px;gap:48px;align-items:start}
+.art-body{min-width:0}
+.art-sidebar{position:sticky;top:84px}
+
+/* ── BRAND SPEC CARD (company file) ── */
+.brand-card{background:var(--w);border:2px solid var(--m-md);border-radius:var(--rl);overflow:hidden;margin-bottom:36px;box-shadow:var(--sh)}
+.bc-header{background:linear-gradient(135deg,var(--m),#3A9264);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.bc-header-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff}
+.bc-header-badge{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px}
+.bc-rows{padding:4px 0}
+.bc-row{display:flex;align-items:flex-start;padding:10px 20px;border-bottom:1px solid var(--bd2)}
+.bc-row:last-child{border-bottom:none}
+.bc-key{font-size:12px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;min-width:110px;flex-shrink:0;padding-top:2px}
+.bc-val{font-size:14px;color:var(--t1);font-weight:500;line-height:1.5}
+.bc-val.live{display:inline-flex;align-items:center;gap:6px}
+.live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:ldot 2s ease-in-out infinite}
+@keyframes ldot{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── KEY NUMBERS ── */
+.kn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:36px}
+.kn{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:16px;transition:transform .2s}
+.kn:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.kn-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--m);margin-bottom:4px}
+.kn-lbl{font-size:12px;color:var(--t3);font-weight:500}
+.kn.pe .kn-num{color:var(--pe)}
+.kn.gold .kn-num{color:var(--gold)}
+.kn.gr .kn-num{color:var(--green)}
+
+/* ── ARTICLE PROSE ── */
+.art-intro{font-size:18.5px;line-height:1.85;color:var(--t2);margin-bottom:40px;padding-bottom:40px;border-bottom:2px solid var(--m-lt)}
+.art-p{font-size:17px;color:var(--t2);line-height:1.85;margin-bottom:18px}
+.art-p strong{color:var(--t1);font-weight:600}
+.art-p .m-hl{background:var(--m-lt);color:var(--m-dk);padding:0 4px;border-radius:3px;font-weight:600}
+.art-p .pe-hl{background:var(--pe-lt);color:#C0390F;padding:0 4px;border-radius:3px;font-weight:600}
+
+/* ── LEAF CHAPTER MARKER ── */
+.leaf-ch{margin-bottom:6px;padding-top:8px}
+.lc-badge{display:inline-flex;align-items:center;gap:7px;background:var(--m-lt);color:var(--m-dk);font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:4px;border-left:3px solid var(--m);margin-bottom:10px}
+.lc-h{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--t1);letter-spacing:-.4px;line-height:1.2;margin-bottom:18px}
+
+/* ── FOUNDER CARDS (nature-themed) ── */
+.founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 32px}
+.fc{background:linear-gradient(135deg,var(--m-dk),var(--m));border-radius:var(--r);padding:24px;color:#fff;position:relative;overflow:hidden}
+.fc::before{content:'🌿';position:absolute;bottom:-10px;right:-10px;font-size:72px;opacity:.12;transform:rotate(-20deg)}
+.fc-init{width:56px;height:56px;border-radius:50%;background:var(--pe);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:14px}
+.fc-name{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:3px}
+.fc-role{font-size:11.5px;color:var(--pe);font-weight:600;letter-spacing:.5px;margin-bottom:10px}
+.fc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.fctag{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:10px;font-weight:600;padding:3px 9px;border-radius:50px}
+.fc-quote{font-size:13px;color:rgba(255,255,255,.6);font-style:italic;line-height:1.6;border-left:2px solid var(--pe);padding-left:12px}
+
+/* ── D2C INGREDIENTS (unique section) ── */
+.ingredients-box{background:var(--m-lt);border:2px solid var(--m-md);border-radius:var(--rl);padding:28px;margin:24px 0 36px;position:relative;overflow:hidden}
+.ingredients-box::before{content:'FORMULA';position:absolute;top:12px;right:16px;font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:800;color:var(--m-md);opacity:.2;letter-spacing:3px}
+.ib-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--m-dk);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.ib-subtitle{font-size:12px;color:var(--m);margin-bottom:20px}
+.ib-list{display:flex;flex-direction:column;gap:10px}
+.ib-item{display:flex;align-items:center;gap:14px}
+.ib-label{font-size:13.5px;font-weight:600;color:var(--m-dk);min-width:200px}
+.ib-bar-wrap{flex:1;height:7px;background:rgba(45,107,74,.15);border-radius:50px;overflow:hidden}
+.ib-bar{height:100%;background:linear-gradient(90deg,var(--m),#4AAB6D);border-radius:50px;transition:width 1.4s ease;width:0%}
+.ib-pct{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--m);min-width:36px;text-align:right}
+
+/* ── GREEN PULL QUOTE ── */
+.nature-quote{background:linear-gradient(135deg,var(--m-dk),var(--m));padding:36px 40px;margin:40px 0;border-radius:var(--rl);position:relative;overflow:hidden}
+.nature-quote::before{content:'"';font-family:'Georgia',serif;font-size:120px;color:rgba(255,255,255,.08);position:absolute;top:-20px;left:20px;line-height:1}
+.nature-quote::after{content:'🌿';position:absolute;bottom:-10px;right:20px;font-size:80px;opacity:.1}
+.nq-text{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:#fff;line-height:1.5;letter-spacing:-.2px;position:relative;z-index:1}
+.nq-text .pe{color:var(--pe)}
+.nq-attr{font-size:13px;color:rgba(255,255,255,.5);margin-top:16px;position:relative;z-index:1}
+
+/* ── HOUSE OF BRANDS (portfolio) ── */
+.brands-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 36px}
+.brand-pill{background:var(--w);border:1.5px solid var(--bd);border-radius:var(--r);padding:16px 12px;text-align:center;transition:all .2s}
+.brand-pill:hover{border-color:var(--m);transform:translateY(-2px);box-shadow:var(--sh)}
+.brand-pill.flagship{border-color:var(--m);background:var(--m-lt)}
+.bp-emoji{font-size:26px;margin-bottom:8px;display:block}
+.bp-name{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--t1);margin-bottom:4px;line-height:1.3}
+.bp-cat{font-size:10px;color:var(--t3);letter-spacing:.3px}
+.bp-flag{font-size:9px;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+
+/* ── ANIMATED STAT BOXES ── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 36px}
+.stat-box{background:var(--w);border:2px solid var(--m-md);border-radius:var(--r);padding:20px;text-align:center;transition:transform .2s}
+.stat-box:hover{transform:translateY(-3px);border-color:var(--m)}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--m);margin-bottom:4px}
+.stat-lbl{font-size:12px;color:var(--t3);letter-spacing:.3px}
+
+/* ── GROWTH MILESTONES (horizontal timeline variant) ── */
+.growth-track{position:relative;padding-bottom:8px;margin-bottom:40px}
+.gt-line{position:absolute;top:20px;left:20px;right:20px;height:3px;background:var(--bd2);border-radius:2px}
+.gt-fill{position:absolute;top:20px;left:20px;height:3px;background:linear-gradient(90deg,var(--m-lt),var(--m));border-radius:2px;width:0%;transition:width 1.6s ease}
+.gt-row{display:flex;justify-content:space-between;position:relative;z-index:1}
+.gt-node{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1}
+.gt-dot{width:18px;height:18px;border-radius:50%;background:var(--w);border:3px solid var(--bd);transition:all .3s;flex-shrink:0}
+.gt-dot.done{border-color:var(--m);background:var(--m)}
+.gt-year{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--m-dk)}
+.gt-event{font-size:11px;color:var(--t3);text-align:center;line-height:1.4;max-width:80px}
+
+/* ── RED FLAGS / CHALLENGES ── */
+.chal-list{display:flex;flex-direction:column;gap:14px;margin:20px 0}
+.chal-item{background:var(--pe-lt);border:1px solid var(--pe-md);border-radius:var(--r);padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+.chal-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.chal-title{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:700;color:#C0390F;margin-bottom:5px}
+.chal-desc{font-size:13.5px;color:var(--t2);line-height:1.65}
+
+/* ── GROWTH LESSONS ── */
+.lessons-wrap{display:flex;flex-direction:column;gap:2px;margin-top:8px}
+.lesson-strip{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;background:var(--w);border:1px solid var(--bd);border-radius:0;transition:background .18s,border-color .18s}
+.lesson-strip:first-child{border-radius:var(--r) var(--r) 0 0}
+.lesson-strip:last-child{border-radius:0 0 var(--r) var(--r)}
+.lesson-strip:hover{background:var(--m-lt);border-color:var(--m-md)}
+.ls-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:800;color:#fff;background:var(--m);padding:4px 9px;border-radius:4px;flex-shrink:0;letter-spacing:.5px;margin-top:2px}
+.ls-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.ls-desc{font-size:13px;color:var(--t2);line-height:1.6}
+
+/* ── ART DIVIDER ── */
+.m-divider{display:flex;align-items:center;gap:16px;margin:40px 0}
+.m-divider::before,.m-divider::after{content:'';flex:1;height:1px;background:var(--m-md)}
+.m-divider span{font-size:18px}
+
+/* ── DEBATE CARD ── */
+.debate-card{background:var(--w);border:2px solid var(--m-md);border-radius:var(--rl);padding:28px;margin:36px 0;box-shadow:var(--sh)}
+.dc-label{display:inline-flex;align-items:center;gap:6px;background:var(--m-lt);color:var(--m-dk);font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:50px;margin-bottom:14px;border:1px solid var(--m-md)}
+.dc-q{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--t1);margin-bottom:20px;line-height:1.35}
+.dc-sides{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.dc-side{padding:14px;border-radius:10px;border:2px solid transparent}
+.dc-a{background:var(--m-lt);border-color:var(--m-md)}
+.dc-b{background:var(--pe-lt);border-color:var(--pe-md)}
+.dc-sl{font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.dc-a .dc-sl{color:var(--m)}
+.dc-b .dc-sl{color:var(--pe)}
+.dc-st{font-size:12.5px;font-weight:600;color:var(--t1);line-height:1.42}
+.dc-bar-row{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px}
+.dc-bar-row span:first-child{color:var(--m)}
+.dc-bar-row span:last-child{color:var(--pe)}
+.dc-track{height:7px;background:var(--bd2);border-radius:50px;overflow:hidden}
+.dc-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--m),var(--pe));transition:width 1.2s ease;width:0%}
+.dc-note{font-size:11.5px;color:var(--t3);text-align:center;margin-top:7px}
+
+/* ── SIDEBAR ── */
+.verdict-card{background:linear-gradient(135deg,var(--m-dk),var(--m));border-radius:var(--r);padding:20px;margin-bottom:18px;color:#fff}
+.vc-eyebrow{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:7px}
+.vc-verdict{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--pe);margin-bottom:7px;line-height:1.2}
+.vc-desc{font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.65}
+.vc-row{display:flex;justify-content:space-between;font-size:12px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12)}
+.vc-row span{color:rgba(255,255,255,.4)}
+.vc-row strong{color:var(--pe);font-family:'Space Grotesk',sans-serif}
+
+.toc-card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:18px}
+.toc-h{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bd2)}
+.toc-links{display:flex;flex-direction:column;gap:2px}
+.tl{font-size:13px;color:var(--t3);text-decoration:none;padding:6px 10px;border-radius:6px;border-left:2px solid transparent;transition:all .18s;display:block}
+.tl:hover,.tl.on{color:var(--m-dk);border-left-color:var(--m);background:var(--m-lt);padding-left:14px;font-weight:600}
+
+.like-card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px;text-align:center}
+.lc-h{font-size:13px;color:var(--t3);margin-bottom:12px}
+.lbtn{display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 16px;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:700;cursor:pointer;border:2px solid var(--m);background:transparent;color:var(--m-dk);width:100%;margin-bottom:7px;transition:all .2s}
+.lbtn:hover,.lbtn.liked{background:var(--m);color:#fff}
+.dbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:transparent;color:var(--t3);width:100%;transition:all .2s}
+.dbtn:hover{border-color:var(--re);color:var(--re)}
+
+/* ── RELATED ── */
+.related-sec{background:var(--m-lt);border-top:2px solid var(--m-md);padding:48px 5%}
+.rel-in{max-width:1200px;margin:0 auto}
+.rel-h{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--m-dk);margin-bottom:22px;letter-spacing:-.3px}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rel-card{background:var(--w);border-radius:var(--r);border:1px solid var(--bd);padding:18px;text-decoration:none;display:block;transition:transform .2s,box-shadow .2s}
+.rel-card:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.rel-art{height:72px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.rel-cat{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--or);margin-bottom:5px}
+.rel-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1);line-height:1.3;margin-bottom:5px}
+.rel-meta{font-size:11.5px;color:var(--t3)}
+
+/* ── FOOTER ── */
+.footer{background:#0F0F0F;padding:56px 5% 28px;color:#fff}
+.footer-in{max-width:1200px;margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:44px}
+.ft-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.ft-logo span{color:var(--or)}
+.ft-desc{font-size:13px;color:#9CA3AF;margin-top:11px;line-height:1.72;max-width:250px}
+.ft-ch{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#6B7280;margin-bottom:15px}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-links a{text-decoration:none;color:#D1D5DB;font-size:14px;transition:color .18s}
+.ft-links a:hover{color:var(--or)}
+.ft-div{height:1px;background:#1F2937;margin-bottom:22px}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.ft-bot p{font-size:12.5px;color:#6B7280}
+
+/* ── FADE ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:960px){.hero-in,.art-wrap{grid-template-columns:1fr}.product-label{display:none}.art-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:16px}.founder-grid,.dc-sides,.rel-grid{grid-template-columns:1fr}.stat-grid{grid-template-columns:repeat(2,1fr)}.brands-grid{grid-template-columns:repeat(2,1fr)}.ft-top{grid-template-columns:1fr 1fr}.gt-event{display:none}}
+@media(max-width:600px){.nav-links li:not(:last-child){display:none}.h-title{font-size:30px}.lc-h{font-size:22px}.stat-grid{grid-template-columns:1fr 1fr}.brands-grid{grid-template-columns:repeat(2,1fr)}.ft-top{grid-template-columns:1fr}.ft-bot{flex-direction:column;text-align:center}.art-sidebar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/IndianStartupFiles/index.html" class="logo">
+      <div class="logo-ic">📁</div>
+      <span class="logo-tx">Indian Startup <span>Files</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/IndianStartupFiles/index.html">Home</a></li>
+      <li><a href="/IndianStartupFiles/blogs.html">Case Studies</a></li>
+      <li><a href="/IndianStartupFiles/debates/indian_startup_files_debates_page.html">Debates</a></li>
+      <li><a href="/IndianStartupFiles/index.html#about">About</a></li>
+      <li><a href="/IndianStartupFiles/blogs.html" class="nav-cta">All Files →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="h-bc">
+        <a href="/IndianStartupFiles/index.html">Home</a><span>›</span>
+        <a href="/IndianStartupFiles/blogs.html">Case Studies</a><span>›</span>
+        <span>Mamaearth Files</span>
+      </div>
+      <div class="h-tags">
+        <span class="ht ht-green">🌿 D2C Brand</span>
+        <span class="ht ht-ipo">📈 IPO Success</span>
+        <span class="ht ht-success">Success Story</span>
+      </div>
+      <h1 class="h-title">The Mamaearth Files:<br><span class="accent">From a Baby's Sensitive Skin</span><br>to India's First D2C Unicorn</h1>
+      <p class="h-deck">Two parents. One baby with skin problems. A WhatsApp group of 20 mothers. And a billion-dollar idea hiding inside a very ordinary problem nobody else bothered to solve cleanly.</p>
+      <div class="h-meta">
+        <div class="hm">📅 <strong>March 15, 2025</strong></div>
+        <div class="hm">📖 <strong>10 min</strong> read</div>
+        <div class="hm">👁 <strong id="heroViews">…</strong> views</div>
+        <div class="hm">❤️ <strong id="heroLikes">…</strong> likes</div>
+      </div>
+      <div class="h-share">
+        <span class="h-share-lbl">Share:</span>
+        <a href="https://wa.me/?text=The%20Mamaearth%20Files%20—%20Indian%20Startup%20Files" target="_blank" class="sbtn sbtn-wa">💬 WhatsApp</a>
+        <a href="https://twitter.com/intent/tweet?text=The%20Mamaearth%20Files" target="_blank" class="sbtn sbtn-tw">𝕏 Twitter</a>
+        <button onclick="copyLink()" class="sbtn sbtn-cp" id="cpBtn">🔗 Copy Link</button>
+      </div>
+    </div>
+
+    <!-- PRODUCT LABEL CARD -->
+    <div class="product-label">
+      <div class="pl-header">
+        <div class="pl-brand">MAMAEARTH</div>
+        <div class="pl-cert">✓ INDIA'S FIRST D2C UNICORN</div>
+      </div>
+      <div class="pl-rows">
+        <div class="pl-row"><span class="pl-key">Founded</span><span class="pl-val">2016 · Mumbai</span></div>
+        <div class="pl-row"><span class="pl-key">Founders</span><span class="pl-val">Varun &amp; Ghazal Alagh</span></div>
+        <div class="pl-row"><span class="pl-key">Category</span><span class="pl-val">D2C Beauty &amp; Personal Care</span></div>
+        <div class="pl-row"><span class="pl-key">IPO Year</span><span class="pl-val">2023 · BSE &amp; NSE</span></div>
+        <div class="pl-row"><span class="pl-key">Revenue</span><span class="pl-val">₹2,000+ Cr (FY23)</span></div>
+        <div class="pl-row"><span class="pl-key">Brands</span><span class="pl-val">7 under House of Beauty</span></div>
+        <div class="pl-row"><span class="pl-key">Products</span><span class="pl-val">800+ SKUs</span></div>
+      </div>
+      <div class="pl-footer">
+        <div class="pl-tagline">"<span>Goodness Inside</span>" — toxic free beauty for every Indian</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="art-wrap" id="artWrap">
+  <div class="art-body" id="article">
+
+    <!-- BRAND SPEC CARD -->
+    <div class="brand-card fade-up">
+      <div class="bc-header">
+        <span class="bc-header-title">🌿 Brand Specification — Mamaearth</span>
+        <div class="bc-header-badge">📈 Listed</div>
+      </div>
+      <div class="bc-rows">
+        <div class="bc-row"><span class="bc-key">Full Name</span><span class="bc-val">Honasa Consumer Ltd (Mamaearth)</span></div>
+        <div class="bc-row"><span class="bc-key">Founded</span><span class="bc-val">2016 · Mumbai, Maharashtra</span></div>
+        <div class="bc-row"><span class="bc-key">Founders</span><span class="bc-val">Varun Alagh (CEO) &amp; Ghazal Alagh (CIO)</span></div>
+        <div class="bc-row"><span class="bc-key">Category</span><span class="bc-val">D2C Beauty, Skincare &amp; Personal Care</span></div>
+        <div class="bc-row"><span class="bc-key">IPO</span><span class="bc-val">November 2023 · ₹4,955 Cr · BSE &amp; NSE</span></div>
+        <div class="bc-row"><span class="bc-key">Peak Mkt Cap</span><span class="bc-val">~₹20,000 Crore</span></div>
+        <div class="bc-row"><span class="bc-key">Investors</span><span class="bc-val">Sequoia, Fireside Ventures, Stellaris, Sofina</span></div>
+        <div class="bc-row"><span class="bc-key">Status</span><span class="bc-val live"><span class="live-dot"></span>Publicly Listed (NSE: HONASA)</span></div>
+      </div>
+    </div>
+
+    <!-- KEY NUMBERS -->
+    <div class="kn-grid">
+      <div class="kn"><div class="kn-num">₹2,000Cr</div><div class="kn-lbl">Revenue FY2023</div></div>
+      <div class="kn pe"><div class="kn-num">800+</div><div class="kn-lbl">Products Across 7 Brands</div></div>
+      <div class="kn gold"><div class="kn-num">₹4,955Cr</div><div class="kn-lbl">IPO Size (2023)</div></div>
+      <div class="kn gr"><div class="kn-num">4,500+</div><div class="kn-lbl">Employees</div></div>
+    </div>
+
+    <!-- INTRO -->
+    <p class="art-intro" id="s-intro">In 2016, Varun and Ghazal Alagh were new parents in Mumbai staring at a problem nobody had bothered to solve properly: their baby Agastya had skin issues, and every Indian baby product on the shelf contained parabens, sulphates, and mineral oils that experts said were harmful. They started importing from the US. Within months, 20 other mothers in their WhatsApp group wanted the same thing. That group chat became India's first D2C beauty unicorn.</p>
+
+    <div class="m-divider"><span>🌱</span></div>
+
+    <!-- CHAPTER 1 -->
+    <div class="leaf-ch" id="s1">
+      <div class="lc-badge">🌱 Chapter 01 — The Origin</div>
+      <h2 class="lc-h">The Kitchen Story: When Personal Problem Meets Market Gap</h2>
+    </div>
+    <p class="art-p">Varun Alagh was heading marketing at MNC companies — Hindustan Unilever, KPMG — when his son Agastya was born with unusually sensitive skin. Ghazal, trained in fine arts and already building entrepreneurial instincts, noticed the same problem: Indian baby care products were loaded with <strong>parabens, sulphates, mineral oils, and artificial fragrances</strong> — chemicals that European and American regulators had started flagging for infant products.</p>
+    <p class="art-p">Their solution was expensive: import non-toxic alternatives from the US and Germany at ₹800–₹2,000 per product. Not sustainable. But the quality was undeniable. When other parents in their building started asking, then friends, then friends of friends — they had their insight: <span class="m-hl">India had zero domestic toxic-free baby care brands.</span> Not one. The market was an empty shelf.</p>
+    <p class="art-p">They launched Mamaearth in 2016 with just 7 products and a clear, single promise: <strong>Made Safe certified, Asia's first brand</strong> with this global certification that independently verifies every ingredient. That certification would become their most powerful marketing asset — more credible than any campaign.</p>
+
+    <!-- FOUNDER CARDS -->
+    <div class="founder-grid fade-up">
+      <div class="fc">
+        <div class="fc-init">V</div>
+        <div class="fc-name">Varun Alagh</div>
+        <div class="fc-role">Co-Founder &amp; CEO</div>
+        <div class="fc-tags">
+          <span class="fctag">IIM Calcutta</span>
+          <span class="fctag">Ex-HUL</span>
+          <span class="fctag">Brand builder</span>
+        </div>
+        <div class="fc-quote">"We didn't know we were building a startup. We thought we were solving our own problem. The market told us it was much bigger."</div>
+      </div>
+      <div class="fc">
+        <div class="fc-init">G</div>
+        <div class="fc-name">Ghazal Alagh</div>
+        <div class="fc-role">Co-Founder &amp; Chief Innovation Officer</div>
+        <div class="fc-tags">
+          <span class="fctag">IIT Alumni</span>
+          <span class="fctag">Product architect</span>
+          <span class="fctag">Shark Tank judge</span>
+        </div>
+        <div class="fc-quote">"Every product we built, I tested on myself. Toxin-free wasn't our marketing angle. It was our non-negotiable."</div>
+      </div>
+    </div>
+
+    <div class="m-divider"><span>🍃</span></div>
+
+    <!-- CHAPTER 2 -->
+    <div class="leaf-ch" id="s2">
+      <div class="lc-badge">🍃 Chapter 02 — The Formula</div>
+      <h2 class="lc-h">The D2C Playbook: What Made Mamaearth Actually Work</h2>
+    </div>
+    <p class="art-p">Mamaearth's early growth wasn't magic — it was a specific, replicable playbook that Indian FMCG giants weren't nimble enough to copy fast enough. Understanding this formula is the real lesson of the Mamaearth story.</p>
+
+    <!-- INGREDIENTS BOX -->
+    <div class="ingredients-box fade-up">
+      <div class="ib-title">🧪 Mamaearth D2C Formula™</div>
+      <div class="ib-subtitle">Approximate contribution to early growth engine — 2016 to 2021</div>
+      <div class="ib-list">
+        <div class="ib-item">
+          <div class="ib-label">Performance Marketing (FB/Instagram Ads)</div>
+          <div class="ib-bar-wrap"><div class="ib-bar" data-w="78"></div></div>
+          <div class="ib-pct">78%</div>
+        </div>
+        <div class="ib-item">
+          <div class="ib-label">Influencer &amp; Creator Partnerships</div>
+          <div class="ib-bar-wrap"><div class="ib-bar" data-w="65"></div></div>
+          <div class="ib-pct">65%</div>
+        </div>
+        <div class="ib-item">
+          <div class="ib-label">Trust via Made Safe Certification</div>
+          <div class="ib-bar-wrap"><div class="ib-bar" data-w="55"></div></div>
+          <div class="ib-pct">55%</div>
+        </div>
+        <div class="ib-item">
+          <div class="ib-label">Word of Mouth (Parent communities)</div>
+          <div class="ib-bar-wrap"><div class="ib-bar" data-w="48"></div></div>
+          <div class="ib-pct">48%</div>
+        </div>
+        <div class="ib-item">
+          <div class="ib-label">Product Innovation (Onion Hair Oil etc.)</div>
+          <div class="ib-bar-wrap"><div class="ib-bar" data-w="42"></div></div>
+          <div class="ib-pct">42%</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="art-p">The 2020 COVID-19 lockdown was an accidental accelerant. <span class="m-hl">Offline retail collapsed. Digital-first brands like Mamaearth thrived.</span> While Unilever and P&amp;G scrambled to build e-commerce capabilities, Mamaearth had been digital-native from day one. Their cost-per-acquisition was ₹300 when Unilever was spending ₹1,200 to get a new customer online.</p>
+    <p class="art-p">Then came the pivot that changed everything: <strong>Onion Hair Oil in 2019.</strong> Marketed aggressively on social media as a solution for hair fall, this single product drove 10x growth. It wasn't baby care anymore. Mamaearth had found its second category — and its real scale ambition.</p>
+
+    <!-- GREEN PULL QUOTE -->
+    <div class="nature-quote">
+      <div class="nq-text">Mamaearth didn't disrupt the beauty industry by being <span class="pe">cheaper</span>. It disrupted it by being <span class="pe">honest</span>. In an industry built on aspirational lies, "what's NOT in our product" was a more powerful message than any celebrity endorsement.</div>
+      <div class="nq-attr">— Indian Startup Files Analysis</div>
+    </div>
+
+    <div class="m-divider"><span>🌳</span></div>
+
+    <!-- CHAPTER 3 -->
+    <div class="leaf-ch" id="s3">
+      <div class="lc-badge">🌳 Chapter 03 — The Garden</div>
+      <h2 class="lc-h">House of Brands: Building an Empire, One Category at a Time</h2>
+    </div>
+    <p class="art-p">In 2021, Mamaearth made a strategic shift that most people missed in the headline numbers. They stopped thinking of themselves as a baby care company — or even a beauty brand. They started thinking of themselves as a <strong>House of Brands platform</strong> for Indian consumers who wanted honest, effective, ingredient-led products.</p>
+
+    <!-- BRAND PORTFOLIO -->
+    <div class="brands-grid fade-up">
+      <div class="brand-pill flagship">
+        <span class="bp-emoji">🌿</span>
+        <div class="bp-name">Mamaearth</div>
+        <div class="bp-cat">Natural Beauty</div>
+        <div class="bp-flag">Flagship</div>
+      </div>
+      <div class="brand-pill">
+        <span class="bp-emoji">🔬</span>
+        <div class="bp-name">The Derma Co.</div>
+        <div class="bp-cat">Clinical Skincare</div>
+      </div>
+      <div class="brand-pill">
+        <span class="bp-emoji">💧</span>
+        <div class="bp-name">Aqualogica</div>
+        <div class="bp-cat">Hydration &amp; SPF</div>
+      </div>
+      <div class="brand-pill">
+        <span class="bp-emoji">💊</span>
+        <div class="bp-name">Dr. Sheth's</div>
+        <div class="bp-cat">Dermatologist-Backed</div>
+      </div>
+      <div class="brand-pill">
+        <span class="bp-emoji">✨</span>
+        <div class="bp-name">Staze</div>
+        <div class="bp-cat">Gen-Z Colour Cosmetics</div>
+      </div>
+      <div class="brand-pill">
+        <span class="bp-emoji">💈</span>
+        <div class="bp-name">Bblunt</div>
+        <div class="bp-cat">Premium Hair Care</div>
+      </div>
+      <div class="brand-pill">
+        <span class="bp-emoji">👶</span>
+        <div class="bp-name">BabyChakra</div>
+        <div class="bp-cat">Parenting Platform</div>
+      </div>
+      <div class="brand-pill">
+        <span class="bp-emoji">🌸</span>
+        <div class="bp-name">More Coming</div>
+        <div class="bp-cat">Pipeline 2025</div>
+      </div>
+    </div>
+
+    <p class="art-p">Each brand targets a specific consumer segment and problem. The Derma Co. targets millennials seeking clinical skincare. Aqualogica is a hydration-first brand built for India's climate. Staze is pure Gen-Z colour cosmetics. BabyChakra is a parenting content and community platform acquired in 2021. The logic: own the consumer's entire personal care journey, not just one shelf in their bathroom.</p>
+
+    <div class="m-divider"><span>📊</span></div>
+
+    <!-- CHAPTER 4 -->
+    <div class="leaf-ch" id="s4">
+      <div class="lc-badge">📊 Chapter 04 — The Numbers</div>
+      <h2 class="lc-h">What the Data Actually Says</h2>
+    </div>
+    <div class="stat-grid fade-up">
+      <div class="stat-box">
+        <div class="stat-num" data-target="2000" data-suffix="Cr" data-prefix="₹">₹0Cr</div>
+        <div class="stat-lbl">Revenue FY23</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" data-target="7">0</div>
+        <div class="stat-lbl">Brands in Portfolio</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" data-target="800" data-suffix="+">0+</div>
+        <div class="stat-lbl">Product SKUs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" data-target="4500" data-suffix="+">0+</div>
+        <div class="stat-lbl">Employees</div>
+      </div>
+    </div>
+
+    <!-- GROWTH TRACK (horizontal timeline) -->
+    <div class="fund-title" style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px">Growth Milestones — 2016 to 2024</div>
+    <div class="growth-track fade-up">
+      <div class="gt-line"></div>
+      <div class="gt-fill" id="gtFill"></div>
+      <div class="gt-row">
+        <div class="gt-node"><div class="gt-dot done"></div><div class="gt-year">2016</div><div class="gt-event">Founded. 7 products. WhatsApp group.</div></div>
+        <div class="gt-node"><div class="gt-dot done"></div><div class="gt-year">2018</div><div class="gt-event">₹1Cr monthly revenue. D2C flying.</div></div>
+        <div class="gt-node"><div class="gt-dot done"></div><div class="gt-year">2019</div><div class="gt-event">Onion Hair Oil. 10x growth.</div></div>
+        <div class="gt-node"><div class="gt-dot done"></div><div class="gt-year">2021</div><div class="gt-event">Unicorn status. ₹1,000 Cr revenue.</div></div>
+        <div class="gt-node"><div class="gt-dot done"></div><div class="gt-year">2022</div><div class="gt-event">House of Brands. 5 new acquisitions.</div></div>
+        <div class="gt-node"><div class="gt-dot done"></div><div class="gt-year">2023</div><div class="gt-event">IPO. ₹4,955 Cr raised. India's first D2C listing.</div></div>
+      </div>
+    </div>
+
+    <div class="m-divider"><span>🔍</span></div>
+
+    <!-- CHAPTER 5 -->
+    <div class="leaf-ch" id="s5">
+      <div class="lc-badge">📈 Chapter 05 — The IPO</div>
+      <h2 class="lc-h">India's First D2C Beauty Company Goes Public</h2>
+    </div>
+    <p class="art-p">In November 2023, Honasa Consumer Ltd — the parent company of Mamaearth — listed on BSE and NSE. It was a historic milestone: <strong>India's first digitally-native D2C company to complete an IPO</strong>. The offering raised ₹4,955 crore and was oversubscribed by nearly 7x. At peak, the company touched a ₹20,000 crore market cap.</p>
+    <p class="art-p">But the IPO also opened Mamaearth to public scrutiny it hadn't faced before. Analysts pointed to a core tension: the company's revenue was growing, but so was its marketing spend. <span class="pe-hl">In FY22, Mamaearth spent ₹539 crore on advertising on ₹943 crore of revenue — nearly 57% of revenue going to marketing.</span> For comparison, HUL spends around 12%. The question market asked: can a brand built on paid performance marketing sustain profitability at scale?</p>
+    <p class="art-p">The stock, which listed at ₹324, fell significantly in the months following. By early 2024, it was trading below IPO price. Investors who backed the D2C story began questioning whether the category commanded the premium multiples it had enjoyed in private markets.</p>
+
+    <div class="m-divider"><span>⚠️</span></div>
+
+    <!-- CHAPTER 6 -->
+    <div class="leaf-ch" id="s6">
+      <div class="lc-badge">⚠️ Chapter 06 — The Challenges</div>
+      <h2 class="lc-h">The Cracks in the Natural Beauty Story</h2>
+    </div>
+    <div class="chal-list">
+      <div class="chal-item">
+        <div class="chal-icon">💸</div>
+        <div>
+          <div class="chal-title">The Marketing Trap</div>
+          <div class="chal-desc">Mamaearth's growth was driven heavily by paid digital advertising. As meta/Facebook CPMs rose 40% between 2021 and 2023, customer acquisition costs ballooned. The brand risks becoming structurally unprofitable if digital ad costs keep rising.</div>
+        </div>
+      </div>
+      <div class="chal-item">
+        <div class="chal-icon">🏪</div>
+        <div>
+          <div class="chal-title">The Offline Gamble</div>
+          <div class="chal-desc">To sustain growth, Mamaearth aggressively expanded offline — from 0 to 1,20,000 retail outlets by 2023. But offline distribution is expensive and operationally complex. This is a very different business from being a D2C brand.</div>
+        </div>
+      </div>
+      <div class="chal-item">
+        <div class="chal-icon">🌐</div>
+        <div>
+          <div class="chal-title">Global Brand Competition</div>
+          <div class="chal-desc">L'Oreal, Minimalist, Plum, WOW Skin Science, and dozens of VC-backed clean beauty startups are all competing for the same urban, health-conscious consumer. The "toxin-free" positioning that was unique in 2016 is crowded by 2024.</div>
+        </div>
+      </div>
+      <div class="chal-item">
+        <div class="chal-icon">🔬</div>
+        <div>
+          <div class="chal-title">The "Greenwashing" Question</div>
+          <div class="chal-desc">Some dermatologists and consumer advocates have questioned whether Mamaearth's "natural" claims are backed by clinical evidence at the level their marketing implies. In an increasingly skeptical consumer market, this reputational risk is real.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"><span>🌿</span></div>
+
+    <!-- GROWTH LESSONS -->
+    <div class="leaf-ch" id="s7">
+      <div class="lc-badge">🌿 Growth Lessons</div>
+      <h2 class="lc-h">5 Things Every D2C Founder Should Learn From Mamaearth</h2>
+    </div>
+    <div class="lessons-wrap fade-up">
+      <div class="lesson-strip">
+        <div class="ls-num">01</div>
+        <div><div class="ls-title">Start with your own unsolved problem</div><div class="ls-desc">The most authentic brands solve a problem the founder actually lived. Mamaearth's credibility came from Ghazal Alagh genuinely using every product. You cannot fake the founder-product connection at scale.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">02</div>
+        <div><div class="ls-title">Community is your first distribution channel</div><div class="ls-desc">Twenty mothers in a WhatsApp group validated both the product and the market. Before spending a rupee on advertising, Mamaearth already had paying customers from a community of people who trusted each other.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">03</div>
+        <div><div class="ls-title">Certification beats advertising for trust</div><div class="ls-desc">The Made Safe certification cost money and effort. But it created a trust moat no campaign budget could buy. In categories where consumers are anxious about ingredients, independent verification is worth more than any claim.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">04</div>
+        <div><div class="ls-title">Your second product is your real business</div><div class="ls-desc">Mamaearth started with baby products but found its scale with Onion Hair Oil. The founders were willing to follow the data rather than protect their founding category identity. Rigidity kills D2C brands.</div></div>
+      </div>
+      <div class="lesson-strip">
+        <div class="ls-num">05</div>
+        <div><div class="ls-title">Going public changes everything</div><div class="ls-desc">Mamaearth's IPO was a milestone but also a pressure cooker. Public markets demand quarterly results, but brand-building is a 5-year game. The tension between these timelines is the next chapter of this story.</div></div>
+      </div>
+    </div>
+
+    <!-- DEBATE CARD -->
+    <div class="debate-card">
+      <div class="dc-label">🔥 Debate · 1,203 votes</div>
+      <div class="dc-q">Is Mamaearth a genuinely category-defining brand, or an advertising-dependent company that will struggle to sustain margins at scale?</div>
+      <div class="dc-sides">
+        <div class="dc-side dc-a">
+          <div class="dc-sl">Side A — Real Brand</div>
+          <div class="dc-st">Mamaearth built genuine consumer trust through ingredient transparency. The offline and international expansion will diversify its revenue base beyond digital ads.</div>
+        </div>
+        <div class="dc-side dc-b">
+          <div class="dc-sl">Side B — Ad Machine</div>
+          <div class="dc-st">Strip away the ₹500Cr+ annual ad spend and Mamaearth has no defensible moat. Clean beauty is now a crowded category and the premium will erode fast.</div>
+        </div>
+      </div>
+      <div class="dc-bar-row">
+        <span>Side A — 61%</span>
+        <span>39% — Side B</span>
+      </div>
+      <div class="dc-track"><div class="dc-fill" id="dcFill"></div></div>
+      <div class="dc-note">1,203 readers voted · <a href="/IndianStartupFiles/debates/indian_startup_files_debates_page.html" style="color:var(--m);font-weight:600;text-decoration:none">Join the debate →</a></div>
+    </div>
+
+  </div><!-- /art-body -->
+
+  <!-- SIDEBAR -->
+  <aside class="art-sidebar">
+    <div class="verdict-card">
+      <div class="vc-eyebrow">File Verdict</div>
+      <div class="vc-verdict">🌿 Blueprint Brand</div>
+      <div class="vc-desc">Mamaearth proved the D2C model works in India — but public markets are asking hard questions about long-term margins. The next 3 years will define whether this is a generational brand or a well-funded experiment.</div>
+      <div class="vc-row"><span>Category</span><strong>D2C Pioneer</strong></div>
+    </div>
+    <div class="toc-card">
+      <div class="toc-h">🌿 Contents</div>
+      <div class="toc-links" id="toc">
+        <a href="#s-intro" class="tl on">Introduction</a>
+        <a href="#s1" class="tl">01 · The Origin Story</a>
+        <a href="#s2" class="tl">02 · The D2C Formula</a>
+        <a href="#s3" class="tl">03 · House of Brands</a>
+        <a href="#s4" class="tl">04 · The Numbers</a>
+        <a href="#s5" class="tl">05 · The IPO Journey</a>
+        <a href="#s6" class="tl">06 · The Challenges</a>
+        <a href="#s7" class="tl">07 · Growth Lessons</a>
+      </div>
+    </div>
+    <div class="like-card">
+      <div class="lc-h">Was this file useful?</div>
+      <button class="lbtn" id="likeBtn" onclick="doLike()">❤️ Like · <span id="likeCount">891</span></button>
+      <button class="dbtn" id="disBtn"  onclick="doDislike()">👎 Dislike · <span id="disCount">22</span></button>
+    </div>
+  </aside>
+
+</div><!-- /art-wrap -->
+
+<!-- RELATED -->
+<div class="related-sec">
+  <div class="rel-in">
+    <div class="rel-h">More Case Files</div>
+    <div class="rel-grid">
+      <a href="/IndianStartupFiles/blogspost/zepto_blog_page.html" class="rel-card">
+        <div class="rel-art" style="background:linear-gradient(135deg,#0A0E2E,#1D4ED8)">⚡</div>
+        <div class="rel-cat">Quick Commerce</div>
+        <div class="rel-title">Zepto: How Two 19-Year-Olds Disrupted Indian Grocery</div>
+        <div class="rel-meta">9 min read · 31.2K views</div>
+      </a>
+      <a href="/IndianStartupFiles/blogspost/byjus_collapse_blog_page.html" class="rel-card">
+        <div class="rel-art" style="background:linear-gradient(135deg,#EDE9FF,#C4B8F5)">📉</div>
+        <div class="rel-cat">EdTech</div>
+        <div class="rel-title">The Byju's Files: How India's Most-Funded Startup Unraveled</div>
+        <div class="rel-meta">12 min read · 42.5K views</div>
+      </a>
+      <a href="#" class="rel-card">
+        <div class="rel-art" style="background:linear-gradient(135deg,#FDF2F8,#FBCFE8)">💄</div>
+        <div class="rel-cat">D2C</div>
+        <div class="rel-title">Nykaa's Playbook: Building a ₹1 Lakh Crore Beauty Empire at 50</div>
+        <div class="rel-meta">10 min read · Coming soon</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-in">
+    <div class="ft-top">
+      <div>
+        <div class="ft-logo">Indian Startup <span>Files</span></div>
+        <p class="ft-desc">Deep-dive case studies, structured debates, and honest analysis of India's startup ecosystem. Zero paywall.</p>
+      </div>
+      <div><div class="ft-ch">Content</div><ul class="ft-links"><li><a href="/IndianStartupFiles/blogs.html">All Case Studies</a></li><li><a href="/IndianStartupFiles/debates/indian_startup_files_debates_page.html">Debates</a></li><li><a href="/IndianStartupFiles/blogs.html">Failure Graveyard</a></li></ul></div>
+      <div><div class="ft-ch">Sectors</div><ul class="ft-links"><li><a href="/IndianStartupFiles/blogs.html">Fintech</a></li><li><a href="/IndianStartupFiles/blogs.html">EdTech</a></li><li><a href="/IndianStartupFiles/blogs.html">D2C Brands</a></li></ul></div>
+      <div><div class="ft-ch">About</div><ul class="ft-links"><li><a href="/IndianStartupFiles/index.html#about">Our Mission</a></li><li><a href="#">Contact</a></li></ul></div>
+    </div>
+    <div class="ft-div"></div>
+    <div class="ft-bot">
+      <p>© 2025 Indian Startup Files.</p>
+      <p>Hosted on GitHub Pages · Zero Cost · Maximum Depth</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const h = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('prog').style.width = Math.min((window.scrollY / h) * 100, 100) + '%';
+  updateTOC();
+});
+
+// ── TOC ACTIVE STATE ──
+const tocSecs = [
+  {id:'s-intro',i:0},{id:'s1',i:1},{id:'s2',i:2},{id:'s3',i:3},
+  {id:'s4',i:4},{id:'s5',i:5},{id:'s6',i:6},{id:'s7',i:7}
+];
+function updateTOC() {
+  const links = document.querySelectorAll('.tl');
+  let active = 0;
+  tocSecs.forEach((s) => {
+    const el = document.getElementById(s.id);
+    if (el && el.getBoundingClientRect().top < 110) active = s.i;
+  });
+  links.forEach((l, i) => l.classList.toggle('on', i === active));
+}
+
+// ── SCROLL FADE-UP ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// ── ANIMATED STAT COUNTERS ──
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target  = parseFloat(el.dataset.target);
+    const suffix  = el.dataset.suffix || '';
+    const prefix  = el.dataset.prefix || '';
+    const t0 = performance.now();
+    function tick(now) {
+      const p = Math.min((now - t0) / 2200, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const cur = target * eased;
+      el.textContent = prefix + (Number.isInteger(target) ? Math.round(cur) : cur.toFixed(1)) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = prefix + target + suffix;
+    }
+    requestAnimationFrame(tick);
+    counterObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+
+// ── INGREDIENT BARS ANIMATION ──
+const ibObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.ib-bar').forEach(bar => {
+      bar.style.width = bar.dataset.w + '%';
+    });
+    ibObs.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
+const ib = document.querySelector('.ingredients-box');
+if (ib) ibObs.observe(ib);
+
+// ── GROWTH TRACK BAR ──
+const gtObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.getElementById('gtFill').style.width = '100%';
+      gtObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+const gtEl = document.getElementById('gtFill');
+if (gtEl) gtObs.observe(gtEl);
+
+// ── DEBATE BAR ──
+const debObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.getElementById('dcFill').style.width = '61%';
+      debObs.disconnect();
+    }
+  });
+}, { threshold: 0.4 });
+const dcEl = document.getElementById('dcFill');
+if (dcEl) debObs.observe(dcEl);
+
+// ── COPY LINK ──
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const b = document.getElementById('cpBtn');
+    b.textContent = '✅ Copied!';
+    setTimeout(() => b.textContent = '🔗 Copy Link', 2200);
+  });
+}
+
+// ══════════════════════════════════════════════════
+// REAL STATS — Supabase Integration
+// ══════════════════════════════════════════════════
+const SLUG = 'blogspost/mamaearth_blog_page';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // Observe counters after DOM ready
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+
+  // Count view once per session
+  if (!sessionStorage.getItem('v_' + SLUG)) {
+    sessionStorage.setItem('v_' + SLUG, '1');
+    SS.rpc('increment_view', { p_slug: SLUG });
+  }
+
+  // Load stats
+  const stats = await SS.getStats(SLUG);
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('heroViews', SS.fmt(stats.views));
+  setEl('heroLikes', SS.fmt(stats.likes));
+  setEl('likeCount', SS.fmt(stats.likes));
+  setEl('disCount',  stats.dislikes);
+
+  // Restore like/dislike state
+  if (localStorage.getItem('liked_' + SLUG)) {
+    const lb = document.getElementById('likeBtn'); if (lb) lb.classList.add('liked');
+  }
+  if (localStorage.getItem('disliked_' + SLUG)) {
+    const db = document.getElementById('disBtn');
+    if (db) { db.style.borderColor = '#DC2626'; db.style.color = '#DC2626'; }
+  }
+});
+
+// ── LIKE ──
+async function doLike() {
+  const liked = localStorage.getItem('liked_' + SLUG);
+  if (!liked) {
+    if (localStorage.getItem('disliked_' + SLUG)) {
+      SS.rpc('remove_dislike', { p_slug: SLUG });
+      localStorage.removeItem('disliked_' + SLUG);
+      const db = document.getElementById('disBtn');
+      if (db) { db.style.borderColor=''; db.style.color=''; }
+    }
+    SS.rpc('add_like', { p_slug: SLUG });
+    localStorage.setItem('liked_' + SLUG, '1');
+    const lb = document.getElementById('likeBtn'); if (lb) lb.classList.add('liked');
+  } else {
+    SS.rpc('remove_like', { p_slug: SLUG });
+    localStorage.removeItem('liked_' + SLUG);
+    const lb = document.getElementById('likeBtn'); if (lb) lb.classList.remove('liked');
+  }
+  await new Promise(r => setTimeout(r, 300));
+  const stats = await SS.getStats(SLUG);
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('likeCount', SS.fmt(stats.likes));
+  setEl('heroLikes', SS.fmt(stats.likes));
+}
+
+// ── DISLIKE ──
+async function doDislike() {
+  const disliked = localStorage.getItem('disliked_' + SLUG);
+  if (!disliked) {
+    if (localStorage.getItem('liked_' + SLUG)) {
+      SS.rpc('remove_like', { p_slug: SLUG });
+      localStorage.removeItem('liked_' + SLUG);
+      const lb = document.getElementById('likeBtn'); if (lb) lb.classList.remove('liked');
+    }
+    SS.rpc('add_dislike', { p_slug: SLUG });
+    localStorage.setItem('disliked_' + SLUG, '1');
+    const db = document.getElementById('disBtn');
+    if (db) { db.style.borderColor='#DC2626'; db.style.color='#DC2626'; }
+  } else {
+    SS.rpc('remove_dislike', { p_slug: SLUG });
+    localStorage.removeItem('disliked_' + SLUG);
+    const db = document.getElementById('disBtn');
+    if (db) { db.style.borderColor=''; db.style.color=''; }
+  }
+  await new Promise(r => setTimeout(r, 300));
+  const stats = await SS.getStats(SLUG);
+  const dc = document.getElementById('disCount'); if (dc) dc.textContent = stats.dislikes;
+}
+</script>
+<script src="/IndianStartupFiles/supabase-stats.js"></script>
+</body>
+</html>
