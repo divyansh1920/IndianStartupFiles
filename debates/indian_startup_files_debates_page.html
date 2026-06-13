@@ -261,7 +261,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
       <p class="h-sub">India's biggest startup decisions argued from two sides. Listen to both. Vote for what you believe. A new file goes on trial every two weeks.</p>
       <div class="h-stats">
         <div class="hstat"><strong>6</strong><span>Episodes</span></div>
-        <div class="hstat"><strong id="totalVotesEl">10,586</strong><span>Votes Cast</span></div>
+        <div class="hstat"><strong id="totalVotesEl">0</strong><span>Votes Cast</span></div>
         <div class="hstat"><strong>~42 min</strong><span>Avg Runtime</span></div>
       </div>
     </div>
@@ -477,6 +477,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
   </div>
 </footer>
 
+<script src="/IndianStartupFiles/supabase-stats.js">
 <script>
 // ════════════════════════════════════════════════════════════
 //
@@ -1072,37 +1073,58 @@ document.addEventListener('DOMContentLoaded', () => {
       : 'Be the first to vote · Listen and decide for yourself';
     setTimeout(() => { document.getElementById('voteFill').style.width = (tot > 0 ? pctA : 0) + '%'; }, 500);
   });
-});
-  // Real reader count
-SS.getAllStats().then(allStats => {
-  const totalViews = allStats.reduce((s, r) => s + (r.views || 0), 0);
-  const el = document.getElementById('homeReaders');
-  if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
-});
 
-// Real debate vote data — always synced with debate page
-SS.getDebateVotes(1).then(result => {
+  // ════════════════════════════════════════════════════════════
+//  CAST VOTE
+// ════════════════════════════════════════════════════════════
+async function castVote(side) {
+  const d = DEBATES.find(x => x.id === curId);
+  if (!d) return;
+
+  const key = 'voted_debate_' + d.dbId;
+  if (localStorage.getItem(key)) {
+    showToast('🗳️ You already voted on this debate!');
+    return;
+  }
+
+  // Direct REST insert
+  const success = await SS.vote(d.dbId, side);
+
+  if (!success) {
+    showToast('⚠️ Vote failed. Please try again.');
+    return; // localStorage NOT set → user can retry
+  }
+
+  // Lock only after confirmed success
+  localStorage.setItem(key, side);
+
+  // Fetch fresh live counts
+  const result = await SS.getDebateVotes(d.dbId);
   const total  = result.total || 0;
   const aVotes = result.a    || 0;
-  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 0;
+  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
   const pctB   = 100 - pctA;
 
-  const label   = document.getElementById('homeDebLabel');
-  const barA    = document.getElementById('homeBarA');
-  const barB    = document.getElementById('homeBarB');
-  const barFill = document.getElementById('bfill');
-  const barNote = document.getElementById('homeBarNote');
+  document.getElementById('pcVotes').textContent       = total.toLocaleString();
+  document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
+  document.getElementById('voteB').textContent         = pctB + '% — Side B';
+  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
+  document.getElementById('voteFill').style.width      = pctA + '%';
+  document.getElementById('voteNote').textContent      = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
 
-  if (label)   label.textContent   = '🔥 Debate #14 · ' + total.toLocaleString() + ' votes';
-  if (barA)    barA.textContent    = total > 0 ? 'Side A — ' + pctA + '%' : 'Side A — —%';
-  if (barB)    barB.textContent    = total > 0 ? pctB + '% — Side B' : '—% — Side B';
-  if (barFill) barFill.style.width = (total > 0 ? pctA : 0) + '%';
-  if (barNote) barNote.textContent = total > 0
-    ? total.toLocaleString() + ' readers voted · Live & ongoing'
-    : 'Be the first to vote · Live & ongoing';
+  // Update totalVotesEl in hero
+  SS.getTotalVotes().then(t => {
+    const el = document.getElementById('totalVotesEl');
+    if (el) el.textContent = (t || 0).toLocaleString();
+  });
+
+  showToast('✅ Voted Side ' + side + '! Results updated.');
+  renderGrid();
+}
+  
 });
 </script>
-<script src="/IndianStartupFiles/supabase-stats.js">
+
   
 </script>
 </body>
