@@ -939,10 +939,23 @@ SS.getDebateVotes(d.dbId).then(result => {
   setTimeout(() => { document.getElementById('voteFill').style.width = (total > 0 ? pctA : 0) + '%'; }, 200);
 });
   
-// Check if user already voted on this debate
+// Show/hide vote UI based on whether user already voted this episode
 const userVoted = localStorage.getItem('voted_debate_' + d.dbId);
-// (future: disable voting buttons if already voted)
-
+const sideA = document.querySelector('.deb-side.ds-a');
+const sideB = document.querySelector('.deb-side.ds-b');
+if (userVoted) {
+  sideA.style.opacity = '0.6';
+  sideA.style.pointerEvents = 'none';
+  sideB.style.opacity = '0.6';
+  sideB.style.pointerEvents = 'none';
+  document.getElementById('voteNote').textContent = 'You voted Side ' + userVoted + ' · Results live';
+} else {
+  sideA.style.opacity = '';
+  sideA.style.pointerEvents = '';
+  sideB.style.opacity = '';
+  sideB.style.pointerEvents = '';
+}
+  
   // Update download link
   document.getElementById('dlBtn').href = d.driveUrl || '#';
 
@@ -1089,7 +1102,13 @@ async function castVote(side) {
     showToast('🗳️ You already voted on this debate!');
     return;
   }
-
+// DEV HELPER — remove before production
+// Open browser console and run: clearAllVotes()
+function clearAllVotes() {
+  DEBATES.forEach(d => localStorage.removeItem('voted_debate_' + d.dbId));
+  console.log('All votes cleared from localStorage');
+}
+  
   const success = await SS.vote(d.dbId, side);
 
   if (!success) {
