@@ -924,21 +924,21 @@ function loadEp(id) {
   }, 200);
 
   // Load REAL vote counts from database
-SS.rpc('get_debate_votes', { p_debate_id: d.dbId }).then(result => {
-  if (!result || (!result.a && !result.b)) return; // no votes yet, keep defaults
-  const total = parseInt(result.total) || 0;
-  const aVotes = parseInt(result.a) || 0;
-  const bVotes = parseInt(result.b) || 0;
-  if (total === 0) return;
-  const pctA = Math.round((aVotes / total) * 100);
-  const pctB = 100 - pctA;
-  document.getElementById('voteA').textContent = 'Side A — ' + pctA + '%';
-  document.getElementById('voteB').textContent = pctB + '% — Side B';
-  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
-  document.getElementById('voteNote').textContent = total.toLocaleString() + ' listeners voted · Listen and decide';
-  setTimeout(() => { document.getElementById('voteFill').style.width = pctA + '%'; }, 200);
+SS.getDebateVotes(d.dbId).then(result => {
+  const total  = result.total || 0;
+  const aVotes = result.a    || 0;
+  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
+  const pctB   = 100 - pctA;
+  document.getElementById('pcVotes').textContent       = total.toLocaleString();
+  document.getElementById('voteA').textContent         = total > 0 ? 'Side A — ' + pctA + '%' : 'Side A — —%';
+  document.getElementById('voteB').textContent         = total > 0 ? pctB + '% — Side B' : '—% — Side B';
+  document.getElementById('debVotesCount').textContent = total > 0 ? total.toLocaleString() + ' votes cast' : '— votes cast';
+  document.getElementById('voteNote').textContent      = total > 0
+    ? total.toLocaleString() + ' listeners voted · Listen and decide for yourself'
+    : 'Be the first to vote · Listen and decide for yourself';
+  setTimeout(() => { document.getElementById('voteFill').style.width = (total > 0 ? pctA : 0) + '%'; }, 200);
 });
-
+  
 // Check if user already voted on this debate
 const userVoted = localStorage.getItem('voted_debate_' + d.dbId);
 // (future: disable voting buttons if already voted)
@@ -1051,67 +1051,56 @@ document.addEventListener('DOMContentLoaded', () => {
   heroEq.classList.add('idle');
   miniEq.classList.add('idle');
 
-  // Load REAL total votes from DB
-  SS.rpc('get_total_votes', {}).then(total => {
+  // Real total votes
+  SS.getTotalVotes().then(total => {
     const el = document.getElementById('totalVotesEl');
-    if (el) el.textContent = (parseInt(total) || 0).toLocaleString();
+    if (el) el.textContent = (total || 0).toLocaleString();
   });
 
-  // Load REAL vote data for episode 1 shown on page load
-  SS.rpc('get_debate_votes', { p_debate_id: d.dbId }).then(result => {
-  const total  = result ? (parseInt(result.total) || 0) : 0;
-  const aVotes = result ? (parseInt(result.a)     || 0) : 0;
-  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 50;
-  const pctB   = 100 - pctA;
-  document.getElementById('pcVotes').textContent       = total.toLocaleString();
-  document.getElementById('voteA').textContent         = 'Side A — ' + (total > 0 ? pctA : '—') + '%';
-  document.getElementById('voteB').textContent         = (total > 0 ? pctB : '—') + '% — Side B';
-  document.getElementById('debVotesCount').textContent = total > 0 ? total.toLocaleString() + ' votes cast' : '— votes cast';
-  document.getElementById('voteNote').textContent      = total > 0
-    ? total.toLocaleString() + ' listeners voted · Listen and decide for yourself'
-    : 'Be the first to vote · Listen and decide for yourself';
-  setTimeout(() => {
-    document.getElementById('voteFill').style.width = (total > 0 ? pctA : 0) + '%';
-  }, 200);
+  // Real vote data for episode 1 on page load
+  SS.getDebateVotes(1).then(result => {
+    const tot    = result.total || 0;
+    const aVotes = result.a    || 0;
+    const pctA   = tot > 0 ? Math.round((aVotes / tot) * 100) : 0;
+    const pctB   = 100 - pctA;
+    document.getElementById('pcVotes').textContent       = tot.toLocaleString();
+    document.getElementById('voteA').textContent         = tot > 0 ? 'Side A — ' + pctA + '%' : 'Side A — —%';
+    document.getElementById('voteB').textContent         = tot > 0 ? pctB + '% — Side B' : '—% — Side B';
+    document.getElementById('debVotesCount').textContent = tot > 0 ? tot.toLocaleString() + ' votes cast' : '— votes cast';
+    document.getElementById('voteNote').textContent      = tot > 0
+      ? tot.toLocaleString() + ' listeners voted · Listen and decide for yourself'
+      : 'Be the first to vote · Listen and decide for yourself';
+    setTimeout(() => { document.getElementById('voteFill').style.width = (tot > 0 ? pctA : 0) + '%'; }, 500);
+  });
 });
+  // Real reader count
+SS.getAllStats().then(allStats => {
+  const totalViews = allStats.reduce((s, r) => s + (r.views || 0), 0);
+  const el = document.getElementById('homeReaders');
+  if (el && totalViews > 0) el.textContent = SS.fmt(totalViews) + '+';
 });
-  async function castVote(side) {
-  const d = DEBATES.find(x => x.id === curId);
-  if (!d) return;
 
-  const key = 'voted_debate_' + d.dbId;
-  if (localStorage.getItem(key)) {
-    showToast('🗳️ You already voted on this debate!');
-    return;
-  }
-
-  // Cast vote to database FIRST, check result, THEN lock localStorage
-  const result = await SS.rpc('cast_debate_vote', { p_debate_id: d.dbId, p_side: side });
-
-  if (!result) {
-    showToast('⚠️ Vote failed. Please try again.');
-    return; // localStorage NOT set → user can retry
-  }
-
-  // Only lock user out AFTER confirmed success
-  localStorage.setItem(key, side);
-
-  // Update UI with fresh counts from DB
-  const total  = parseInt(result.total) || 1;
-  const aVotes = parseInt(result.a)     || 0;
-  const pctA   = Math.round((aVotes / total) * 100);
+// Real debate vote data — always synced with debate page
+SS.getDebateVotes(1).then(result => {
+  const total  = result.total || 0;
+  const aVotes = result.a    || 0;
+  const pctA   = total > 0 ? Math.round((aVotes / total) * 100) : 0;
   const pctB   = 100 - pctA;
 
-  document.getElementById('pcVotes').textContent       = total.toLocaleString();
-  document.getElementById('voteA').textContent         = 'Side A — ' + pctA + '%';
-  document.getElementById('voteB').textContent         = pctB + '% — Side B';
-  document.getElementById('debVotesCount').textContent = total.toLocaleString() + ' votes cast';
-  document.getElementById('voteFill').style.width      = pctA + '%';
-  document.getElementById('voteNote').textContent      = total.toLocaleString() + ' listeners voted · You voted Side ' + side;
+  const label   = document.getElementById('homeDebLabel');
+  const barA    = document.getElementById('homeBarA');
+  const barB    = document.getElementById('homeBarB');
+  const barFill = document.getElementById('bfill');
+  const barNote = document.getElementById('homeBarNote');
 
-  showToast('✅ Vote cast for Side ' + side + '! Results updated.');
-  renderGrid();
-}
+  if (label)   label.textContent   = '🔥 Debate #14 · ' + total.toLocaleString() + ' votes';
+  if (barA)    barA.textContent    = total > 0 ? 'Side A — ' + pctA + '%' : 'Side A — —%';
+  if (barB)    barB.textContent    = total > 0 ? pctB + '% — Side B' : '—% — Side B';
+  if (barFill) barFill.style.width = (total > 0 ? pctA : 0) + '%';
+  if (barNote) barNote.textContent = total > 0
+    ? total.toLocaleString() + ' readers voted · Live & ongoing'
+    : 'Be the first to vote · Live & ongoing';
+});
 </script>
 <script src="/IndianStartupFiles/supabase-stats.js">
   
