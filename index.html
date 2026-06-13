@@ -516,11 +516,9 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-const barObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){document.getElementById('bfill').style.width='0%'}});
-});
-const bf=document.getElementById('bfill');
-if(bf)barObs.observe(bf);
+// barObs removed — SS.rpc below handles the live bar width
+// keeping observer only to trigger fade-in animation if needed
+
 </script>
 <script src="supabase-stats.js">
 </script>
