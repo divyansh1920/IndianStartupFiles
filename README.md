@@ -12,7 +12,7 @@ Indian Startup Files is a free, no-fluff home for deep-dive case studies on Indi
 
 Built solo. Zero budget. Runs entirely on free-tier infra.
 
-🔗 **Live Site:** [https://divyansh1920.github.io/IndianStartupFiles/index.html](#)
+🔗 **Live Site:** https://divyansh1920.github.io/IndianStartupFiles/index.html
 
 ---
 
