@@ -109,4 +109,4 @@ No license attached yet. Add a `LICENSE` file (MIT recommended) if you want othe
 
 Built solo by **Divyansh** — zero budget, hosted free, forever.
 
-Connect: [LinkedIn] · [Twitter/X] · [Email]
+Connect: https://www.linkedin.com/in/div-2019/ · divjain19@gmail.com
